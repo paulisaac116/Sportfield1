@@ -1,0 +1,10 @@
+.title {
+  width: fit-content;
+  padding: 10px 30px;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  background-color: #4d59bb;
+  border-radius: 50px;
+}

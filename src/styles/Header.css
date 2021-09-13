@@ -1,0 +1,28 @@
+header {
+  height: 110px;
+  background-color: #2f2e2e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 80px;
+  padding-right: 80px;
+  box-shadow: 0 15px 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+  z-index: 500;
+}
+
+img {
+  width: 250px;
+}
+
+header nav a {
+  margin-right: 80px;
+  font-weight: 700;
+  font-size: 25px;
+  text-decoration: none;
+  color: white;
+}
+
+header nav a:last-of-type {
+  margin: 0;
+}

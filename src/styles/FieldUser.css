@@ -1,0 +1,29 @@
+.field {
+  width: 100%;
+  padding: 30px 0;
+  border-radius: 40px;
+  display: grid;
+  grid-template-rows: 1fr 3fr 1fr;
+  row-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  background-color: #3a438b;
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.6);
+}
+
+.field__title {
+  width: fit-content;
+  padding: 10px 30px;
+  font-size: 25px;
+  font-weight: 700;
+  color: white;
+  background-color: #bbaf4d;
+  border-radius: 20px;
+}
+
+.field__table {
+  width: 90%;
+  height: 50px;
+  background-color: #784dbb;
+  border-radius: 20px;
+}

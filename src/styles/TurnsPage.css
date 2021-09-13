@@ -1,0 +1,22 @@
+.turn {
+  padding: 50px 40px;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  background-color: #3a438b;
+}
+
+.turn__field,
+.turn__date {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.turn__field__instruction,
+.turn__date__instruction,
+.turn__field__fieldCards,
+.turn__date__calendar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
