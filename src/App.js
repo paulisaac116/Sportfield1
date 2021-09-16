@@ -20,7 +20,7 @@ const App = () => {
               <TurnsPage />
           </Route>
         </Switch>
-        </Router>
+      </Router>
   )
 }
 

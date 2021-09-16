@@ -3,11 +3,20 @@ import { HeaderComp } from '../components/HeaderComp';
 import {PurpleTitle} from '../components/PurpleTitle'
 import {InstructionCard} from '../components/InstructionCard'
 import {GreenButton} from '../components/GreenButton'
-import {BlackButton} from '../components/BlackButton'
+import { FieldsTable } from '../components/FieldsTable';
+import { FieldBar } from '../components/FieldBar';
+
+import { Calendar } from 'antd';
 
 import '../styles/TurnsPage.css'
 
 export const TurnsPage = () => {
+
+    const onPanelChange = (value, mode) => {
+        console.log(value, mode);
+      }
+
+
     return (
         <div>
             <HeaderComp />
@@ -20,9 +29,9 @@ export const TurnsPage = () => {
                         el tipo de cancha que deseas agendar"/>
                     </div>
                     <div className="turn__field__fieldCards">
-                        <h2>CANCHAS</h2>
-                        <BlackButton button_name="SECTOR MEDIO"/>
-
+                        <h2>CANCHAS</h2>    
+                        <FieldsTable />
+                        <FieldBar />
                     </div>
                 </div>
                 <div className="turn__date">
@@ -32,6 +41,13 @@ export const TurnsPage = () => {
                         <GreenButton button_name="Agendar turno"/>
                     </div>
                     <div className="turn__date__calendar">
+                        <div>
+                            
+                        </div>
+
+                        <div className="site-calendar-demo-card">
+                            <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+                        </div>,
 
                     </div>
                 </div>
