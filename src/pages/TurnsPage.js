@@ -10,12 +10,11 @@ import { Calendar } from 'antd';
 
 import '../styles/TurnsPage.css'
 
-export const TurnsPage = () => {
+const TurnsPage = () => {
 
     const onPanelChange = (value, mode) => {
         console.log(value, mode);
       }
-
 
     return (
         <div>
@@ -55,3 +54,5 @@ export const TurnsPage = () => {
         </div>
     )
 }
+
+export default TurnsPage

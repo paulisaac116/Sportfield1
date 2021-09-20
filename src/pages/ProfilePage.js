@@ -9,8 +9,7 @@ import '../styles/ProfilePage.css'
 import { Modal} from 'antd';
 
 
-
-export const ProfilePage = () => {
+const ProfilePage = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -48,3 +47,5 @@ export const ProfilePage = () => {
          </div>
     )
 }
+
+export default ProfilePage

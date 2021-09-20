@@ -7,6 +7,7 @@ export const FieldCardsData = {
                 fieldName: "Fútbol 2",
                 location: "SECTOR INFERIOR",
                 className: "futbol-2",
+                locationClassname: "inferior",
                 active: true
             },
             
@@ -16,6 +17,7 @@ export const FieldCardsData = {
                 fieldName: "Basquet 2",
                 location: "SECTOR INFERIOR",
                 className: "basquet-2",
+                locationClassname: "inferior",
                 active: true
             },
             b3: {
@@ -24,6 +26,7 @@ export const FieldCardsData = {
                 fieldName: "Basquet 3",
                 location: "SECTOR INFERIOR",
                 className: "basquet-3",
+                locationClassname: "inferior",
                 active: true
             },
             v3: {
@@ -32,6 +35,7 @@ export const FieldCardsData = {
                 fieldName: "Voleibol 3",
                 location: "SECTOR INFERIOR",
                 className: "voleibol-3",
+                locationClassname: "inferior",
                 active: true
             
             },
@@ -41,6 +45,7 @@ export const FieldCardsData = {
                 fieldName: "Voleibol 4",
                 location: "SECTOR INFERIOR",
                 className: "voleibol-4",
+                locationClassname: "inferior",
                 active: true
             }
         },
@@ -52,6 +57,7 @@ export const FieldCardsData = {
                 fieldName: "Fútbol 1",
                 location: "SECTOR MEDIO",
                 className: "futbol-1",
+                locationClassname: "middle",
                 active: true		
             },
             t1: {
@@ -60,6 +66,7 @@ export const FieldCardsData = {
                 fieldName: "Tennis 1",
                 location: "SECTOR MEDIO",
                 className: "tennis-1",
+                locationClassname: "middle",
                 active: true
             },
             v1: {
@@ -68,6 +75,7 @@ export const FieldCardsData = {
                 fieldName: "Voleibol 1",
                 location: "SECTOR MEDIO",
                 className: "voleibol-1",
+                locationClassname: "middle",
                 active: true
             },
             v2: {
@@ -76,6 +84,7 @@ export const FieldCardsData = {
                 fieldName: "Voleibol 2",
                 location: "SECTOR MEDIO",
                 className: "voleibol-2",
+                locationClassname: "middle",
                 active: true
             },
             b1: {
@@ -84,6 +93,7 @@ export const FieldCardsData = {
                 fieldName: "Basquet 1",
                 location: "SECTOR MEDIO",
                 className: "basquet-1",
+                locationClassname: "middle",
                 active: true
             }
         }

@@ -1,0 +1,41 @@
+@import '~antd/dist/antd.css';
+.main-menu {
+  width: 100%;
+}
+.main-header {
+  display: flex;
+  background-color: #2F2E2E;
+  height: 100px;
+  border-bottom: 8px solid;
+  border-bottom-color: #3A438D;
+}
+.main-content {
+  background-color: #4D59BB;
+}
+.ant-menu-dark.ant-menu-horizontal {
+  border-bottom: 0;
+  background-color: #2F2E2E;
+  color: #ffffff;
+  justify-content: flex-end;
+}
+.ant-menu-dark .ant-menu-item, .ant-menu-dark .ant-menu-item-group-title, .ant-menu-dark .ant-menu-item > a, .ant-menu-dark .ant-menu-item > span > a {
+  color: rgba(255, 255, 255, 255)
+}
+.services h2{
+  text-align: center;
+  color: #ffffff;
+  background-color: #BBAF4D;
+  border-radius: 15px;
+  font-size: 1.8em;
+  width: 200px;
+  margin-left: 40%;
+}
+.services{
+
+  font-weight: bold;
+
+}
+.footer{
+  background-color: #4DBB78;
+  color: #4DBB78;
+}

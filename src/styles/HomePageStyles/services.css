@@ -1,0 +1,32 @@
+.imgServices {
+  width: 350px;
+  height: 200px;
+  margin-left: 25px;
+  margin-top: 25px;
+}
+.ant-card-bordered {
+  border-radius: 25px;
+  width: 400px;
+  height: 450px;
+  background-color: #2f2e2e;
+  color: #ffffff;
+  border-color: #2f2e2e;
+}
+.ant-row {
+  margin-left: 150px;
+  margin-bottom: 50px;
+}
+.ant-card-meta-title {
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.ant-card-meta-description {
+  color: #ffffff;
+  text-align: center;
+}
+.btnServices .button {
+  margin-left: 80px;
+  margin-top: 20px;
+}

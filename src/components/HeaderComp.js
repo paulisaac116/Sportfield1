@@ -1,15 +1,31 @@
 import React from 'react'
+import  {auth} from '../firebase/index'
+import {useHistory}  from "react-router-dom";
+
+
+import sportfield_logo from '../images/sportfield_log.png'
 
 import '../styles/Header.css'
-import sportfield_logo from '../img/sportfield_log.png'
-
 export const HeaderComp = () => {
+    
+    let history = useHistory()
+
+    const handleSignOut = () => {
+        
+        auth.signOut()
+        console.log("")
+        history.push("/")
+
+
+    }
+
+
     return (
         <header>
             <img src={sportfield_logo} alt="sportfield logo"/>
             <nav>
-                <a href="">Notificaciones</a>
-                <a href="">Salir</a>
+                <a href="/">Notificaciones</a>
+                <a onClick={handleSignOut} href="/login">Salir</a>
             </nav>
         </header>
     )

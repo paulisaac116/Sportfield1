@@ -1,0 +1,41 @@
+.curses h2{
+    text-align: center;
+    color: #ffffff;
+    background-color: #BBAF4D;
+    border-radius: 15px;
+    font-size: 1.8em;
+    width: 300px;
+    margin-left: 40%;
+}
+.curses img{
+    width: 250px;
+    height: 200px;
+    margin: 0;
+}
+.rigth h1{
+    color: #ffffff;
+}
+.curses .ant-row{
+    margin-left: 0;
+    margin-top: 0;
+}
+.curses .ant-card-bordered {
+    border-radius: 25px;
+    width: 500px;
+    height: 250px;
+    background-color: #2F2E2E;
+    color: #ffffff;
+    border-color: #2F2E2E;
+    margin-left: 50px;
+    margin-top: 20px;
+}
+.curses.ant-col.ant-col-12 h1{
+    padding-left: 70px;
+    color: white;
+    font-weight: bold;
+    font-size: 2em;
+    padding-top: 20px;
+}
+.btnCourse .button{
+    margin-left: 80px;
+}
