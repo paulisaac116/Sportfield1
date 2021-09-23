@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import {useHistory}  from "react-router-dom";
 import { Form, Input, Row, Col, Image, message} from "antd";
 import  {auth, db} from '../firebase/index'
@@ -8,15 +8,12 @@ import logo from "../images/sportfield_log.png";
 
 import "../styles/App.css";
 import "../styles/register.css";
-//import { UserContext } from '../components/UserContext'
-
 
 const { Item } = Form;
 
 function RegisterPage() {
  
   let history = useHistory()
-  //const documentId = useContext(UserContext)
   const onFinish = async ({email, password, name, userName, land}) => {
 
     try {
@@ -27,9 +24,9 @@ function RegisterPage() {
       
       // Signed in
       const user = userCredential.user
-      console.log("user: ", user)
+      const userId = user.uid
 
-      await db.collection("Users").doc(`${userName}`).set(
+      await db.collection("Users").doc(userId).set(
         {
           name,
           email,

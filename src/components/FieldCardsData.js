@@ -4,49 +4,50 @@ export const FieldCardsData = {
             f2: {
                 id: "f2",
                 code: "F2",
-                fieldName: "Fútbol 2",
-                location: "SECTOR INFERIOR",
+                fielType: "Fútbol",
+                location: "Sector Inferior",
                 className: "futbol-2",
                 locationClassname: "inferior",
-                active: true
+                cardBackground: "#59bb4d"
             },
             
             b2: {
                 id: "b2",
                 code: "B2",
-                fieldName: "Basquet 2",
-                location: "SECTOR INFERIOR",
+                fielType: "Basquet",
+                location: "Sector Inferior",
                 className: "basquet-2",
                 locationClassname: "inferior",
-                active: true
+                cardBackground: "#bbaf4d"
+
             },
             b3: {
                 id: "b3",
                 code: "B3",
-                fieldName: "Basquet 3",
-                location: "SECTOR INFERIOR",
+                fielType: "Basquet",
+                location: "Sector Inferior",
                 className: "basquet-3",
                 locationClassname: "inferior",
-                active: true
+                cardBackground: "#bbaf4d"
             },
+                
             v3: {
                 id: "v3",
                 code: "V3",
-                fieldName: "Voleibol 3",
-                location: "SECTOR INFERIOR",
+                fielType: "Voleibol",
+                location: "Sector Inferior",
                 className: "voleibol-3",
-                locationClassname: "inferior",
-                active: true
-            
+                locationClassname: "inferior",            
+                cardBackground: "#af4dbb"
             },
             v4: {
                 id: "v4",
                 code: "V4",
-                fieldName: "Voleibol 4",
-                location: "SECTOR INFERIOR",
+                fielType: "Voleibol",
+                location: "Sector Inferior",
                 className: "voleibol-4",
                 locationClassname: "inferior",
-                active: true
+                cardBackground: "#af4dbb"
             }
         },
 
@@ -54,47 +55,48 @@ export const FieldCardsData = {
             f1: {
                 id: "f1",
                 code: "F1",
-                fieldName: "Fútbol 1",
-                location: "SECTOR MEDIO",
+                fielType: "Fútbol",
+                location: "Sector Medio",
                 className: "futbol-1",
                 locationClassname: "middle",
-                active: true		
+                cardBackground: "#59bb4d"
             },
             t1: {
                 id: "t1",
                 code: "T1",
-                fieldName: "Tennis 1",
-                location: "SECTOR MEDIO",
+                fielType: "Tennis",
+                location: "Sector Medio",
                 className: "tennis-1",
                 locationClassname: "middle",
-                active: true
+                cardBackground: "#bb4d59"           
             },
             v1: {
                 id: "v1",
                 code: "V1",
-                fieldName: "Voleibol 1",
-                location: "SECTOR MEDIO",
+                fielType: "Voleibol",
+                location: "Sector Medio",
                 className: "voleibol-1",
                 locationClassname: "middle",
-                active: true
+                cardBackground: "#af4dbb"
             },
             v2: {
                 id: "v2",
                 code: "V2",
-                fieldName: "Voleibol 2",
-                location: "SECTOR MEDIO",
+                fielType: "Voleibol 2",
+                location: "Sector Medio",
                 className: "voleibol-2",
                 locationClassname: "middle",
-                active: true
+                cardBackground: "#af4dbb"
             },
             b1: {
                 id: "b1",
                 code: "B1",
-                fieldName: "Basquet 1",
-                location: "SECTOR MEDIO",
+                fielType: "Basquet",
+                location: "Sector Medio",
                 className: "basquet-1",
-                locationClassname: "middle",
-                active: true
+                locationClassname: "middle",            
+                cardBackground: "#bbaf4d"
             }
+
         }
 }

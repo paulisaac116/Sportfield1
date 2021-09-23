@@ -34,9 +34,11 @@ const ProfilePage = () => {
                <h2>PERFIL</h2>
                <Profile />
                <GreenButton button_name="Agregar un comentario" button_func={showModal}/>
-               <Modal title="Tu opinion es importante" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
+               <Modal className="turn-modal-profile" title="Tu opinión es importante" visible={isModalVisible} onOk={handleOk} onCancel={handleCancel}>
                  <p>Envíanos tus comentarios, opiniones o reclamos sobre el estado de las canchas, 
                    la agenda de un turno o el funcionamiento de la aplicación</p>
+                   <input required type="text" name="comment-title" id="comment-title" placeholder="Titulo del comentario"/>
+                   <textarea name="comment-content" id="comment-content" placeholder="Descripción" autoComplete="off"/>
                </Modal>
              </div>
              <div className="main__right">

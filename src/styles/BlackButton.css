@@ -9,4 +9,13 @@
   outline: none;
   border-radius: 20px;
   background-color: #2f2e2e;
+  cursor: pointer;
+}
+
+.black-button:hover {
+  background-color: #4d59bb;
+}
+
+.black-button .fa-caret-down {
+  margin-left: 10px;
 }

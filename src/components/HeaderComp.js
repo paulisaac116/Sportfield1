@@ -10,13 +10,9 @@ export const HeaderComp = () => {
     
     let history = useHistory()
 
-    const handleSignOut = () => {
-        
+    const handleSignOut = () => {        
         auth.signOut()
-        console.log("")
         history.push("/")
-
-
     }
 
 

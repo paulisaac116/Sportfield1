@@ -21,3 +21,71 @@
   font-size: 50px;
   color: white;
 }
+
+.ant-modal-content,
+.ant-modal-header {
+  background-color: #3a438b;
+  border: none;
+  color: white;
+}
+
+.ant-modal-header {
+  text-align: center;
+  border-radius: 40px;
+}
+
+.ant-modal-title {
+  margin-top: 25px;
+  font-size: 24px;
+  color: white;
+  font-weight: 700;
+}
+
+.turn-modal-profile .ant-modal-body {
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.ant-modal-body #comment-title,
+.ant-modal-body #comment-content {
+  padding: 10px 15px;
+  background-color: #2f2e2e;
+  border: none;
+  outline: none;
+  border-radius: 10px;
+}
+
+.ant-modal-body #comment-title {
+  height: 40px;
+}
+
+.ant-modal-body #comment-content {
+  margin-top: 20px;
+  height: 200px;
+  resize: none;
+}
+
+.ant-modal-content {
+  border-radius: 40px;
+  box-shadow: 0 10px 0 rgba(0, 0, 0, 0.6);
+}
+
+.ant-modal-close-x {
+  display: none;
+}
+
+.ant-modal-footer {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: center;
+  border: none;
+}
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.6);
+}

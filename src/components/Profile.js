@@ -1,5 +1,5 @@
-import React from 'react'
-//import  {db} from '../firebase/index'
+import React, {useState, useEffect} from 'react'
+import  {db, auth} from '../firebase/index'
 
 import '../styles/Profile.css'
 import profile_photo from '../images/dragonball.png'
@@ -7,26 +7,23 @@ import profile_photo from '../images/dragonball.png'
 
 export const Profile = () => {
 
-    //const documentId = useContext(UserContext)
-    //const [documentData, setDocumentData] = useState(null)
+    const [userData, setUserData] = useState([])
 
-//     useEffect (() => {
-//         const docRef = db.collection("Users").doc(documentId);
-//         docRef.get().then((doc) => {
-//          if (doc.exists) {
-//           setDocumentData(doc.data())
-//           console.log('Datos del documento desde el perfil: ', documentData)
-
-//         } else {
-//           console.log("No such document!");
-//         }
-//         }).catch((error) => {
-//             console.log("Error getting document:", error);
-//   });
-//     }, [documentData, documentId])
-
-    //console.log(documentData.name)
-
+    useEffect(() => {
+        auth.onAuthStateChanged((user) => {
+            const userId = user.uid
+            db.collection("Users").doc(userId)
+                .onSnapshot((doc) => {
+                    setUserData(doc.data())
+                })
+        })
+        return () => {  
+            const unsubscribe = db.collection("Users")
+                .onSnapshot(() => {
+            });
+            unsubscribe();
+        }
+    }, [])
 
     return (
         <div className="profile">
@@ -34,10 +31,10 @@ export const Profile = () => {
                 <img src={profile_photo} alt="profile logo"/>
             </div>
             <div className="profile__data">
-                <p><strong>Nombre: </strong>Eduardo Perez</p>
-                <p><strong>Usuario: </strong>eduperez</p>
-                <p><strong>Correo: </strong>eduardo@gmai.com</p>
-                <p><strong>Lote: </strong>111</p>
+                <p><strong>Nombre: </strong>{userData.name}</p>
+                <p><strong>Usuario: </strong>{userData.userName}</p>
+                <p><strong>Correo: </strong>{userData.email}</p>
+                <p><strong>Lote: </strong>{userData.land}</p>
 
             </div>
         </div>

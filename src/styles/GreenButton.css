@@ -6,6 +6,13 @@
   border: none;
   outline: none;
   border-radius: 20px;
-  background-color: #4dbb78;
+  background-color: #46b36f;
   box-shadow: 0 8px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: background-color 200ms ease-in, transform 200ms ease-in;
+}
+
+.button:hover {
+  transform: translateY(-10px);
+  background-color: #25944f;
 }

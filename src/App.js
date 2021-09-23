@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { UserContext } from './components/UserContext';
 import  {auth} from './firebase/index'
 
-// import HomePage from "./pages/HomePage"
 import LoginPage from './pages/LoginPage';
 import ProfilePage from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
@@ -24,14 +23,10 @@ const App = () => {
         setDocumentId(uid)
 
       } else {
-        // User is signed out
         console.log("No hay sesion activa", user);
       }
     })
-  }, [])
-
-  //const userInformation = ()
-
+  }, )
 
   return (
     <UserContext.Provider value={documentId}>

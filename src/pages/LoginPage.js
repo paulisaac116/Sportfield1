@@ -1,8 +1,6 @@
 import {useHistory}  from "react-router-dom";
 import { Button, Form, Image, Input } from "antd";
-
 import  {auth} from '../firebase/index'
-
 import logo from "../images/sportfield_log.png";
 
 import "../styles/login.css";
@@ -23,7 +21,6 @@ const LoginPage = () => {
 
       // Signed in
       const user = userCredential.user
-      console.log("user: ", user)
       history.push("/profile")
 
     } catch (error) {

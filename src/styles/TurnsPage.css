@@ -2,8 +2,7 @@
   height: 100%;
   padding: 50px;
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  row-gap: 30px;
+  grid-template-rows: auto auto;
   background-color: #3a438b;
 }
 
@@ -14,10 +13,6 @@
   column-gap: 80px;
 }
 
-.turn__field {
-  height: 550px;
-}
-
 .turn__field__instruction,
 .turn__field__fieldCards,
 .turn__date__instruction,
@@ -26,7 +21,6 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  /* width: 100%; */
 }
 
 .turn__field__fieldCards h2 {
@@ -45,4 +39,206 @@
 
 .turn__field__instruction .card {
   height: 250px;
+}
+
+/**
+  TURN DATE SECTION
+*/
+
+.turn__date__instruction .title {
+  margin-bottom: 20px;
+}
+
+.turn__date__calendar .hour-bar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.turn__date__calendar .site-calendar-demo-card {
+  position: relative;
+  z-index: 400;
+}
+
+.hour-bar .hour-bar__time-and-hour {
+  margin-left: 20px;
+  display: flex;
+  position: relative;
+  width: 275px;
+  z-index: 500;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-menu .hour-bar__am-pm-menu,
+.hour-menu .hour-bar__numbers-menu {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+}
+
+.hour-bar__time-and-hour .time-menu,
+.hour-bar__time-and-hour .hour-menu {
+  position: relative;
+  height: 48px;
+}
+
+.hour-bar__time-and-hour .hour-menu {
+  margin-left: 5px;
+}
+
+.time-menu .hour-bar__am-pm-menu {
+  left: 0;
+}
+
+.time-menu .hour-bar__am-pm-menu .black-button:last-of-type {
+  text-align: left;
+}
+
+.time-menu .black-button {
+  width: 121px;
+}
+.hour-menu .hour-bar__numbers-menu .black-button {
+  width: 149px;
+  padding: 1px;
+  font-size: 18px;
+}
+
+.hour-menu .hour-bar__numbers-menu {
+  top: 46px;
+  background-color: #2f2e2e;
+  right: 0;
+  border-radius: 20px;
+  border: 2px solid #4d59bb;
+}
+
+.turn__date__calendar p {
+  padding: 8px 30px;
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  background-color: #2f2e2e;
+  margin: 0;
+}
+
+.turn__date__instruction .button {
+  margin-top: 20px;
+}
+
+/**
+  CALENDAR STYLES
+*/
+
+.turn__date__calendar .ant-picker-calendar,
+.turn__date__calendar .ant-picker-calendar-header {
+  background-color: #2f2e2e;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  border: none;
+}
+
+.turn__date__calendar .ant-picker-date-panel,
+.turn__date__calendar .ant-picker-month-panel {
+  background-color: #2f2e2e;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
+
+.turn__date__calendar .ant-picker-panel {
+  border-top: none;
+}
+
+.ant-picker-content thead tr th {
+  color: white;
+}
+
+.ant-picker-content thead {
+  border: none;
+}
+
+.turn__date__calendar .ant-picker-content .ant-picker-cell {
+  color: white;
+}
+
+/**
+  MODAL - TURN CONFIRM DATA
+
+*/
+
+.turn-page-modal .ant-modal-body {
+  display: flex;
+  justify-content: space-between;
+}
+
+.turn-page-modal .ant-modal-body,
+.turn-page-modal .ant-modal-content {
+  width: 600px;
+}
+
+.left__modal {
+  flex-basis: calc(30%);
+}
+
+.right__modal {
+  flex-basis: calc(60%);
+}
+
+.left__modal p,
+.right__modal p {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 700;
+  background-color: #4d59bb;
+  border-radius: 10px;
+}
+
+.left__modal--background {
+  width: 100%;
+  height: 150px;
+  background-color: #4d59bb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+}
+
+.left__modal--card {
+  width: 90px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/**
+    MODAL - TABLE
+*/
+
+.right__modal--table table {
+  width: 100%;
+  height: 150px;
+  font-size: 18px;
+}
+
+/* .right__modal--table table th,
+.right__modal--table table td {
+  padding-bottom: 15px;
+} */
+
+.right__modal--table table td {
+  background-color: #4d59bb;
+  padding-left: 10px;
+  border-radius: 10px;
+}
+
+.right__modal--table table th {
+  font-weight: 600;
+  text-align: left;
 }
