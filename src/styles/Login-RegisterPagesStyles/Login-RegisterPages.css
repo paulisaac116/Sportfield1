@@ -1,0 +1,67 @@
+.LoginPage,
+.RegisterPage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #4d59bb;
+}
+
+/**
+  LOGIN PAGE
+*/
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.content__logo {
+  width: 360px;
+}
+.content h1 {
+  color: white;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.LoginPage .content__form {
+  width: 300px;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content__form input {
+  border: none;
+  outline: none;
+  font-size: 16px;
+  padding: 10px 30px;
+  border-radius: 20px;
+}
+
+.content__form input::placeholder {
+  color: #784dbb;
+  font-weight: 500;
+}
+
+.content .button {
+  margin-top: 20px;
+}
+
+.LoginPage .content p {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+}
+
+/**
+  REGISTER PAGE
+*/
+
+.RegisterPage .content__form {
+  display: flex;
+  flex-direction: column;
+}
