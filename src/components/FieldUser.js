@@ -10,8 +10,10 @@ import { GreenButton } from './GreenButton'
 
 export const FieldUser = () => {
 
-    const [turnsData, setTurnsData] = useState(undefined)
-    const documentId = useContext(UserContext)  
+    const [turnsData, setTurnsData] = useState(undefined);
+    const userId = useContext(UserContext);
+
+    console.log('documentId: ', userId)
 
     const emptyTurns = 
         <div className="empty-turn-bar">
@@ -20,11 +22,13 @@ export const FieldUser = () => {
         </div>
 
     useEffect(() => {
-        db.collection("Users").doc(documentId)
+        db.collection("Users").doc(userId)
                 .onSnapshot((doc) => {
                     setTurnsData(doc.data().turns)
                 })
     },[turnsData])
+    // added 'documentId' to the array dependencies in the 'useEffect' hook
+    // for posible error
     
     const history = useHistory();
     const navigateTo = () => {

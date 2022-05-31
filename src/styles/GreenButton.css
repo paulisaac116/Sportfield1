@@ -13,6 +13,6 @@
 }
 
 .button:hover {
-  transform: translateY(-10px);
+  /* transform: translateY(-10px); */
   background-color: #25944f;
 }

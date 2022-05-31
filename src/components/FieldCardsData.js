@@ -4,7 +4,7 @@ export const FieldCardsData = {
             f2: {
                 id: "f2",
                 code: "F2",
-                fielType: "Fútbol",
+                fieldType: "Fútbol",
                 location: "Sector Inferior",
                 className: "futbol-2",
                 locationClassname: "inferior",
@@ -14,7 +14,7 @@ export const FieldCardsData = {
             b2: {
                 id: "b2",
                 code: "B2",
-                fielType: "Basquet",
+                fieldType: "Basquet",
                 location: "Sector Inferior",
                 className: "basquet-2",
                 locationClassname: "inferior",
@@ -24,7 +24,7 @@ export const FieldCardsData = {
             b3: {
                 id: "b3",
                 code: "B3",
-                fielType: "Basquet",
+                fieldType: "Basquet",
                 location: "Sector Inferior",
                 className: "basquet-3",
                 locationClassname: "inferior",
@@ -34,7 +34,7 @@ export const FieldCardsData = {
             v3: {
                 id: "v3",
                 code: "V3",
-                fielType: "Voleibol",
+                fieldType: "Voleibol",
                 location: "Sector Inferior",
                 className: "voleibol-3",
                 locationClassname: "inferior",            
@@ -43,7 +43,7 @@ export const FieldCardsData = {
             v4: {
                 id: "v4",
                 code: "V4",
-                fielType: "Voleibol",
+                fieldType: "Voleibol",
                 location: "Sector Inferior",
                 className: "voleibol-4",
                 locationClassname: "inferior",
@@ -55,7 +55,7 @@ export const FieldCardsData = {
             f1: {
                 id: "f1",
                 code: "F1",
-                fielType: "Fútbol",
+                fieldType: "Fútbol",
                 location: "Sector Medio",
                 className: "futbol-1",
                 locationClassname: "middle",
@@ -64,7 +64,7 @@ export const FieldCardsData = {
             t1: {
                 id: "t1",
                 code: "T1",
-                fielType: "Tennis",
+                fieldType: "Tennis",
                 location: "Sector Medio",
                 className: "tennis-1",
                 locationClassname: "middle",
@@ -73,7 +73,7 @@ export const FieldCardsData = {
             v1: {
                 id: "v1",
                 code: "V1",
-                fielType: "Voleibol",
+                fieldType: "Voleibol",
                 location: "Sector Medio",
                 className: "voleibol-1",
                 locationClassname: "middle",
@@ -82,7 +82,7 @@ export const FieldCardsData = {
             v2: {
                 id: "v2",
                 code: "V2",
-                fielType: "Voleibol 2",
+                fieldType: "Voleibol 2",
                 location: "Sector Medio",
                 className: "voleibol-2",
                 locationClassname: "middle",
@@ -91,7 +91,7 @@ export const FieldCardsData = {
             b1: {
                 id: "b1",
                 code: "B1",
-                fielType: "Basquet",
+                fieldType: "Basquet",
                 location: "Sector Medio",
                 className: "basquet-1",
                 locationClassname: "middle",            

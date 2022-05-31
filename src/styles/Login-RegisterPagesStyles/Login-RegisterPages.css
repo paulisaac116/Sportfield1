@@ -27,7 +27,7 @@
 
 .LoginPage .content__form {
   width: 300px;
-  height: 100px;
+  /* height: 100px; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -39,11 +39,20 @@
   font-size: 16px;
   padding: 10px 30px;
   border-radius: 20px;
+  margin-bottom: 20px;
 }
 
 .content__form input::placeholder {
   color: #784dbb;
   font-weight: 500;
+}
+
+.content__form label {
+  width: fit-content;
+}
+
+.content__form input:focus {
+  outline: 3px #3A438B solid;
 }
 
 .content .button {
@@ -64,4 +73,33 @@
 .RegisterPage .content__form {
   display: flex;
   flex-direction: column;
+  background-color: #3A438B;
+  padding: 25px 35px;
+  border-radius: 20px;
+}
+
+.RegisterPage .content__form .content__form--row {
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 10px; */
+}
+
+.RegisterPage .content__form .content__form--column {
+  display: flex;
+  justify-content: space-between;
+}
+
+.RegisterPage .content__form .content__form--column .content__form--row input {
+  width: 200px;
+} 
+
+.RegisterPage .content__form .content__form--row label{
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.RegisterPage .content__form {
+  width: 500px;
 }
