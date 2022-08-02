@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .rounded-button {
+        padding: .75rem 1.5rem;
+        color: theme('colors.white');
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: .75rem;
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.6);
+        cursor: pointer;
+        transition: background-color 200ms ease-in, transform 200ms ease-in;
+
+        @apply sm:text-lg
+    }
+
+    .green-button {
+        background-color: theme('colors.green');
+
+    }
+
+    .green-button:hover {
+        background-color: #25944f;
+    }
+
+    .red-button {
+        background-color: theme('colors.red');
+    }
+    .red-button:hover {
+        background-color: #A53A46;
+    }
+
+    .purple-button {
+        background-color: theme('colors.purple-mid');
+        /* background-color: white; */
+    }
+    .purple-button:hover {
+        background-color: theme('colors.purple-dark');
+
+    }
+
+}

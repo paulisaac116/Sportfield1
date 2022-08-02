@@ -1,142 +1,218 @@
-import React from 'react';
-import { GreenButton } from '../components/GreenButton';
+import React, { useState } from 'react';
+import { GreenButton } from '../components/Buttons/GreenButton';
 
-import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
 import sportfield_logo from '../images/sportfield_log.png';
 import { auth, db } from '../firebase';
-import { message } from 'antd';
+// import { message } from 'antd';
 import { useHistory } from 'react-router-dom';
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
+// import { RegisterForm } from '../components/RegisterForm';
 
 const RegisterPage = () => {
 
+  const initialValues = { name: '', lastName: '', land: '', email: "", password: "" };
+  const [formValues, setFormValues] = useState( initialValues );
+  const [formErrors, setFormErrors] = useState( {} );
+
+  const handleInputChange = ( e ) => {
+    const { name, value } = e.target;
+    setFormValues( { ...formValues, [name]: value } );
+    setFormErrors({...formErrors, [name]: ''});
+  };
+
   let history = useHistory();
 
-  const onFinish = async ( name, lastName, email, password, land ) => {
+  // const handleAddUser = () => {
+  //   if(formValues)
+  // }
 
-    // console.log(name);
-    // console.log(lastName);
-    // console.log(email);
-    // console.log(password);
-    // console.log(land);
+  const handleSubmit = async ( e ) => {
+    e.preventDefault();
 
-    try {
-      const userCredential = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
+    const { name, lastName, land, email, password } = formValues;
 
-      // Signed in
-      const user = userCredential.user;
-      const userId = user.uid;
+    setFormErrors( validate( formValues ) );
 
-      await db.collection( "Users" ).doc( userId ).set(
-        {
-          name,
-          lastName,
+    if ( Object.keys( formErrors ).length == 0 ) {
+
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(
           email,
-          land
-        }
-      );
-      history.push( '/profile' );
-      message.success( 'Usuario registrado exitosamente' );
+          password
+        );
 
+        // Signed in
+        const user = userCredential.user;
+        const userId = user.up
+
+        await db.collection( "Users" ).doc( userId ).set(
+          {
+            name,
+            lastName,
+            email,
+            land
+          }
+        );
+        history.push( '/profile' );
+        // message.success( 'Usuario registrado exitosamente' );
+
+      }
+
+      catch ( error ) {
+        const errorCode = error.code;
+        const errorMesage = error.message;
+        console.log( 'errorCode: ', errorCode );
+        console.log( 'errorMesagge: ', errorMesage );
+      }
     }
+  };
 
-    catch ( error ) {
-      const errorCode = error.code;
-      const errorMesage = error.message;
-      console.log( 'errorCode: ', errorCode );
-      console.log( 'errorMesagge: ', errorMesage );
+  const validate = ( values ) => {
 
+    const errors = {};
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if ( !values.name ) {
+      errors.name = 'Ingresa tu nombre';
     }
-
+    if ( !values.lastName ) {
+      errors.lastName = 'Ingresa tu apellido';
+    }
+    if ( !values.land ) {
+      errors.land = 'Ingresa tu número de lote';
+    }
+    if ( !values.email ) {
+      errors.email = 'Ingresa tu correo electrónico';
+    } else if ( !regex.test( values.email ) ) {
+      errors.email = 'No es un formato de correo válido';
+    }
+    if ( !values.password ) {
+      errors.password = 'Ingresa tu contraseña';
+    } else if ( values.password.length <= 5 ) errors.password = 'La contraseña debe tener mínino 6 caracteres';
+    return errors;
 
   };
 
   return (
     <div className="RegisterPage">
       <div className="content">
-        <img className="content__logo" src={sportfield_logo} alt="sportfield logo" />
+        <img className="content__logo w-60 sm:w-64 md:w-72 lg:w-80" src={sportfield_logo} alt="sportfield logo" />
         <h1 id="title">Registro de nuevo usuario</h1>
-        <form className="content__form">
-          {/* <div className="content__form--row">
-            <label htmlFor="userName">Usuario</label>
-            <input
-              type="text"
-              className="userName"
-              id="userName"
-              name="userName"
-            />
-          </div> */}
-
-          <div className="content__form--column">
-            <div className='content__form--row'>
+        <form className="register__form form" onSubmit={handleSubmit}>
+          <div className="register__form--row">
+            <div className='register__form--column input__error--group'>
               <label htmlFor="name">Nombre</label>
               <input
                 type="text"
-                className="name"
+                className={`input ${formErrors.name ? 'input__error' : ''}`}
                 id="name"
                 name="name"
+                value={formValues.name}
                 placeholder="Paul"
+                onChange={handleInputChange}
               />
+              {formErrors.name
+                ? <div className='form__errors'>
+                  <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                  <p className='form__errors--text'>{formErrors.name}</p>
+                </div>
+                : <></>
+              }
             </div>
-            <div className="content__form--row">
+            <div className="register__form--column input__error--group">
               <label htmlFor="lastName">Apellido</label>
               <input
                 type="text"
-                className="lastName"
+                className={`input ${formErrors.lastName ? 'input__error' : ''}`}
                 id="lastName"
                 name="lastName"
+                value={formValues.lastName}
                 placeholder="Guala"
+                onChange={handleInputChange}
               />
+              {formErrors.lastName
+                ? <div className='form__errors'>
+                  <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                  <p className='form__errors--text'>{formErrors.lastName}</p>
+                </div>
+                : <></>
+              }
             </div>
           </div>
 
-          <div className="content__form--row">
+          <div className="register__form--row input__error--group">
             <label htmlFor="land">Número de lote</label>
             <input
               type="number"
-              className="land"
+              className={`input ${formErrors.land ? 'input__error' : ''}`}
               id="land"
               name="land"
+              value={formValues.land}
               placeholder='100'
+              onChange={handleInputChange}
             />
+            {formErrors.land
+              ? <div className='form__errors'>
+                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                <p className='form__errors--text'>{formErrors.land}</p>
+              </div>
+              : <></>
+            }
           </div>
 
-          <div className="content__form--row">
+          <div className="register__form--row input__error--group">
             <label htmlFor="email">Correo electrónico</label>
             <input
               type="email"
-              className="email"
+              className={`input ${formErrors.email ? 'input__error' : ''}`}
               id="email"
               name="email"
+              value={formValues.email}
               placeholder='paulguala@gmail.com'
+              onChange={handleInputChange}
             />
+            {formErrors.email
+              ? <div className='form__errors'>
+                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                <p className='form__errors--text'>{formErrors.email}</p>
+              </div>
+              : <></>
+            }
           </div>
 
-          <div className="content__form--row">
+          <div className="register__form--row input__error--group">
             <label htmlFor="password">Contraseña</label>
             <input
               type="password"
-              className="email"
+              className={`input ${formErrors.password ? 'input__error' : ''}`}
               id="password"
               name="password"
+              value={formValues.password}
+              onChange={handleInputChange}
             />
+            {formErrors.password
+              ? <div className='form__errors'>
+                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                <p className='form__errors--text'>{formErrors.password}</p>
+              </div>
+              : <></>
+            }
           </div>
-
-
 
         </form>
         <GreenButton
+          button_class='green-button'
           button_name="Registrarse"
-          button_func={() => onFinish(
-            document.getElementById( "name" ).value,
-            document.getElementById( "lastName" ).value,
-            document.getElementById( "email" ).value,
-            document.getElementById( "password" ).value,
-            document.getElementById( "land" ).value)}
+          button_func={handleSubmit}
         />
       </div>
+
+      {/* <RegisterForm
+        setFormData={setFormValues}
+
+      /> */}
     </div>
   );
 };

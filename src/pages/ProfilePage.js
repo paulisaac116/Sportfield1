@@ -1,37 +1,35 @@
-import { React, useState, useContext, useEffect } from 'react';
-import { CoursesUser } from '../components/CoursesUser';
-import { FieldUser } from '../components/FieldUser';
-import { GreenButton } from '../components/GreenButton';
+import React, { useState, useContext, useEffect } from 'react';
+import { useHistory } from "react-router-dom";
+
+import { CoursesUser } from '../components/ProfilePage/CoursesUser';
+import { FieldUser } from '../components/ProfilePage/FieldUser';
 import { HeaderComp } from '../components/HeaderComp';
-import { Profile } from '../components/Profile';
+import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
 
-import '../styles/ProfilePage.css';
-import { Modal, message } from 'antd';
+import '../styles/ProfilePage/ProfilePage.css';
 import { UserContext } from '../components/UserContext';
-import { db, auth} from '../firebase';
+import { db, auth } from '../firebase';
+import { ModalComment } from '../components/ProfilePage/ModalComment';
+import { GreenButton } from '../components/Buttons/GreenButton';
+import { MessageAddComment } from '../components/ProfilePage/MessageAddComment';
 
+const ProfilePage = React.memo( () => {
 
-const ProfilePage = () => {
+    let history = useHistory();
+
 
     const [userData, setUserData] = useState( [] );
     const [isModalVisible, setIsModalVisible] = useState( false );
+    const [isMessageAddCommentVisible, setIsMessageAddCommentVisible] = useState( 'hidden' );
     const userId = useContext( UserContext );
 
     const showModal = () => {
         setIsModalVisible( true );
     };
 
-    const handleCancel = () => {
-
-        setIsModalVisible( false );
-    };
-
     const handleOk = async ( commentTitle, commentContent ) => {
 
         try {
-            // await db.collection("Users").doc(userId).get().then( (doc) => userInfo = doc.data());
-            // console.log('userInfo: ', userInfo);
-
             await db.collection( "Comments" ).add( {
                 title: commentTitle,
                 content: commentContent,
@@ -40,7 +38,7 @@ const ProfilePage = () => {
                 userLand: userData.land,
                 // date: userInfo.date
             } );
-            message.success( 'Comentario registrado con éxito' );
+            console.log( 'Comentario registrado con éxito' );
 
         } catch ( error ) {
             const errorCode = error.code;
@@ -52,72 +50,54 @@ const ProfilePage = () => {
         document.getElementById( "comment-title" ).value = "";
         document.getElementById( "comment-content" ).value = "";
 
-        setIsModalVisible( false );
+        // setIsModalVisible( false );
     };
 
     useEffect( () => {
         auth.onAuthStateChanged( ( user ) => {
-            const userId = user.uid;
+            const userId = user?.uid;
             db.collection( "Users" ).doc( userId )
                 .onSnapshot( ( doc ) => {
                     setUserData( doc.data() );
                 } );
         } );
-        return () => {
-            const unsubscribe = db.collection( "Users" )
-                .onSnapshot( () => {
-                } );
-            unsubscribe();
-        };
+        // return () => {
+        //     const unsubscribe = db.collection( "Users" )
+        //         .onSnapshot( () => {
+        //         } );
+        //     unsubscribe();
+        // };
     }, [userId] );
 
-
-    // console.log( 'userid from Context: ', userId );
-
-
     return (
-        <div>
+        <div className='ProfilePage'>
             <HeaderComp />
-            <div className="main">
-                <div className="main__left">
-                    <h2>PERFIL</h2>
-                    <Profile
-                        userData={userData}
-                    />
-                    <GreenButton button_name="Agregar un comentario" button_func={showModal} />
-                    <Modal
-                        className="turn-modal-profile"
-                        title="Tu opinión es importante"
-                        visible={isModalVisible}
-                        onOk={() => handleOk(
-                            document.getElementById( "comment-title" ).value,
-                            document.getElementById( "comment-content" ).value
-                        )}
-                        onCancel={handleCancel}>
-                        <p>Envíanos tus comentarios, opiniones o reclamos sobre el estado de las canchas,
-                            la agenda de un turno o el funcionamiento de la aplicación</p>
-                        <input
-                            required
-                            type="text"
-                            name="comment-title"
-                            id="comment-title"
-                            placeholder="Titulo del comentario"
-                        />
-                        <textarea
-                            name="comment-content"
-                            id="comment-content"
-                            placeholder="Descripción"
-                            autoComplete="off"
-                        />
-                    </Modal>
-                </div>
-                <div className="main__right">
-                    <FieldUser />
-                    <CoursesUser />
-                </div>
+            <div className="profile__content">
+                <ProfileFrame
+                    userData={userData}
+                />
+                <GreenButton
+                    button_class='green-button'
+                    button_name="Enviar comentario"
+                    button_func={showModal}
+                />
+                <ModalComment
+                    userName={userData.name}
+                    userLastName={userData.lastName}
+                    userLand={userData.land}
+                    isModalVisible={isModalVisible}
+                    setIsModalVisible={setIsModalVisible}
+                    setIsMessageVisible={setIsMessageAddCommentVisible}
+                />
+                <MessageAddComment
+                    isMessageAddCommentVisible={isMessageAddCommentVisible}
+
+                />
+                <FieldUser />
+                <CoursesUser />
             </div>
         </div>
     );
-};
+} );
 
 export default ProfilePage;

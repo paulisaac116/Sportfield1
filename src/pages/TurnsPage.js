@@ -1,41 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { HeaderComp } from '../components/HeaderComp';
 import { PurpleTitle } from '../components/PurpleTitle';
 import { InstructionCard } from '../components/InstructionCard';
-import { GreenButton } from '../components/GreenButton';
-import { FieldsTable } from '../components/FieldsTable';
-import { FieldBar } from '../components/FieldBar';
-
-import { Calendar, Modal } from 'antd';
+import { GreenButton } from '../components/Buttons/GreenButton';
+import { FieldsTable } from '../components/TurnsPage/FieldsTable';
+import { FieldBar } from '../components/TurnsPage/FieldBar';
+import { HourBar } from '../components/TurnsPage/HourBar';
 
 import '../styles/TurnsPage.css';
-import { HourBar } from '../components/HourBar';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Calendar } from '../components/TurnsPage/Calendar';
+import { MessageFieldError } from '../components/TurnsPage/MessageFieldError';
+import { ModalSaveTurn } from '../components/TurnsPage/ModalSaveTurn';
 
-const TurnsPage = () => {
+export const TurnsPage = React.memo(() => {
 
     const [verifySelectedField, setVerifySelectedField] = useState( false );
+    const [verifySelectedDate, setVerifySelectedDate] = useState( false );
+
     const [fieldType, setFieldType] = useState( "" );
     const [fieldLocation, setFieldLocation] = useState( "" );
     const [fieldCode, setFieldCode] = useState( "" );
     const [fieldBackground, setFieldBackground] = useState( "" );
 
-    const [hour, setHour] = useState( "" );
-    const [timePeriod, setTimePeriod] = useState( "" );
+    const [fieldData, setFieldData] = useState([])
+    const [dateData, setDateData] = useState([]);
 
     const [isModalVisible, setIsModalVisible] = useState( false );
+    const [isMessageFieldErrorVisible, setIsMessageFieldErrorVisible] = useState( 'hidden' );
+
+
+    const [errorsArray, setErrorsArray] = useState( [] );
 
     const onSelect = ( date ) => {
         console.log( date );
     };
 
+    const messageFieldError = <MessageFieldError />;
+    let errors = [messageFieldError, messageFieldError];
+
+    // console.log(messageFieldError)
+
     const saveTurn = () => {
-        if ( verifySelectedField ) {
-            showModal();
-            console.log( "esta es la hora:", hour );
-        } else {
-            console.log( "Primero, selecciona una cancha" );
+        console.log('date on click ', dateData)
+        if ( verifySelectedField && dateData.length !== 0) {
+            console.log('puede agendar su turno')
+            console.log('dateData lenght: ', dateData.length)
+            setIsModalVisible(true);
+            
+        } else if(!verifySelectedField) {
+            console.log('seleccione una cancha')
         }
+         else if(dateData.length === 0){
+
+            console.log('seleccione una fecha')
+        }
+        // } else {
+        //     errors.push( messageFieldError );
+        //     // setErrorsArray(errors)
+        //     console.log( 'errors', errors );
+        //     console.log( 'array', errorsArray );
+        // }
+        // setTimeout( () => {
+        //     while ( errors.length ) {
+        //         errors.pop();
+        //     }
+        //     console.log( 'final errors', errors );
+        // }, 2000 );
     };
+
+    // console.log( 'errors: ', errors );
 
     const showModal = () => {
         setIsModalVisible( true );
@@ -49,103 +83,64 @@ const TurnsPage = () => {
         setIsModalVisible( false );
     };
 
+
+    useEffect( () => {
+
+        setErrorsArray( errors );
+
+    }, [] );
+
     return (
-        <div>
+        <div className='TurnsPage'>
             <HeaderComp />
-            <div className="turn">
+            <div className="turns__content">
                 <div className="turn__field">
-                    <div className="turn__field__instruction">
-                        <PurpleTitle title="INSTRUCCIONES" />
-                        <PurpleTitle title="PASO 1" />
-                        <InstructionCard instruction="Selecciona el sector de ubicación, y a continuación, 
-                        el tipo de cancha que deseas agendar"/>
+                    <div className="turn__field--instruction">
+                        <div className='number__circle'>
+                            <p className='number__one'>1</p>
+                        </div>
+                        <p>Selecciona el sector de ubicación, y el tipo de cancha</p>
                     </div>
 
                     <div className="turn__field__fieldCards">
                         <h2>CANCHAS</h2>
                         <FieldsTable
-                            confirmField={( fieldValue ) => setVerifySelectedField( fieldValue )}
-                            wichField={( field ) => setFieldType( field )}
-                            wichSector={( sector ) => setFieldLocation( sector )}
-                            wichColor={( color ) => setFieldBackground( color )}
-                            wichCode={( code ) => setFieldCode( code )}
+                            confirmField={setVerifySelectedField}
+                            setFieldData={setFieldData}
+                            dateData={dateData}
+                            setDateData={setDateData}
                         />
                         <FieldBar />
                     </div>
                 </div>
 
-                <div className="turn__date">
-                    <div className="turn__date__instruction">
-                        <PurpleTitle title="PASO 2" />
-                        <InstructionCard instruction="Escoge la hora y fecha que deseas agendar. Finalmente, selecciona “Agendar turno”" />
-                        <GreenButton
-                            button_name="Agendar turno"
-                            button_func={saveTurn}
-                        />
-                        <Modal
-                            className="turn-page-modal"
-                            title="Confirmación de datos"
-                            visible={isModalVisible}
-                            onOk={handleOk}
-                            onCancel={handleCancel}
-                        >
-                            <div className="left__modal">
-                                <p>CANCHA</p>
-                                <div className="left__modal--background">
-                                    <div
-                                        className="left__modal--card"
-                                        style={{ backgroundColor: fieldBackground }}
-                                    >
-                                        {fieldCode}
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div className="right__modal">
-                                <p>DATOS</p>
-                                <div className="right__modal--table">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th>Cancha tipo</th>
-                                                <td>{fieldType}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Ubicación</th>
-                                                <td>{fieldLocation}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Fecha</th>
-                                                <td>{ }</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Hora</th>
-                                                <td>{timePeriod}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </Modal>
-                    </div>
-                    <div className="turn__date__calendar">
-                        <div>
-                            <HourBar
-                                wichHour={( hourValue ) => setHour( hourValue )}
-                                wichTimePeriod={(timePeriod) => setTimePeriod(timePeriod)}
-                            />
+                <div className="turn__date">
+                    <div className="turn__field--instruction">
+                        <div className='number__circle'>
+                            <p className='number__one'>2</p>
                         </div>
-                        <div className="site-calendar-demo-card">
-                            <Calendar
-                                fullscreen={false}
-                                onSelect={onSelect}
-                            />
-                        </div>
+                        <p>Selecciona la fecha y hora</p>
                     </div>
+                    <Calendar
+                        setVerifySelectedDate={setVerifySelectedDate}
+                        setDateData={setDateData}
+                        confirmField={verifySelectedField}
+                    />
                 </div>
+                <GreenButton
+                    button_name="Agendar turno"
+                    button_func={saveTurn}
+                />
             </div>
+            <ModalSaveTurn 
+                isModalVisible={isModalVisible}
+                fieldData={fieldData}
+                dateData={dateData}
+                setIsModalVisible={setIsModalVisible}
+            />
         </div>
     );
-};
+});
 
-export default TurnsPage;
+// export default TurnsPage;

@@ -6,7 +6,7 @@ export const InstructionCard = ({instruction}) => {
         
     return (
         <div>
-            <p className="card">
+            <p className="instruction__card">
                 {instruction}
             </p>
         </div>

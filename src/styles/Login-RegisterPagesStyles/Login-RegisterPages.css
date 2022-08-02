@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .LoginPage,
 .RegisterPage {
   display: flex;
@@ -10,96 +14,229 @@
 /**
   LOGIN PAGE
 */
+.login__content,
 .content {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
-.content__logo {
-  width: 360px;
-}
-.content h1 {
+
+/* .content h1 {
   color: white;
-  font-size: 30px;
+  /* font-size: 30px;
   margin-top: 20px;
-}
+} */
 
-.LoginPage .content__form {
-  width: 300px;
-  /* height: 100px; */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
 
-.content__form input {
-  border: none;
-  outline: none;
-  font-size: 16px;
-  padding: 10px 30px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-
-.content__form input::placeholder {
-  color: #784dbb;
-  font-weight: 500;
-}
-
-.content__form label {
-  width: fit-content;
-}
-
-.content__form input:focus {
-  outline: 3px #3A438B solid;
-}
-
-.content .button {
-  margin-top: 20px;
-}
-
-.LoginPage .content p {
-  margin-top: 20px;
-  font-size: 24px;
+.LoginPage .login__content p {
+  margin-top: 40px;
   font-weight: 700;
   color: white;
+  text-align: center;
 }
 
 /**
   REGISTER PAGE
 */
 
+@layer components {
+
+  .form input {
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    width: 100%;
+    color: black;
+  }
+
+  .register__form {
+    margin: 0;
+    background-color: theme('colors.purple-dark');
+    padding: 1rem 1.5rem;
+    border-radius: .75rem;
+  }
+
+  .register__form--row,
+  .register__form--row .register__form--column {
+    margin-bottom: .5rem;
+  }
+
+  
+
+  .register__form input {
+    padding: .25rem .75rem;
+
+    @apply lg:text-base;
+  }
+
+  .register__form label {
+    font-size: .85rem;
+    color: theme('colors.white');
+    margin-bottom: .25rem;
+
+    @apply sm:text-base;
+  }
+
+  .RegisterPage #title {
+    margin: 1rem;
+
+    /* @apply sm:my-5 */
+
+  }
+
+  #title {
+    margin: 0;
+    font-size: 1.2rem;
+    color: theme('colors.white');
+    font-weight: 500;
+
+
+    @apply sm:text-xl lg:text-2xl;
+  }
+
+  .input::placeholder {
+    color: theme('colors.purple-dark');
+    opacity: .5;
+    font-weight: 500;
+  }
+
+  .input:focus {
+    outline: 3px theme('colors.purple-dark') solid;
+  }
+
+  .login__form .input__error {
+    outline: 2px theme('colors.red') solid;
+  }
+
+  .LoginPage #title {
+    @apply sm:my-2
+  }
+
+  .login__form {
+    padding: 1rem 1.5rem;
+    /* width: 20rem; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* @apply sm:w-96 */
+
+  }
+
+  .login__content .link__login-form {
+    margin-top: 1rem;
+    color: theme('colors.white');
+    font-size: .9rem;
+    font-weight: 500;
+
+    @apply sm:text-lg
+  }
+
+  .login__content .link__login-form:hover {
+    /* color: theme('colors.purple-dark') */
+    color: #2D9AFF;
+  }
+
+  .link__login-form:last-of-type {
+    font-size: 1.2rem;
+    text-align: center;
+    font-weight: 700;
+
+    @apply sm:text-2xl 
+  }
+
+  .link__login-form:last-of-type:hover {
+    color: theme('colors.green')
+  }
+
+  .login__form input {
+    font-size: .95rem;
+    padding: .25rem 1rem;
+    margin-bottom: .1rem;
+
+    @apply lg:text-base
+  }
+  .login__form .input__error--group,
+  .register__form .input__error--group {
+    margin-bottom: .8rem;
+    width: 100%;
+
+    @apply sm:w-64 lg:w-80
+  }
+
+  .LoginPage .login__content .form__errors,
+  .RegisterPage .content .form__errors {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: .2rem;
+    
+  }
+  .form__errors .form__errors--icon {
+    color: theme('colors.red');
+    margin-right: .3rem;
+  }
+  .LoginPage .form__errors .form__errors--text,
+  .RegisterPage .form__errors .form__errors--text {
+    margin: 0;
+    font-size: .8rem;
+    font-weight: 500;
+    text-align: center;
+    color: theme('colors.red');
+
+    @apply sm:text-sm lg:text-base;
+  }
+
+  .RegisterPage .content .green-button {
+    margin-top: 1rem;
+
+  }
+
+  /*
+    Animation
+  */
+
+
+
+}
+
 .RegisterPage .content__form {
   display: flex;
   flex-direction: column;
-  background-color: #3A438B;
-  padding: 25px 35px;
-  border-radius: 20px;
+  /* background-color: #3A438B; */
+  /* padding: 25px 35px; */
+  /* border-radius: 20px; */
 }
 
 .RegisterPage .content__form .content__form--row {
-  display: flex;
-  flex-direction: column;
+  /* display: flex;
+  flex-direction: column; */
   /* margin-bottom: 10px; */
 }
 
 .RegisterPage .content__form .content__form--column {
-  display: flex;
-  justify-content: space-between;
+  /* display: flex; */
+  /* justify-content: space-between; */
 }
 
 .RegisterPage .content__form .content__form--column .content__form--row input {
-  width: 200px;
-} 
+  /* width: 200px; */
+}
 
-.RegisterPage .content__form .content__form--row label{
-  color: white;
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 6px;
+.RegisterPage .content__form .content__form--row label {
+  /* color: white; */
+  /* font-size: 16px; */
+  /* font-weight: 600; */
+  /* margin-bottom: 6px; */
 }
 
 .RegisterPage .content__form {
-  width: 500px;
+  /* width: 500px; */
+}
+
+.login__content .link__login-form:hover {
+  /* color: theme('colors.purple-dark') */
+  /* color: '#296AC5'; */
 }

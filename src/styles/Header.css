@@ -1,28 +1,33 @@
-header {
-  height: 110px;
-  background-color: #2f2e2e;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-left: 80px;
-  padding-right: 80px;
-  box-shadow: 0 15px 5px rgba(0, 0, 0, 0.5);
-  position: relative;
-  z-index: 500;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+  .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.8rem;
+    box-shadow: 0 15px 5px rgba(0, 0, 0, 0.5);
+    background-color: theme('colors.black');
+    position: relative;
+    z-index: 500;
+
+    @apply sm:py-6 sm:px-10 lg:px-14
+  
+  }
+
+  .header nav a {
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-decoration: none;
+    color: white;
+
+    @apply sm:text-xl lg:text-2xl
+     
+  }
+
 }
 
-img {
-  width: 250px;
-}
-
-header nav a {
-  margin-right: 80px;
-  font-weight: 700;
-  font-size: 25px;
-  text-decoration: none;
-  color: white;
-}
-
-header nav a:last-of-type {
-  margin: 0;
-}

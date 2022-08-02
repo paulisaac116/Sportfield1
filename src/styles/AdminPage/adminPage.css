@@ -1,0 +1,749 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.admin-page thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -999px;
+}
+
+.admin-page td::before {
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+
+.Users td:nth-of-type(1)::before { content: "Nombre: "; }
+.Users td:nth-of-type(2)::before { content: "Apellido: ";}
+.Users td:nth-of-type(3)::before { content: "Email: "; }
+.Users td:nth-of-type(4)::before { content: "Lote: "; }
+
+.Turns td:nth-of-type(1)::before { content: "Nombre: "; }
+.Turns td:nth-of-type(2)::before { content: "Apellido: ";}
+.Turns td:nth-of-type(3)::before { content: "Fecha: "; }
+.Turns td:nth-of-type(4)::before { content: "Hora: "; }
+.Turns td:nth-of-type(5)::before { content: "Cancha: "; }
+
+
+.menu__icon span {
+    padding: .6rem 1rem;
+
+}
+
+.menu__icon span:hover {
+    background-color: theme('colors.gray')
+}
+
+.menu__icon span:first-of-type {
+    margin: 0;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+}
+
+.menu__icon span:last-of-type {
+    margin: 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+
+
+@layer components {
+
+    .admin-page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 100%;
+        height: 100vh;
+        /* min-height: 47rem; */
+    }
+
+    .admin-page__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        /* column-gap: 3rem; */
+
+        @apply sm:flex-row sm:w-11/12 sm:items-start sm:mt-16 sm:gap-x-12
+    }
+
+    .menu__style {
+        /* background-color: theme('colors.purple-dark'); */
+    }
+
+    .menu__style svg,
+    .menu__style p {
+        color: theme('colors.white');
+    }
+
+    .menu__style svg:hover {
+        cursor: pointer;
+    }
+
+    .menu__icon {
+        display: flex;
+        width: fit-content;
+        justify-content: space-between;
+        position: relative;
+        border-radius: 15px;
+        margin-top: 2rem;
+
+        @apply mb-5 sm:hidden;
+    }
+
+    .menu__list {
+        background-color: theme('colors.purple-dark');
+        border-radius: 20px;
+        
+        @apply hidden sm:block sm:basis-1/3 lg:basis-1/4; 
+    }
+
+    .menu__list--item {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 1rem 1.2rem;
+        cursor: pointer;
+
+        @apply lg:py-5
+    }
+
+    .menu__list--item:first-of-type {
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+    }
+
+    .menu__list--item:last-of-type {
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .menu__list--item:hover {
+        background-color: theme('colors.black');
+    }
+
+    .menu__list--item span {
+        min-width: 30px;
+    }
+
+    .menu__list--item p {
+       margin: 0;
+       margin-left: 1rem;
+       font-size: 1rem;
+       font-weight: 500;
+       text-align: start;
+
+       @apply lg:text-lg
+    }
+
+    .menu__table {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-items: center;
+        row-gap: .75rem;
+
+        @apply sm:grid sm:grid-cols-2 basis-2/3 sm:gap-y-7 lg:basis-3/4;
+    }
+
+    .menu__table .table__title {
+        margin: 0;
+        color: white;
+        font-size: 1.25rem;
+        font-weight: 500;
+        /* margin-bottom: 0.75rem; */
+
+        @apply sm:col-start-1 sm:col-end-2 sm:row-start-1 sm:row-end-2 lg:text-2xl
+    }
+
+    .menu__table .green-button {
+        @apply sm:text-sm md:text-lg sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2
+    }
+
+
+    /* .table__content {
+        height: 24rem;
+        border-radius: 20px;
+        background-color: theme('colors.purple-dark')
+
+    } */
+    
+    .table__content table {
+        width: 100%;
+
+        @apply md:border-collapse md:border-spacing-0
+    }
+    
+    .table__content tbody tr {
+        background-color: theme('colors.purple-mid');
+        color: theme('colors.white');
+        padding: .6rem 0;
+        padding-left: 1rem;
+        border-radius: 20px 20px 0 0;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table__content tbody tr:last-of-type {
+        margin: 0;
+    }
+
+    .menu__table .table__content {
+        background-color: theme('colors.purple-dark');
+        border-radius: 20px;
+        height: 24rem;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+        padding: .8rem .5rem;
+        width: 17.5rem;
+        /* max-width: 20rem; */
+
+        @apply sm:col-start-1 sm:col-end-3 sm:row-start-2 sm:row-end-3 sm:w-full sm:h-64 sm:overflow-x-auto lg:h-96 lg:px-4
+    }
+
+    /**
+        Styles of the button in each row of the Users table
+    */
+
+    .Users .table-users__data {
+        width: 100%;
+        overflow-x: auto;
+
+        @apply md:rounded-bl-20px md:rounded-tr-none lg:table-row lg:text-lg xl:text-xl
+    }
+
+    .Users .table-users__buttons,
+    .Courses .table-users__buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        position: relative;
+        top: -13px;
+        border-radius: 0 0 20px 20px;
+
+        @apply md:flex-col md:top-0 md:rounded-bl-none md:rounded-tr-20px md:pr-5 lg:absolute lg:right-0 lg:w-20% lg:py-2 lg:top-5px
+    }
+
+    .Courses .courses-table__buttons {
+        top: -16px;
+    }
+
+    .Courses tbody {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .Users .table-users__buttons .rounded-button,
+    .Courses .table-users__buttons .rounded-button {
+        padding: .4rem .8rem;
+        font-size: .8rem;
+        border-radius: .6rem;
+        box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+        /* border: 1px black solid; */
+
+        @apply md:w-full lg:text-sm
+    }
+
+    .Users .table-users__buttons .rounded-button:last-of-type,
+    .Courses .table-users__buttons .rounded-button:last-of-type {
+        margin-left: 1rem;
+
+        @apply md:m-0 md:mt-2
+    }
+
+    .Users tbody {
+        position: relative;
+        @apply md:flex md:border-b-15px md:border-purple-dark md:border-solid lg:h-28
+    }
+
+    .Users thead {
+        text-align: left;
+        color: theme('colors.white');
+        font-size: 1.1rem;
+        /* border-bottom: 10px transparent solid; */
+
+        @apply xl:text-xl lg:border-y-10px lg:border-purple-dark lg:border-solid
+    }
+
+    .Users thead .thead__name {
+        width: 20%
+
+    }
+    .Users thead .thead__lastName {
+        width: 20%
+        
+    }
+    .Users thead .thead__email {
+        width: 30%
+        
+    }
+    .Users thead .thead__land {
+        width: 10%
+        
+    }
+    .Users thead .thead__buttons {
+        width: 20%;
+        color: theme('colors.purple-dark')
+        
+    }
+
+    .Users thead,
+    .Users tbody {
+        @apply lg:table-row-group;
+    }
+
+    .Courses .td__title {
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+
+    .admin-page__content .register__form--row {
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+    }
+
+    .admin-page__content .register__form--row .green-button {
+        width: 10rem;
+        height: 2rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 500;
+        font-size: .9rem;
+    }
+
+
+    /*
+        MODAL STYLES
+    */
+
+
+    .modal {
+        display: hidden;
+        position: absolute;
+        background-color: rgba(0, 0, 0, .7);
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        /* overflow-y: hidden; */
+    
+    }
+    
+    .modal__content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: theme('colors.purple-dark');
+        color: theme('colors.white');
+        border-radius: 20px;
+        width: 90%;
+        max-width: 30rem;
+        /* overflow-y: hidden; */
+    }
+
+    .modal__content--title {
+        color: theme('colors.white');
+        margin-top: 1.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+    
+    .modal__content .modal__buttons {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .modal__content .modal__buttons .rounded-button:last-of-type {
+        margin-left: 1rem;
+    }
+
+    .modal__content .form__errors {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: .5rem;
+      }
+    .modal__content .form__errors--text {
+        color: theme('colors.red');
+        font-size: .85rem;
+
+
+    }
+
+    .modal__deleteUser--userData {
+        display: flex;
+        flex-direction: column;
+        color: theme('colors.white');
+        background-color: theme('colors.purple-mid');
+        padding: .8rem 1rem;
+        border-radius: 20px;
+        font-weight: 400;
+
+        @apply sm:min-w-20rem
+    }
+
+    .modal__deleteUser--userData .userData--row {
+        display: flex;
+    }
+
+    .modal__deleteUser--userData .userData__title {
+        font-weight: 600;
+        margin-right: .2rem;
+    }
+
+    .modal__deleteUser--text {
+        text-align: center;
+        font-weight: 500;
+        margin: 1rem 0;
+
+    }
+
+    .modal__notification {
+        display: flex;
+    }
+
+
+    .modal .modal__addCourse label {
+        font-size: 1rem;
+        /* margin-bottom: 3rem; */
+    }
+
+    .text-area {
+        width: 100%;
+        color: black;
+        border-radius: 10px;
+        height: 10rem;
+        resize: none;
+        padding: .5rem .8rem;
+    }
+
+    /*
+        Messages styles
+    */
+
+    .message {
+        display: flex;
+        width: 15rem;
+        /* height: 5rem; */
+        padding: 1rem;
+        background-color: theme('colors.black');
+        border: 2px theme('colors.green') solid;
+        /* background-color: theme('colors.purple-dark'); */
+        /* background-color: black; */
+        position: absolute;
+        justify-content: center;
+        align-items: center;
+        top: 3rem;
+        z-index: 2000;
+        /* border-radius: 16px; */
+    }
+
+    .message__icon {
+        color: theme('colors.green');
+        margin-right: 1rem;
+        /* width: 5rem; */
+    }
+
+    .message__text {
+        color: theme('colors.white');
+        font-size: 1rem;
+        font-weight: 600;
+        /* text-align: center; */
+    }
+
+    /*
+        COMMENTS TABLE
+    */
+
+    .table__comments--user {
+        font-weight: 600;
+    }
+    .table__comments--title {
+        font-style: italic;
+    }
+
+    .table__content .Comments tbody tr,
+    .table__content .Notifications tbody tr
+     {
+        margin-bottom: 1rem;
+        border-radius: 20px;
+        @apply md:pr-4
+    }
+
+    .table__comments--date,
+    .table__notifications--date
+     {
+        font-size: .75rem;
+        @apply lg:text-sm
+    }
+
+    .table__comments--user-date,
+    .table__notifications--title-date
+     {
+        @apply md:flex md:justify-between md:items-center
+    }
+
+
+    /*
+        NOTIFICATION TABLE
+    */
+
+    .Notifications tbody tr {
+        border-radius: 20px;
+        margin-bottom: 1rem;
+    }
+    .table__notifications-title {
+        font-weight: 600;
+    }
+
+    .modal__notification input,
+    .modal__notification textarea {
+        margin-bottom: 1rem;
+    }
+
+}
+
+@media(min-width: 1024px) {
+    .Users td:nth-of-type(odd):before,
+     .Users td:nth-of-type(even):before,
+     .Users td:nth-of-type(odd):after,
+     .Users td:nth-of-type(even):after {
+         content: "";
+     }
+
+    .Users thead tr { 
+        position: static;
+    }
+    /* .Users thead, .Users tbody {
+        display: table-row-group;
+        width: 100%;
+    } */
+    /* .Users th, .Users td { 
+        display: table-cell; 
+    } */
+    /* .Users tr {
+        display: table-row;
+    } */
+    /* .Users table{
+        display: table;
+    } */
+
+
+    .Turns td:nth-of-type(odd):before,
+     .Turns td:nth-of-type(even):before,
+     .Turns td:nth-of-type(odd):after,
+     .Turns td:nth-of-type(even):after {
+         content: "";
+     }
+
+    .Turns thead tr { 
+        position: static;
+    }
+    .Turns thead, .Turns tbody {
+        display: table-row-group;
+    }
+    .Turns th, .Turns td { 
+        display: table-cell; 
+    }
+    .Turns tr {
+        display: table-row;
+    }
+    .Turns table{
+        display: table;
+    }
+
+    
+}
+
+
+
+
+.slide-in-fwd-center {
+	-webkit-animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-fwd-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+/* ----------------------------------------------
+ * Generated by Animista on 2022-7-7 0:2:13
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+@-webkit-keyframes slide-in-fwd-center {
+    0% {
+      -webkit-transform: translateZ(-1400px);
+              transform: translateZ(-1400px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slide-in-fwd-center {
+    0% {
+      -webkit-transform: translateZ(-1400px);
+              transform: translateZ(-1400px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+  }
+
+
+  .slide-out-bck-center {
+	-webkit-animation: slide-out-bck-center 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-bck-center 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+
+ @-webkit-keyframes slide-out-bck-center {
+    0% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(-1100px);
+              transform: translateZ(-1100px);
+      opacity: 0;
+      
+    }
+  }
+  @keyframes slide-out-bck-center {
+    0% {
+      -webkit-transform: translateZ(0);
+              transform: translateZ(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateZ(-1100px);
+              transform: translateZ(-1100px);
+      opacity: 0;
+    }
+  }
+  
+
+/*
+  Message animation
+*/
+
+.slide-in-top {
+	-webkit-animation: slide-in-top 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+	        animation: slide-in-top 0.8s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2022-7-10 17:8:56
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-in-top
+ * ----------------------------------------
+ */
+ @-webkit-keyframes slide-in-top {
+    0% {
+      -webkit-transform: translateY(-1000px);
+              transform: translateY(-1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  @keyframes slide-in-top {
+    0% {
+      -webkit-transform: translateY(-1000px);
+              transform: translateY(-1000px);
+      opacity: 0;
+    }
+    100% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+
+
+.slide-out-top {
+	-webkit-animation: slide-out-top 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-top 0.7s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2022-7-10 17:8:23
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation slide-out-top
+ * ----------------------------------------
+ */
+ @-webkit-keyframes slide-out-top {
+    0% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateY(-1000px);
+              transform: translateY(-1000px);
+      opacity: 0;
+    }
+  }
+  @keyframes slide-out-top {
+    0% {
+      -webkit-transform: translateY(0);
+              transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      -webkit-transform: translateY(-1000px);
+              transform: translateY(-1000px);
+      opacity: 0;
+    }
+  }
+  
+@media (min-width: 1024px ){
+
+    .Users tbody {
+        /* height: 10rem; */
+    }
+
+    .Users .table-users__buttons {
+
+        position: absolute;
+        right: 0;
+        /* background-color: aqua; */
+    }
+
+}
