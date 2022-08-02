@@ -41,7 +41,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                 setDateData( datesClicked );
                 confirmDate( true );
             }
-            console.log('dateData', datesClicked)
+            // console.log('dateData', da)
 
             
 
@@ -71,7 +71,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                                     <td
                                         key={day.id}
                                         id={day.id}
-                                        className={`${day.date <= today.day && day.timeEnd <= today.hour ? 'gray' : ''}`}
+                                        className={`${day.date < today.day || (day.timeEnd <= today.hour && day.date === today.day) ? 'gray' : ''}`}
                                         onClick={() => selectedCell( day )}
                                     >
                                         {day.id}

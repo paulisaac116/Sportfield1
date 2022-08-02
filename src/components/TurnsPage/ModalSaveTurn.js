@@ -31,7 +31,7 @@ export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, d
 
     // console.log('dateDate from modal', dateData)
 
-    console.log('dateData lenght from modal: ', dateData.length)
+    // console.log('dateData lenght from modal: ', dateData.length)
 
 
     return (
