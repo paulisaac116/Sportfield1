@@ -8,57 +8,33 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import '../../styles/FieldsTable.css';
 
-export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData } ) => {
+export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData, setDateData, dateRef, field} ) => {
+
 
     const [menuItem, setMenuItem] = useState( [] );
     const [fieldCardTable, setFieldCardTable] = useState( [] );
-
-    
-
-    console.log('date original', dateData)
-
+    // const [dateArray, setDateArray] = useState( [1, 2, 3, 4] );
 
     const { sectorInferior: sectorInferiorArray, sectorMedio: sectorMedioArray } = FieldCardsData;
 
-    const sectorMedio = (dateData) => {
-        // const dateData = [1,2,4]
-        console.log(dateData)
-        console.log();
-        console.log( 'sectorMedio' );
-        console.log( 'dateData before', dateData );
+    const sectorMedio = () => {
         confirmField( false );
-        dateData?.map( item => {
-            console.log( 'item id', item.id );
-            // document.getElementById(item.id).className = ''
-        } );
-        // setDateData( [] );
-        console.log( 'dateData after', dateData );
+        console.log(field)
+        setDateData([])
         setMenuItem( medioMenuItem );
         setFieldCardTable( medioFieldsTable );
     };
 
-    const sectorInferior = (dateData) => {
-        // const dateData = [1,2,4]
-        console.log(dateData)
-
-        console.log();
-        console.log( 'sectorInferior' );
-        console.log( 'dateData before', dateData );
+    const sectorInferior = () => {
         confirmField( false );
-        dateData?.map( item => {
-            console.log( 'item id', item.id );
-            // document.getElementById(item.id).className = ''
-        } );
-        // setDateData( [] );
-        console.log( 'dateData after', dateData );
+        console.log(field)
+        setDateData([])
         setMenuItem( inferiorMenuItem );
         setFieldCardTable( inferiorFieldsTable );
     };
 
 
     const changeColor = ( array, arrayElement ) => {
-        // console.log( "cancha seleccionada: ", arrayElement.fieldType );
-        // console.log( 'field item: ', arrayElement );
         setFieldData( arrayElement );
         const newArray = [];
         confirmField( true );
@@ -89,38 +65,49 @@ export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData
     };
 
     const medioMenu = () => {
+        // console.log( 'dateData (medioMenu): ', dateData );
+
         setMenuItem( medioMenuList );
     };
 
     const inferiorMenu = () => {
+        // console.log( 'dateData (inferiorMenu): ', dateData );
+
         setMenuItem( inferiorMenuList );
     };
 
 
-    const medioMenuItem =
-        <BlackButton
+    const medioMenuItem = () => {
+
+        // console.log( 'dateData: (medioMenuItem)', dateData );
+
+        return <BlackButton
             button_name="SECTOR MEDIO"
             button_func={medioMenu}
             button_value="middle"
             button_logo={<FontAwesomeIcon size="lg" icon={faCaretDown} />}
+
         />;
 
-    const medioMenuList =
+    };
+
+    const medioMenuList = () => (
         <div className="field-menu">
             <BlackButton
                 button_name="SECTOR MEDIO"
-                button_func={() => sectorMedio(dateData)}
+                button_func={sectorMedio}
                 button_value="middle"
                 button_logo={<FontAwesomeIcon size="lg" icon={faCaretDown} />}
             />
             <BlackButton
                 button_name="SECTOR INFERIOR"
-                button_func={() => sectorInferior(dateData)}
+                button_func={sectorInferior}
                 button_value="inferior"
             />
-        </div>;
+        </div>
+    );
 
-    const medioFieldsTable =
+    const medioFieldsTable = () => (
         <div className="table__fields table__middle">
             {Object.keys( sectorMedioArray ).map( ( item, key ) => (
                 <div
@@ -131,34 +118,34 @@ export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData
                     {sectorMedioArray[item].code}
                 </div>
             ) )}
-        </div>;
+        </div> );
 
 
-    const inferiorMenuItem =
+    const inferiorMenuItem = () => (
         <BlackButton
             button_name="SECTOR INFERIOR"
             button_func={inferiorMenu}
             button_value="inferior"
             button_logo={<FontAwesomeIcon size="lg" icon={faCaretDown} />}
-        />;
+        /> );
 
 
-    const inferiorMenuList =
-        <div className="field-menu">
-            <BlackButton
-                button_name="SECTOR INFERIOR"
-                button_func={() => sectorInferior(dateData)}
-                button_value="inferior"
-                button_logo={<FontAwesomeIcon size="lg" icon={faCaretDown} />}
-            />
-            <BlackButton
-                button_name="SECTOR MEDIO"
-                button_func={() => sectorMedio(dateData)}
-                button_value="middle"
-            />
-        </div>;
+    const inferiorMenuList = () =>
+    ( <div className="field-menu">
+        <BlackButton
+            button_name="SECTOR INFERIOR"
+            button_func={sectorInferior}
+            button_value="inferior"
+            button_logo={<FontAwesomeIcon size="lg" icon={faCaretDown} />}
+        />
+        <BlackButton
+            button_name="SECTOR MEDIO"
+            button_func={sectorMedio}
+            button_value="middle"
+        />
+    </div> );
 
-    const inferiorFieldsTable =
+    const inferiorFieldsTable = () => (
         <div className="table__fields table__inferior">
             {Object.keys( sectorInferiorArray ).map( ( item, key ) => (
                 <div
@@ -169,8 +156,14 @@ export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData
                     {sectorInferiorArray[item].code}
                 </div>
             ) )}
-        </div>;
+        </div> );
 
+    // useEffect( () => {
+
+    //     setDateArray( dateData );
+    //     console.log( 'useEffect: ', dateData );
+    //     console.log( 'array (useEffect: )', dateArray );
+    // }, [dateData, dateArray] );
 
 
     useEffect( () => {
@@ -181,6 +174,8 @@ export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData
     }, [] );
 
 
+
+
     return (
         <div className="menu-and-table">
             <div className="menu-container">
@@ -189,7 +184,7 @@ export const FieldsTable = ( { confirmField, setFieldData, dateData, setDateData
             {fieldCardTable}
         </div>
     );
-};
+} );
 
 
 
@@ -200,4 +195,4 @@ FieldsTable.propTypes = {
     dateData: PropTypes.array,
     setDateData: PropTypes.func
 
-}
+};

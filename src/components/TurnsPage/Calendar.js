@@ -1,27 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import '../../styles/TurnsPage.css';
 import { days } from '../../data/CalendarDays';
-import { hours } from '../../data/CalendarHours';
-import { getWeek } from '../../helpers/getWeek';
-import { months } from '../../data/CalendarMonths';
+// import { hours } from '../../data/CalendarHours';
+// import { getWeek } from '../../helpers/getWeek';
+// import { months } from '../../data/CalendarMonths';
 import { CalendarTable } from './CalendarTable';
 import { getDate } from '../../helpers/getDate';
 import { CalendarBar } from './CalendarBar';
+import {GreenButton} from '../Buttons/GreenButton';
 
-export const Calendar = React.memo( ({setVerifySelectedDate, setDateData, confirmField}) => {
+export const Calendar = React.memo( ({setVerifySelectedDate, setDateData, confirmField, fieldActive}) => {
 
     const [hoursCounter, setHoursCounter] = useState( 0 );
     const [turnsCounter, setTurnsCounter] = useState( 0 );
     const [weekArray, setWeekArray] = useState( [] );
     const today = getDate();
 
-    console.log();
+    const changeColor = ( ) => {
 
-
-    const changeColor = ( id ) => {
-
-        document.getElementById( id ).className = 'green';
+        document.getElementById( '00' ).className = 'green';
 
     };
 
@@ -51,9 +49,16 @@ export const Calendar = React.memo( ({setVerifySelectedDate, setDateData, confir
                     confirmDate={setVerifySelectedDate}
                     setDateData={setDateData}
                     confirmField={confirmField}
+                    // dateRef={dateRef}
+                    // dateData={dateData}
 
                 />
             </table>
+            <GreenButton
+                button_name={'edit html'}
+                button_func={changeColor}
+            
+            />
         </div>
     );
 } );

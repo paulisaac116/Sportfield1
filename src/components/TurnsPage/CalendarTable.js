@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 import { days } from '../../data/CalendarDays';
 import { hours } from '../../data/CalendarHours';
@@ -14,6 +14,9 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
     const weekDays = weekArray.map( item => item.day );
     let datesClicked = [];
 
+
+    const inputRef = useRef();
+
     const tableDays = hours.map( ( hour, row ) => ( [
         days.map( ( day, column ) => ( {
             id: `${row}${column}`,
@@ -23,11 +26,18 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
             day: day.day,
             timeStart: hour.start,
             timeEnd: hour.end,
-            active: false
+            // active: false,
+            active: weekArray[column].day < today.day || ( hour.end <= today.hour && weekArray[column].day === today.day ) ? false : true,
+            busy: false
         } ) )
     ] ) );
 
+    // const [newArray, setNewArray] = useState(tableDays)
+    // console.log(tableDays)
+    // console.log('weekArray: ', weekArray)
+
     const selectedCell = ( day ) => {
+        // console.log('day', day)
 
         if ( confirmField ) {
 
@@ -41,9 +51,8 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                 setDateData( datesClicked );
                 confirmDate( true );
             }
-            // console.log('dateData', da)
-
-            
+            console.log( 'datesClicked', datesClicked );
+            // console.log('dateData', dateData)
 
         } else {
             console.log( 'select a field first' );
@@ -58,6 +67,22 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
 
     }, [] );
 
+    // useEffect( () => {
+
+    //     console.log(fieldActive)
+    //     if(fieldActive === false ){
+    //         console.log('enter')
+    //         document.getElementById( '00').className = '';
+    //         datesClicked.map( item => {
+    //             console.log(item.id)
+    //         } );
+    
+    //         console.log('useEffect')
+    //     }
+
+
+    // }, [fieldActive] );
+
     console.log( 'again' );
 
     return (
@@ -71,8 +96,10 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                                     <td
                                         key={day.id}
                                         id={day.id}
-                                        className={`${day.date < today.day || (day.timeEnd <= today.hour && day.date === today.day) ? 'gray' : ''}`}
+                                        // className={`${day.date < today.day || (day.timeEnd <= today.hour && day.date === today.day) ? 'gray' : ''}`}
+                                        className={!day.active ? 'gray' : ''}
                                         onClick={() => selectedCell( day )}
+                                    // ref={dateRef}
                                     >
                                         {day.id}
                                     </td>

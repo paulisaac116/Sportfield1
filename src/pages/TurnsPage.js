@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { HeaderComp } from '../components/HeaderComp';
 import { PurpleTitle } from '../components/PurpleTitle';
 import { InstructionCard } from '../components/InstructionCard';
@@ -25,16 +25,13 @@ export const TurnsPage = React.memo(() => {
 
     const [fieldData, setFieldData] = useState([])
     const [dateData, setDateData] = useState([]);
+    const cellRef = useRef();
 
     const [isModalVisible, setIsModalVisible] = useState( false );
     const [isMessageFieldErrorVisible, setIsMessageFieldErrorVisible] = useState( 'hidden' );
 
 
     const [errorsArray, setErrorsArray] = useState( [] );
-
-    const onSelect = ( date ) => {
-        console.log( date );
-    };
 
     const messageFieldError = <MessageFieldError />;
     let errors = [messageFieldError, messageFieldError];
@@ -71,19 +68,6 @@ export const TurnsPage = React.memo(() => {
 
     // console.log( 'errors: ', errors );
 
-    const showModal = () => {
-        setIsModalVisible( true );
-    };
-
-    const handleOk = () => {
-        setIsModalVisible( false );
-    };
-
-    const handleCancel = () => {
-        setIsModalVisible( false );
-    };
-
-
     useEffect( () => {
 
         setErrorsArray( errors );
@@ -109,6 +93,8 @@ export const TurnsPage = React.memo(() => {
                             setFieldData={setFieldData}
                             dateData={dateData}
                             setDateData={setDateData}
+                            dateRef={cellRef}
+                            field={verifySelectedField}
                         />
                         <FieldBar />
                     </div>
@@ -126,6 +112,8 @@ export const TurnsPage = React.memo(() => {
                         setVerifySelectedDate={setVerifySelectedDate}
                         setDateData={setDateData}
                         confirmField={verifySelectedField}
+                        // dateRef={cellRef}
+                        // dateData={dateData}
                     />
                 </div>
                 <GreenButton
