@@ -1,11 +1,22 @@
-import React from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 
+import { useHistory } from 'react-router-dom';
 import { hours } from '../../data/CalendarHours';
 import { months } from '../../data/CalendarMonths';
+import { db, auth } from '../../firebase';
 import { GreenButton } from '../Buttons/GreenButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
+import { getDate } from '../../helpers/getDate';
+import { UserContext } from '../UserContext';
 
-export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, dateData, fieldData } ) => {
+export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData } ) => {
+
+
+    const [userData, setUserData] = useState( [] );
+    const userId = useContext( UserContext );
+    const today = getDate();
+    const history = useHistory();
+
 
 
     const hiddeModal = () => {
@@ -13,13 +24,41 @@ export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, d
 
     };
 
-    // const 
-    // console.log( dateData );
-
-
     const handleSaveTurn = async () => {
 
         try {
+
+            await db.collection( 'Turns' ).add( {
+                name: userData.name,
+                lastName: userData.lastName,
+                email: userData.email,
+                land: userData.land,
+                field: {
+                    location: fieldData.location,
+                    fieldType: fieldData.fieldType
+                },
+                date: dateData.map( item => ( {
+                    year: item.year,
+                    month: item.month,
+                    date: item.date,
+                    day: item.day,
+                    timeStart: item.timeStart,
+                    timeEnd: item.timeEnd
+                } ) )
+                ,
+                savedIn: {
+                    year: today.year,
+                    month: today.month,
+                    day: today.day,
+                    hour: today.hour,
+                    minute: today.minutes
+                }
+
+            } );
+
+            setIsModalVisible( false );
+            history.push( '/profile' );
+
 
         } catch ( error ) {
             const message = error.message;
@@ -28,6 +67,22 @@ export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, d
         }
     };
 
+
+    useEffect( () => {
+        auth.onAuthStateChanged( ( user ) => {
+            const userId = user?.uid;
+            db.collection( "Users" ).doc( userId )
+                .onSnapshot( ( doc ) => {
+                    setUserData( doc.data() );
+                } );
+        } );
+        // return () => {
+        //     const unsubscribe = db.collection( "Users" )
+        //         .onSnapshot( () => {
+        //         } );
+        //     unsubscribe();
+        // };
+    }, [userId] );
 
     // console.log('dateDate from modal', dateData)
 
@@ -65,13 +120,37 @@ export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, d
                                         </div>
                                         <div className='modal-turn__data--row' key={key + 1}>
                                             <p>Hora</p>
-                                            <p>{`${hours.find(item => item.start === day.timeStart).timeRange}`}</p>
+                                            <p>{`${hours.find( item => item.start === day.timeStart ).timeRange}`}</p>
 
                                         </div>
                                     </>
                                 ) )
                                 )
-                                : ''
+                                : (
+                                    <>
+                                        <div className='modal-turn__data--row date-row'>
+                                            <p>Fecha</p>
+                                            <p>{`${dateData[0]?.day} ${dateData[0]?.date} de ${months[dateData[0]?.month]}`}</p>
+                                        </div>
+                                        {
+                                            dateData.map( ( day, key ) => (
+                                                <div className='modal-turn__data--row' key={key + 1}>
+                                                    <p>{`Hora ${key + 1}`}</p>
+                                                    <p>{`${hours.find( item => item.start === day.timeStart ).timeRange}`}</p>
+
+                                                </div>
+                                            ) )
+                                        }
+                                    </>
+                                    // dateData.map( ( day, key ) => (
+                                    //     <>
+                                    //         <div className='modal-turn__data--row date-row' key={key}>
+                                    //             <p>{`Fecha ${dateData.length === 2 ? key + 1 : ''}`}</p>
+                                    //             <p>{`${day.day} ${day.date} de ${months[day.month]}`}</p>
+                                    //         </div>
+                                    //     </>
+                                    // ) )
+                                )
 
                         }
 
@@ -90,4 +169,4 @@ export const ModalSaveTurn = React.memo(( { isModalVisible, setIsModalVisible, d
             </div>
         </div>
     );
-});
+} );

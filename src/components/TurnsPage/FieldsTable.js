@@ -6,9 +6,13 @@ import { FieldCardsData } from '../../data/FieldCardsData';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
+// import { Calendar } from './Calendar';
+import { CalendarBar } from './CalendarBar';
+import { CalendarTable } from './CalendarTable';
+
 import '../../styles/FieldsTable.css';
 
-export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData, setDateData, dateRef, field} ) => {
+export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData, setDateData, dateRef, field } ) => {
 
 
     const [menuItem, setMenuItem] = useState( [] );
@@ -19,16 +23,16 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const sectorMedio = () => {
         confirmField( false );
-        console.log(field)
-        setDateData([])
+        // console.log( field );
+        setDateData( [] );
         setMenuItem( medioMenuItem );
         setFieldCardTable( medioFieldsTable );
     };
 
     const sectorInferior = () => {
         confirmField( false );
-        console.log(field)
-        setDateData([])
+        console.log( field );
+        setDateData( [] );
         setMenuItem( inferiorMenuItem );
         setFieldCardTable( inferiorFieldsTable );
     };
@@ -36,6 +40,7 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const changeColor = ( array, arrayElement ) => {
         setFieldData( arrayElement );
+        // console.log(arrayElement)
         const newArray = [];
         confirmField( true );
 
@@ -177,12 +182,46 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
 
     return (
-        <div className="menu-and-table">
-            <div className="menu-container">
-                {menuItem}
+        <>
+            <div className="menu-and-table">
+                <div className="menu-container">
+                    {menuItem}
+                </div>
+                {fieldCardTable}
             </div>
-            {fieldCardTable}
-        </div>
+
+            {/* <div className='calendar'>
+                <CalendarBar />
+                <table className='table__calendar'>
+                    <thead>
+                        <tr>
+                            {
+                                days.map( ( item, key ) => (
+                                    <th
+                                        key={key}
+                                        scope='col'
+                                        className={`${today.day === weekArray[key] ? 'purple-light' : 'hola'}`}
+                                    >
+                                        {item.symbol}<br></br>{weekArray[key]}
+                                    </th>
+
+                                ) )
+                            }
+                        </tr>
+                    </thead>
+                    <CalendarTable
+                        setWeekArray={setWeekArray}
+                        confirmDate={setVerifySelectedDate}
+                        setDateData={setDateData}
+                        confirmField={confirmField}
+                    // dateRef={dateRef}
+                    // dateData={dateData}
+
+                    />
+                </table>
+            </div> */}
+
+        </>
     );
 } );
 

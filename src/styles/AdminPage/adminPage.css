@@ -22,9 +22,9 @@
 
 .Turns td:nth-of-type(1)::before { content: "Nombre: "; }
 .Turns td:nth-of-type(2)::before { content: "Apellido: ";}
-.Turns td:nth-of-type(3)::before { content: "Fecha: "; }
+/* .Turns td:nth-of-type(3)::before { content: "Fecha: "; }
 .Turns td:nth-of-type(4)::before { content: "Hora: "; }
-.Turns td:nth-of-type(5)::before { content: "Cancha: "; }
+.Turns td:nth-of-type(5)::before { content: "Cancha: "; } */
 
 
 .menu__icon span {
@@ -516,6 +516,18 @@
         margin-bottom: 1rem;
     }
 
+    .loading-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: fit-content;
+        margin-top: 1.5rem;
+    }
+
+    .loading-info p {
+        margin-left: .5rem;
+    }
+
 }
 
 @media(min-width: 1024px) {
@@ -566,7 +578,6 @@
     .Turns table{
         display: table;
     }
-
     
 }
 

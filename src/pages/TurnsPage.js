@@ -16,7 +16,6 @@ import { ModalSaveTurn } from '../components/TurnsPage/ModalSaveTurn';
 export const TurnsPage = React.memo(() => {
 
     const [verifySelectedField, setVerifySelectedField] = useState( false );
-    const [verifySelectedDate, setVerifySelectedDate] = useState( false );
 
     const [fieldType, setFieldType] = useState( "" );
     const [fieldLocation, setFieldLocation] = useState( "" );
@@ -109,9 +108,9 @@ export const TurnsPage = React.memo(() => {
                         <p>Selecciona la fecha y hora</p>
                     </div>
                     <Calendar
-                        setVerifySelectedDate={setVerifySelectedDate}
                         setDateData={setDateData}
                         confirmField={verifySelectedField}
+                        fieldData={fieldData}
                         // dateRef={cellRef}
                         // dateData={dateData}
                     />

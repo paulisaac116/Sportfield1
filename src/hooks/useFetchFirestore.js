@@ -1,16 +1,12 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 
-export const useFetchFirestore = (iconActive) => {
+export const useFetchFirestore =  (iconActive) => {
 
     const [firebaseData, setFirebaseData] = useState({
         data: [],
         loading: true
     });
-
-    // console.log('icon active from useFetch: ', iconActive)
-    // console.log('a new requets')
-    // console.log('firebase data: ', firebaseData)
 
     useEffect( () => {
 
@@ -27,6 +23,7 @@ export const useFetchFirestore = (iconActive) => {
 
         })
 
+        // return unsuscribe()
         return () => {
             setFirebaseData({
                 data: [],

@@ -10,7 +10,7 @@
     grid-template-columns: 1fr;
     column-gap: 3rem;
     background-color: theme('colors.purple-mid');
-    padding: 2rem 1.5rem;
+    padding: 2rem 1.25rem;
 
     @apply sm:grid-cols-2 sm:grid-rows-2
   }

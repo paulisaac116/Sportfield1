@@ -10,7 +10,7 @@ import { getDate } from '../../helpers/getDate';
 import { CalendarBar } from './CalendarBar';
 import {GreenButton} from '../Buttons/GreenButton';
 
-export const Calendar = React.memo( ({setVerifySelectedDate, setDateData, confirmField, fieldActive}) => {
+export const Calendar = React.memo( ({setDateData, confirmField, fieldData}) => {
 
     const [hoursCounter, setHoursCounter] = useState( 0 );
     const [turnsCounter, setTurnsCounter] = useState( 0 );
@@ -46,9 +46,9 @@ export const Calendar = React.memo( ({setVerifySelectedDate, setDateData, confir
                 </thead>
                 <CalendarTable
                     setWeekArray={setWeekArray}
-                    confirmDate={setVerifySelectedDate}
                     setDateData={setDateData}
                     confirmField={confirmField}
+                    fieldData={fieldData}
                     // dateRef={dateRef}
                     // dateData={dateData}
 

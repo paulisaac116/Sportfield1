@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 
 import { days } from '../../data/CalendarDays';
 import { hours } from '../../data/CalendarHours';
+import { db } from '../../firebase';
 import { getDate } from '../../helpers/getDate';
 import { getWeek } from '../../helpers/getWeek';
+import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 
-export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateData, confirmField } ) => {
+export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmField, fieldData} ) => {
 
     // const [table, setTable] = useState( [] );
 
@@ -13,6 +15,8 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
     const today = getDate();
     const weekDays = weekArray.map( item => item.day );
     let datesClicked = [];
+
+    const { data: turnsData, loading } = useFetchFirestore('Turns');
 
 
     const inputRef = useRef();
@@ -26,8 +30,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
             day: day.day,
             timeStart: hour.start,
             timeEnd: hour.end,
-            // active: false,
-            active: weekArray[column].day < today.day || ( hour.end <= today.hour && weekArray[column].day === today.day ) ? false : true,
+            available: weekArray[column].day < today.day || ( hour.end <= today.hour && weekArray[column].day === today.day ) ? false : true,
             busy: false
         } ) )
     ] ) );
@@ -49,7 +52,6 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                 document.getElementById( day.id ).className = 'green';
                 datesClicked.push( day );
                 setDateData( datesClicked );
-                confirmDate( true );
             }
             console.log( 'datesClicked', datesClicked );
             // console.log('dateData', dateData)
@@ -66,6 +68,39 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
         setWeekArray( weekDays );
 
     }, [] );
+
+    useEffect(() => {
+
+        const busyTurns = turnsData.filter(item => (item.field?.location === fieldData?.location && item.field?.fieldType === fieldData?.fieldType ));
+
+        // && item.field.fieldType === fieldData?.fieldType
+        const busyDates = busyTurns.map(item => item.date)
+        // console.log('turns data', turnsData)
+        console.log('busy dates', busyDates)
+
+
+        console.log('fieldData', fieldData)
+
+        // const tableDays = hours.map( ( hour, row ) => ( [
+        //     days.map( ( day, column ) => ( {
+        //         id: `${row}${column}`,
+        //         year: weekArray[column].year,
+        //         month: weekArray[column].month,
+        //         date: weekArray[column].day,
+        //         day: day.day,
+        //         timeStart: hour.start,
+        //         timeEnd: hour.end,
+        //         available: weekArray[column].day < today.day || ( hour.end <= today.hour && weekArray[column].day === today.day ) ? false : true,
+        //         busy: turnsData.map((item) => )
+        //     } ) )
+        // ] ) ); 
+        
+        
+
+
+
+
+    }, [fieldData])
 
     // useEffect( () => {
 
@@ -97,7 +132,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, confirmDate, setDateD
                                         key={day.id}
                                         id={day.id}
                                         // className={`${day.date < today.day || (day.timeEnd <= today.hour && day.date === today.day) ? 'gray' : ''}`}
-                                        className={!day.active ? 'gray' : ''}
+                                        className={!day.available ? 'gray' : ''}
                                         onClick={() => selectedCell( day )}
                                     // ref={dateRef}
                                     >

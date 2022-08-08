@@ -8,7 +8,7 @@ import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import sportfield_logo from '../images/sportfield_log.png';
-import { Test } from '../Test';
+// import { Test } from '../Test';
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
 
 const LoginPage = React.memo( () => {
@@ -152,7 +152,7 @@ const LoginPage = React.memo( () => {
 
         </div>
       </div>
-      <Test />
+      {/* <Test /> */}
     </div>
   );
 } );

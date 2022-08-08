@@ -1,13 +1,19 @@
+// import { useState } from "react";
+
 export const getDate = () => {
 
     const date = new Date();
-    const [year, month, day, hour] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours()];
+    const [year, month, day, hour, minutes] = [date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()];
     const today = {
         year: year,
         month: month,
         day: day,
-        hour: hour
+        hour: hour,
+        minutes: minutes
     }
+
+    // const [hello, setHello] = useState({''});
+
 
     return today;
 
