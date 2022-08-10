@@ -13,17 +13,23 @@ module.exports = {
         '20rem': '20rem'
       },
       spacing: {
-        '5px' :'5px'
+        '5px': '5px'
       },
       width: {
-        '20%' : '20%'
+        '20%': '20%'
       },
       borderRadius: {
         '20px': '20px'
       },
-      borderWidth : {
-        '10px' : '10px',
-        '15px' : '15px'
+      borderWidth: {
+        '10px': '10px',
+        '15px': '15px'
+      },
+      height: {
+        '3.55': '3.55rem'
+      },
+      minHeight: {
+        '5rem': '5rem'
       }
     },
     colors: {
@@ -38,6 +44,7 @@ module.exports = {
       'white': '#ffffff'
 
     }
+
   },
   plugins: [],
 };

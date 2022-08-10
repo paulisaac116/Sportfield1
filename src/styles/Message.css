@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+    .message {
+        display: flex;
+        padding: 1rem;
+        background-color: theme('colors.black');
+        border: 2px theme('colors.green') solid;
+        position: fixed;
+        justify-content: center;
+        align-items: center;
+        top: 5rem;
+        left: 50%;
+        margin-right: -50%;
+        transform : translate(-50%,-50%);
+        z-index: 2000;
+
+        @apply sm:top-12
+    }
+
+    .message__icon {
+        color: theme('colors.green');
+        margin-right: 1rem;
+    }
+
+    .message__text {
+        color: theme('colors.white');
+        font-size: 1rem;
+        font-weight: 600;
+
+        @apply md:text-xl
+    }
+}

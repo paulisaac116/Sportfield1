@@ -1,15 +1,10 @@
 import React from 'react';
 import { db } from '../../firebase';
-import firebase from 'firebase';
-
 
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { RedButton } from '../Buttons/RedButton';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
-export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, collection, setIsMessageDeleteUserVisible} ) => {
+export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, collection, setIsMessageDeleteUserVisible } ) => {
 
 
     // service cloud.fires 
@@ -35,9 +30,9 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, coll
             console.log( 'errorMesagge: ', errorMesage );
         }
         setIsModalVisible( false );
-        setIsMessageDeleteUserVisible('flex slide-in-top');
-        setTimeout(() => setIsMessageDeleteUserVisible('flex slide-out-top'), 3000);
-        setTimeout(() => setIsMessageDeleteUserVisible('hidden'), 4000);
+        setIsMessageDeleteUserVisible( 'flex slide-in-top' );
+        setTimeout( () => setIsMessageDeleteUserVisible( 'flex slide-out-top' ), 3000 );
+        setTimeout( () => setIsMessageDeleteUserVisible( 'hidden' ), 4000 );
 
     };
 
@@ -47,14 +42,12 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, coll
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Eliminar usuario</h1>
                 <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente usuario:</p>
-                {
-                    <div className='modal__deleteUser--userData'>
-                        <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{user.name}</p></div>
-                        <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{user.lastName}</p></div>
-                        <div className='userData--row'><p className='userData__title'>Email: </p><p>{user.email}</p></div>
-                        <div className='userData--row'><p className='userData__title'>Lote: </p><p>{user.land}</p></div>
-                    </div>
-                }
+                <div className='modal__deleteUser--userData'>
+                    <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{user.name}</p></div>
+                    <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{user.lastName}</p></div>
+                    <div className='userData--row'><p className='userData__title'>Email: </p><p>{user.email}</p></div>
+                    <div className='userData--row'><p className='userData__title'>Lote: </p><p>{user.land}</p></div>
+                </div>
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
                 <div className='modal__buttons'>
                     <RedButton

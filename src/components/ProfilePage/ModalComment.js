@@ -50,7 +50,7 @@ export const ModalComment = React.memo(( { userName, userLastName, userLand, isM
                 await db.collection( "Comments" ).add( {
                     title: title,
                     description: description,
-                    date: commentDate,
+                    date: `${commentDate.day} de ${months[commentDate.month]} de ${commentDate.year} - ${commentDate.hour}:${commentDate.minutes <= 9 ? `0${commentDate.minutes}` : commentDate.minutes}`,
                     userName: userName,
                     userLastName: userLastName,
                     userLand: userLand,

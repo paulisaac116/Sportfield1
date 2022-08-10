@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { months } from '../../data/CalendarMonths';
 import { db } from '../../firebase';
 import { getDate } from '../../helpers/getDate';
 import { GreenButton } from '../Buttons/GreenButton';
@@ -8,9 +9,6 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
 
     const initialValue = { title: '', description: '' };
 
-    const date = new Date();
-    const [month, day, year] = [date.getMonth(), date.getDate(), date.getFullYear()];
-    const [hour, minutes] = [date.getHours(), date.getMinutes()];
     const [formErrors, setFormErrors] = useState( {} );
 
     const [modalData, setModalData] = useState( initialValue );
@@ -37,7 +35,7 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
         const today = getDate();
         setFormErrors( validate( modalData ) );
 
-        if ( Object.keys( formErrors ).length == 0 ) {
+        if ( Object.keys( formErrors ).length === 0 ) {
 
             console.log('the is enters');
 
@@ -45,7 +43,7 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
                 await db.collection( 'Notifications' ).add( {
                     title: title,
                     description: description,
-                    date: today
+                    date: `${today.day} de ${months[today.month]} de ${today.year} - ${today.hour}:${today.minutes <= 9 ? `0${today.minutes}` : today.minutes}`
                 } );
                 console.log( 'Notificacion registrada con éxito' );
             }

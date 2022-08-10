@@ -1,6 +1,6 @@
 import React from 'react';
 
-import '../styles/AdminPage/adminPage.css';
+import '../styles/Message.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 

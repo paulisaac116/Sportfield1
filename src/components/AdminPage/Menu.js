@@ -75,7 +75,7 @@ export const Menu = React.memo( () => {
         <div className='admin-page__content'>
             <div className='menu__icon menu__style sm:hidden'>
                 {Object.keys( menuData ).map( ( item, key ) => (
-                    <span key={key} className={`${menuData[item].active ? 'bg-black' : 'bg-purple-dark'} `}>
+                    <span key={key} className={`${menuData[item].active ? 'bg-black' : 'bg-purple-dark'} `} >
                         <FontAwesomeIcon icon={menuData[item].icon} className='fa-2x' onClick={() => changeIconState( menuData[item].id )} />
                     </span>
                 ) )}

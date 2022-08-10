@@ -20,34 +20,17 @@
 .Users td:nth-of-type(3)::before { content: "Email: "; }
 .Users td:nth-of-type(4)::before { content: "Lote: "; }
 
-.Turns td:nth-of-type(1)::before { content: "Nombre: "; }
-.Turns td:nth-of-type(2)::before { content: "Apellido: ";}
-/* .Turns td:nth-of-type(3)::before { content: "Fecha: "; }
-.Turns td:nth-of-type(4)::before { content: "Hora: "; }
-.Turns td:nth-of-type(5)::before { content: "Cancha: "; } */
-
-
-.menu__icon span {
-    padding: .6rem 1rem;
-
-}
-
-.menu__icon span:hover {
-    background-color: theme('colors.gray')
-}
-
-.menu__icon span:first-of-type {
-    margin: 0;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
-}
-
-.menu__icon span:last-of-type {
-    margin: 0;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
-
+.Turns .table-turns__td--name::before { content: "Nombre: ";}
+.Turns .table-turns__td--lastName::before { content: "Apellido: ";}
+.Turns .table-turns__td--date::before{ content: "Fecha: ";}
+.Turns .table-turns__td--date1::before{ content: "Fecha 1: ";}
+.Turns .table-turns__td--date2::before{ content: "Fecha 2: ";}
+.Turns .table-turns__td--hour::before{ content: "Hora: ";}
+.Turns .table-turns__td--hour1::before{ content: "Hora 1: ";}
+.Turns .table-turns__td--hour2::before{ content: "Hora 2: ";}
+.Turns .table-turns__td--field::before{ content: "Cancha: ";}
+.Turns .table-turns__td--saved::before{ content: "Agendado: ";}
+/* .Turns td:nth-of-type(5)::before { content: "Cancha: "; } */
 
 
 @layer components {
@@ -71,9 +54,6 @@
         @apply sm:flex-row sm:w-11/12 sm:items-start sm:mt-16 sm:gap-x-12
     }
 
-    .menu__style {
-        /* background-color: theme('colors.purple-dark'); */
-    }
 
     .menu__style svg,
     .menu__style p {
@@ -95,6 +75,27 @@
         @apply mb-5 sm:hidden;
     }
 
+    .menu__icon span {
+        padding: .6rem .75rem;
+    }
+    
+    .menu__icon span:hover {
+        background-color: theme('colors.gray')
+    }
+    
+    .menu__icon span:first-of-type {
+        margin: 0;
+        border-top-left-radius: 15px;
+        border-bottom-left-radius: 15px;
+    }
+    
+    .menu__icon span:last-of-type {
+        margin: 0;
+        border-top-right-radius: 15px;
+        border-bottom-right-radius: 15px;
+    }
+
+ 
     .menu__list {
         background-color: theme('colors.purple-dark');
         border-radius: 20px;
@@ -188,9 +189,9 @@
         flex-direction: column;
     }
 
-    .table__content tbody tr:last-of-type {
+    /* .table__content tbody tr:last-of-type {
         margin: 0;
-    }
+    } */
 
     .menu__table .table__content {
         background-color: theme('colors.purple-dark');
@@ -214,11 +215,17 @@
         width: 100%;
         overflow-x: auto;
 
-        @apply md:rounded-bl-20px md:rounded-tr-none lg:table-row lg:text-lg xl:text-xl
+        @apply md:rounded-bl-20px md:rounded-tr-none lg:table-row lg:text-lg lg:rounded-tl-20px lg:rounded-bl-20px xl:text-xl 
+    }
+
+
+    .Users .table-users__data td:first-of-type {
+        @apply lg:pl-2 lg:rounded-tl-20px lg:rounded-bl-20px;
     }
 
     .Users .table-users__buttons,
-    .Courses .table-users__buttons {
+    .Courses .table-users__buttons 
+    {
         display: flex;
         flex-direction: row;
         justify-content: center;
@@ -228,14 +235,25 @@
 
         @apply md:flex-col md:top-0 md:rounded-bl-none md:rounded-tr-20px md:pr-5 lg:absolute lg:right-0 lg:w-20% lg:py-2 lg:top-5px
     }
+    .Users .table-users__buttons {
+        @apply lg:h-3.55
+    }
+    /*
+        Styling specific details on Courses table
+    */
 
     .Courses .courses-table__buttons {
         top: -16px;
+
+        @apply md:top-0 md:inline-block md:h-full lg:h-fit lg:relative;
     }
+
 
     .Courses tbody {
         display: flex;
         flex-direction: column;
+
+        @apply md:flex-row
     }
 
     .Users .table-users__buttons .rounded-button,
@@ -248,17 +266,31 @@
 
         @apply md:w-full lg:text-sm
     }
+    .Courses .table-users__buttons .rounded-button {
+        @apply md:py-1
+    }
 
-    .Users .table-users__buttons .rounded-button:last-of-type,
+    .Courses .table-courses__data {
+        @apply md:py-3 md:rounded-bl-20px md:rounded-tr-none lg:w-full lg:min-h-5rem;
+    }
+
+    .Courses tbody {
+        @apply lg:justify-between lg:items-start
+    }
+    
+
+    /* .Users .table-users__buttons .rounded-button:last-of-type, */
     .Courses .table-users__buttons .rounded-button:last-of-type {
         margin-left: 1rem;
 
         @apply md:m-0 md:mt-2
     }
 
+
+
     .Users tbody {
         position: relative;
-        @apply md:flex md:border-b-15px md:border-purple-dark md:border-solid lg:h-28
+        @apply md:flex md:border-b-15px md:border-purple-dark md:border-solid lg:h-16
     }
 
     .Users thead {
@@ -267,7 +299,7 @@
         font-size: 1.1rem;
         /* border-bottom: 10px transparent solid; */
 
-        @apply xl:text-xl lg:border-y-10px lg:border-purple-dark lg:border-solid
+        @apply xl:text-xl lg:border-y-10px lg:border-purple-dark lg:border-solid lg:h-4
     }
 
     .Users thead .thead__name {
@@ -327,7 +359,7 @@
 
     .modal {
         display: hidden;
-        position: absolute;
+        position: fixed;
         background-color: rgba(0, 0, 0, .7);
         width: 100%;
         height: 100%;
@@ -433,44 +465,11 @@
     }
 
     /*
-        Messages styles
-    */
-
-    .message {
-        display: flex;
-        width: 15rem;
-        /* height: 5rem; */
-        padding: 1rem;
-        background-color: theme('colors.black');
-        border: 2px theme('colors.green') solid;
-        /* background-color: theme('colors.purple-dark'); */
-        /* background-color: black; */
-        position: absolute;
-        justify-content: center;
-        align-items: center;
-        top: 3rem;
-        z-index: 2000;
-        /* border-radius: 16px; */
-    }
-
-    .message__icon {
-        color: theme('colors.green');
-        margin-right: 1rem;
-        /* width: 5rem; */
-    }
-
-    .message__text {
-        color: theme('colors.white');
-        font-size: 1rem;
-        font-weight: 600;
-        /* text-align: center; */
-    }
-
-    /*
         COMMENTS TABLE
     */
 
-    .table__comments--user {
+    .table__comments--user,
+    .table__notifications--title {
         font-weight: 600;
     }
     .table__comments--title {
@@ -528,6 +527,26 @@
         margin-left: .5rem;
     }
 
+    .animate__animated.animate__fadeOut,
+    .animate__animated.animate__fadeIn{
+        --animate-duration: 500ms;
+    }
+
+    /*
+        TURNS TABLE
+    */
+     
+    .Turns .table-turns__buttons {
+        padding: 0 0 1rem;
+        margin-bottom: 1rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
 }
 
 @media(min-width: 1024px) {

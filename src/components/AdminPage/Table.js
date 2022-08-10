@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 
 import '../../styles/AdminPage/adminPage.css';
+import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { GreenButton } from '../Buttons/GreenButton';
@@ -13,6 +14,7 @@ import { ModalEditUser } from './ModalEditUser';
 
 import { months } from '../../data/CalendarMonths';
 import { hours } from '../../data/CalendarHours';
+import { ModalDeleteTurn } from './ModalDeleteTurn';
 
 export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible } ) => {
 
@@ -22,19 +24,29 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
 
+    const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState(false)
+    const [turnData, setTurnData] = useState( {} );
+
     const [isModalEditCourseVisible, setIsModalEditCourseVisible] = useState( false );
     const [isModalDeleteCourseVisible, setIsModalDeleteCourseVisible] = useState( false );
     const [courseData, setCourseData] = useState( {} );
 
-    const handleEditUser = ( item ) => {
-        setUserData( item );
-        setIsModalEditVisible( true );
 
-    };
+    // const handleEditUser = ( item ) => {
+    //     setUserData( item );
+    //     setIsModalEditVisible( true );
+
+    // };
 
     const handleDeleteUser = ( item ) => {
         setUserData( item );
         setIsModalDeleteVisible( true );
+
+    };
+
+    const handleDeleteTurn = ( item ) => {
+        setTurnData( item );
+        setIsModalDeleteTurnVisible(true);
 
     };
 
@@ -53,14 +65,14 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
 
         <div aria-labelledby='content' tabIndex='0' role='region' className='table__content overflow-y-auto'>
             {loading &&
-                <div className='loading-info'>
+                <div className='loading-info animate__animated animate__fadeOut'>
                     <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-1x text-white' />
-                    <p className="animate__animated animate__flash text-white">Cargando información</p>
+                    <p className=" text-white">Cargando información</p>
                 </div>
             }
             {!loading && iconActive === 'Users'
                 ? <>
-                    <table className='Users'>
+                    <table className='Users animate__animated animate__fadeIn'>
                         <thead>
                             <tr>
                                 <th scope='col' className='thead__name'>Nombre</th>
@@ -79,10 +91,6 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                     <td>{`${item.land}`}</td>
                                 </tr>
                                 <tr className='table-users__buttons' key={key}>
-                                    {/* <GreenButton
-                button_name='Editar'
-                button_func={() => handleEditUser( item )}
-            /> */}
                                     <PurpleButton
                                         button_name='Eliminar'
                                         button_func={() => handleDeleteUser( item )}
@@ -106,13 +114,12 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                         setIsModalVisible={setIsModalDeleteVisible}
                         setIsMessageDeleteUserVisible={setIsMessageDeleteUserVisible}
                         user={userData}
-                        collection={iconActive}
                     />
                 </>
 
                 : !loading && iconActive === 'Turns'
                     ? <>
-                        <table className='Turns'>
+                        <table className='Turns animate__animated animate__fadeIn'>
                             <thead>
                                 <tr>
                                     <th scope='col'>Nombre</th>
@@ -124,46 +131,74 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                 </tr>
 
                             </thead>
-                            <tbody>
-                                {
-                                    tableData?.map( ( item ) => (
+                            {
+                                tableData?.map( ( item, key) => (
+                                    <tbody key={key}>
 
-                                        <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4 '>
-                                            <td>{`${item.name}`}</td>
-                                            <td>{`${item.lastName}`}</td>
+                                        <tr key={`${item.id}`} className='bg-purple-mid text-white'>
+                                            <td className='table-turns__td--name'>{`${item.name}`}</td>
+                                            <td className='table-turns__td--lastName'>{`${item.lastName}`}</td>
                                             {Array.isArray( item.date )
-                                                ? item.date.map( date => (
-                                                    <>
-                                                        <td>{`${date.day} ${date.date} de ${months[date.month]}`}</td>
-                                                        <td>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</td>
+                                                ? item.date.length === 1 || item.date[0]?.date !== item.date[1]?.date
+                                                    ? item.date.map( ( date, key ) => (
+                                                        <>
+                                                            <td
+                                                                className={`table-turns__td--date${item.date.length === 2 ? key + 1 : ''}`}
+                                                                key={key}
+                                                            >
+                                                                {`${date.day} ${date.date} de ${months[date.month]}`}</td>
+                                                            <td className='table-turns__td--hour' key={key + 100}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</td>
+
+                                                        </>
+                                                    ) )
+                                                    : <>
+                                                        <td className='table-turns__td--date'>{`${item.date[0].day} ${item.date[0].date} de ${months[item.date[0].month]}`}</td>
+                                                        {
+                                                            item.date.map( ( date, key ) => (
+                                                                <td key={key + 1000} className={`table-turns__td--hour${key + 1}`}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</td>
+                                                            ) )
+                                                        }
                                                     </>
-                                                ) )
-                                                : <p>ups</p>
 
-
-                                                // item.date?.map(date => console.log('date', date))
-                                                // console.log(typeof item.date)
+                                                : <td><p>ups</p></td>
                                             }
-                                            <td>{`${item.field?.fieldType} - ${item.field?.location}`}</td>
-                                            <td>{`${item.savedIn?.day} de ${months[item.savedIn?.month]} de ${item.savedIn?.year} || ${item.savedIn?.hour}:${item.savedIn?.minute}`}</td>
+                                            <td className='table-turns__td--field'>{`${item.field?.fieldType} - ${item.field?.location}`}</td>
+                                            <td className='table-turns__td--saved'>{`${item.savedIn?.day} de ${months[item.savedIn?.month]} de ${item.savedIn?.year} - ${item.savedIn?.hour}:${item.savedIn?.minute}`}</td>
 
                                         </tr>
+                                        <tr 
+                                            key={key}
+                                            className='table-turns__buttons'
+                                        >
+                                            <td>
+                                                <PurpleButton
+                                                    button_name='Eliminar'
+                                                    button_func={ () => handleDeleteTurn(item)}
+                                                />
+                                            </td>
+                                        </tr>
+                                    </tbody>
 
-                                    ) )
-                                }
-                            </tbody>
+                                ) )
+                            }
                         </table>
+                        <ModalDeleteTurn 
+                            turn={turnData}
+                            isModalVisible={isModalDeleteTurnVisible}
+                            setIsModalVisible={setIsModalDeleteTurnVisible}
+
+                        />
                     </>
 
 
                     : !loading && iconActive === 'Courses'
                         ? <>
-                            <table className='Courses'>
+                            <table className='Courses animate__animated animate__fadeIn'>
                                 <thead></thead>
                                 {
                                     tableData?.map( ( item ) => (
-                                        <tbody className=''>
-                                            <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4'>
+                                        <tbody>
+                                            <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4 table-courses__data'>
                                                 <td className='td__title'>{`${item.title}`}</td>
                                                 <td className='td__description'>{`${item.description}`}</td>
                                                 {/* <td>{item.schedule}</td> */}
@@ -199,7 +234,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                         </>
 
                         : !loading && iconActive === 'Comments'
-                            ? <table className='Comments'>
+                            ? <table className='Comments animate__animated animate__fadeIn'>
                                 <thead></thead>
                                 <tbody>
                                     {
@@ -225,7 +260,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
 
                             : !loading && iconActive === 'Notifications'
                                 ? <>
-                                    <table className='Notifications'>
+                                    <table className='Notifications animate__animated animate__fadeIn'>
                                         <thead></thead>
                                         <tbody>
                                             {
