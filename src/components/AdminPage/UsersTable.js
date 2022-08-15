@@ -1,14 +1,28 @@
-import React from 'react';
-import { useFetchFirestore } from '../../hooks/useFetchFirestore';
+import React, { useEffect } from 'react';
 import { PurpleButton } from '../Buttons/PurpleButton';
 
-export const UsersTable = () => {
+import '../../styles/AdminPage/adminPage.css';
+import { RedButton } from '../Buttons/RedButton';
 
-    const { data: tableData, loading } = useFetchFirestore( 'Users' );
 
-    const handleDeleteUser = () => {
-        console.log('hi')
+export const UsersTable = React.memo(({tableData, setUserData, setIsModalVisible}) => {
+
+    // const { data: tableData, loading } = useFetchFirestore( 'Users' );
+    
+
+    const handleDeleteUser = (item) => {
+        setUserData(item)
+        setIsModalVisible(true)
     }
+
+    useEffect(() => {
+    //   setLoading(loading)
+    //   setUserData(tableData)
+      
+    }, [])
+    
+    // console.log('loading', loading)
+
 
     return (
         <table className='Users animate__animated animate__fadeIn'>
@@ -30,13 +44,13 @@ export const UsersTable = () => {
                         <td>{`${item.land}`}</td>
                     </tr>
                     <tr className='table-users__buttons' key={key}>
-                        <PurpleButton
-                            button_name='Eliminar'
-                            button_func={() => handleDeleteUser( item )}
+                        <RedButton 
+                            button_name={'Eliminar'}
+                            button_func={() => handleDeleteUser(item)}
                         />
                     </tr>
                 </tbody>
             ) )}
         </table>
     );
-};
+});

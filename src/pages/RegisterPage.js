@@ -3,13 +3,11 @@ import { GreenButton } from '../components/Buttons/GreenButton';
 
 import sportfield_logo from '../images/sportfield_log.png';
 import { auth, db } from '../firebase';
-// import { message } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
-// import { RegisterForm } from '../components/RegisterForm';
 
 const RegisterPage = () => {
 
@@ -23,7 +21,8 @@ const RegisterPage = () => {
     setFormErrors({...formErrors, [name]: ''});
   };
 
-  let history = useHistory();
+  // let history = useHistory();
+  const navigate = useNavigate();
 
   // const handleAddUser = () => {
   //   if(formValues)
@@ -50,13 +49,15 @@ const RegisterPage = () => {
 
         await db.collection( "Users" ).doc( userId ).set(
           {
+            id: userId,
             name,
             lastName,
             email,
-            land
+            land,
+            courses: []
           }
         );
-        history.push( '/profile' );
+        navigate( '/profile' );
         // message.success( 'Usuario registrado exitosamente' );
 
       }

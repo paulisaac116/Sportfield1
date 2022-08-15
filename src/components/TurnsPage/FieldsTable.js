@@ -10,7 +10,9 @@ import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { CalendarBar } from './CalendarBar';
 import { CalendarTable } from './CalendarTable';
 
-import '../../styles/FieldsTable.css';
+// import '../../styles/FieldsTable.css';
+
+import '../../styles/TurnsPage.css'
 
 export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData, setDateData, dateRef, field } ) => {
 

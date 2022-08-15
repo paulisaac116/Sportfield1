@@ -1,30 +1,43 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from "react-router-dom";
+import firebase from 'firebase';
+import { db, auth } from '../firebase';
 
 import { CoursesUser } from '../components/ProfilePage/CoursesUser';
 import { FieldUser } from '../components/ProfilePage/FieldUser';
 import { HeaderComp } from '../components/HeaderComp';
 import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
-
-import '../styles/ProfilePage/ProfilePage.css';
-import { UserContext } from '../components/UserContext';
-import { db, auth } from '../firebase';
 import { ModalComment } from '../components/ProfilePage/ModalComment';
 import { GreenButton } from '../components/Buttons/GreenButton';
 import { MessageAddComment } from '../components/ProfilePage/MessageAddComment';
 
-const ProfilePage = React.memo( () => {
+import '../styles/ProfilePage/ProfilePage.css';
+import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
+import { useFetchFirestore } from '../hooks/useFetchFirestore';
+import { ModalUnsubscribeCourse } from '../components/ProfilePage/ModalUnsubscribeCourse';
+import { UserContext } from '../components/UserContext';
 
-    let history = useHistory();
+export const ProfilePage = React.memo( () => {
 
+    const navigate = useNavigate();
+
+    const [userSession, setUserSession] = useState( false );
+
+    const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
+    // const {data: user, loading: loading1} = useFetchFirestore('Users')
 
     const [userData, setUserData] = useState( [] );
-    const [isModalVisible, setIsModalVisible] = useState( false );
+
+    const [isModalAddCommentVisible, setIsModalAddCommentVisible] = useState( false );
+    const [isModalRegisterCourseVisible, setIsModalRegisterCourseVisible] = useState( false );
+
+
     const [isMessageAddCommentVisible, setIsMessageAddCommentVisible] = useState( 'hidden' );
+
     const userId = useContext( UserContext );
 
     const showModal = () => {
-        setIsModalVisible( true );
+        setIsModalAddCommentVisible( true );
     };
 
     const handleOk = async ( commentTitle, commentContent ) => {
@@ -53,51 +66,109 @@ const ProfilePage = React.memo( () => {
         // setIsModalVisible( false );
     };
 
+    // useEffect( () => {
+    //     auth.onAuthStateChanged( ( user ) => {
+    //         const userId = user?.uid;
+    //         db.collection( "Users" ).doc( userId )
+    //             .onSnapshot( ( doc ) => {
+    //                 setUserData( doc.data() );
+    //             } );
+    //     } );
+    //     // return () => {
+    //     //     const unsubscribe = db.collection( "Users" )
+    //     //         .onSnapshot( () => {
+    //     //         } );
+    //     //     unsubscribe();
+    //     // };
+    // }, [userId] );
+
+    // useEffect( () => {
+
+    //     firebase.auth().onAuthStateChanged( ( user ) => {
+
+    //         if ( user && userData?.email !== 'paulgualab@gmail.com' ) {
+    //             setUserSession( true );
+    //         } else navigate( '/login' );
+
+    //     } );
+
+    //     return () => {
+    //         const unsubscribe = db.collection( "Users" )
+    //             .onSnapshot( () => { } );
+    //         unsubscribe();
+    //     };
+    // }, [userData] );
+
     useEffect( () => {
-        auth.onAuthStateChanged( ( user ) => {
-            const userId = user?.uid;
-            db.collection( "Users" ).doc( userId )
-                .onSnapshot( ( doc ) => {
-                    setUserData( doc.data() );
-                } );
+
+        firebase.auth().onAuthStateChanged( ( user ) => {
+
+            if ( user && user.email !== 'paulgualab@gmail.com' ) {
+                db.collection( "Users" ).doc( user.uid )
+                    .onSnapshot( ( doc ) => {
+                        setUserData( {
+                            ...doc.data()
+                        } );
+                    } );
+                setUserSession( true );
+            } else navigate( '/login' );
         } );
-        // return () => {
-        //     const unsubscribe = db.collection( "Users" )
-        //         .onSnapshot( () => {
-        //         } );
-        //     unsubscribe();
-        // };
-    }, [userId] );
+
+        return () => {
+            const unsubscribe = db.collection( "Users" )
+                .onSnapshot( () => { } );
+            unsubscribe();
+        };
+    }, [] );
+
 
     return (
-        <div className='ProfilePage'>
-            <HeaderComp />
-            <div className="profile__content">
-                <ProfileFrame
-                    userData={userData}
-                />
-                <GreenButton
-                    button_class='green-button'
-                    button_name="Enviar comentario"
-                    button_func={showModal}
-                />
-                <ModalComment
-                    userName={userData.name}
-                    userLastName={userData.lastName}
-                    userLand={userData.land}
-                    isModalVisible={isModalVisible}
-                    setIsModalVisible={setIsModalVisible}
-                    setIsMessageVisible={setIsMessageAddCommentVisible}
-                />
-                <MessageAddComment
-                    isMessageAddCommentVisible={isMessageAddCommentVisible}
+        userSession
+            ? <div className='ProfilePage'>
+                <HeaderComp />
+                <div className="profile-content">
+                    <div className='profile-content__top'>
 
-                />
-                <FieldUser />
-                <CoursesUser />
+                        <ProfileFrame
+                            userData={userData}
+                        />
+                        <GreenButton
+                            button_class='green-button'
+                            button_name="Enviar comentario"
+                            button_func={showModal}
+                        />
+                        <ModalComment
+                            // userName={userData.name}
+                            // userLastName={userData.lastName}
+                            // userLand={userData.land}
+                            userData={userData}
+                            isModalVisible={isModalAddCommentVisible}
+                            setIsModalVisible={setIsModalAddCommentVisible}
+                            setIsMessageVisible={setIsMessageAddCommentVisible}
+                        />
+                        <MessageAddComment
+                            isMessageAddCommentVisible={isMessageAddCommentVisible}
+
+                        />
+                    </div>
+                    <div className='profile-content__bottom'>
+                        <FieldUser
+                            userData={userData}
+                        />
+                        <CoursesUser
+                            userData={userData}
+                            setIsModalRegisterVisible={setIsModalRegisterCourseVisible}
+                        />
+                        <ModalRegisterCourse
+                            isModalVisible={isModalRegisterCourseVisible}
+                            setIsModalVisible={setIsModalRegisterCourseVisible}
+                            courses={coursesData}
+                            userData={userData}
+                        />
+                    </div>
+
+                </div>
             </div>
-        </div>
+            : <div className='bg-purple-mid h-screen'></div>
     );
 } );
-
-export default ProfilePage;

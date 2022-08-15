@@ -27,7 +27,7 @@
     }
 
     .red-button {
-        background-color: theme('colors.red');
+        background-color: theme('colors.red-dark');
     }
     .red-button:hover {
         background-color: #A53A46;

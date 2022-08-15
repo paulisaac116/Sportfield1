@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { hours } from '../../data/CalendarHours';
 import { months } from '../../data/CalendarMonths';
 import { db, auth } from '../../firebase';
@@ -9,13 +9,14 @@ import { PurpleButton } from '../Buttons/PurpleButton';
 import { getDate } from '../../helpers/getDate';
 import { UserContext } from '../UserContext';
 
-export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData } ) => {
+export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData, userId } ) => {
 
 
     const [userData, setUserData] = useState( [] );
-    const userId = useContext( UserContext );
+    // const userId = useContext( UserContext );
     const today = getDate();
-    const history = useHistory();
+    // const history = useHistory();
+    const navigate = useNavigate();
 
 
 
@@ -57,7 +58,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             } );
 
             setIsModalVisible( false );
-            history.push( '/profile' );
+            navigate( '/profile' );
 
 
         } catch ( error ) {
@@ -69,19 +70,17 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
 
 
     useEffect( () => {
-        auth.onAuthStateChanged( ( user ) => {
-            const userId = user?.uid;
-            db.collection( "Users" ).doc( userId )
-                .onSnapshot( ( doc ) => {
-                    setUserData( doc.data() );
-                } );
-        } );
-        // return () => {
-        //     const unsubscribe = db.collection( "Users" )
-        //         .onSnapshot( () => {
-        //         } );
-        //     unsubscribe();
-        // };
+
+        db.collection( "Users" ).doc( userId )
+            .onSnapshot( ( doc ) => {
+                setUserData( doc.data() );
+            } );
+            
+        return () => {
+            const unsubscribe = db.collection( "Users" )
+                .onSnapshot( () => { } );
+            unsubscribe();
+        };
     }, [userId] );
 
     // console.log('dateDate from modal', dateData)

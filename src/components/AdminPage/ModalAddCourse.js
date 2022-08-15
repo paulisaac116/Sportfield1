@@ -45,7 +45,7 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setIsMessag
                 await db.collection( 'Courses' ).add( {
                     title,
                     description,
-                    registered: {}
+                    registered: []
                 } );
 
                 setFormErrors({})

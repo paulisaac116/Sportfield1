@@ -15,6 +15,8 @@ import { ModalEditUser } from './ModalEditUser';
 import { months } from '../../data/CalendarMonths';
 import { hours } from '../../data/CalendarHours';
 import { ModalDeleteTurn } from './ModalDeleteTurn';
+import { UsersTable } from './UsersTable';
+import { ModalAddTurn } from './ModalAddTurn';
 
 export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible } ) => {
 
@@ -24,12 +26,15 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
 
-    const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState(false)
+    const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState(false);
+    const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState( false );
     const [turnData, setTurnData] = useState( {} );
 
     const [isModalEditCourseVisible, setIsModalEditCourseVisible] = useState( false );
     const [isModalDeleteCourseVisible, setIsModalDeleteCourseVisible] = useState( false );
     const [courseData, setCourseData] = useState( {} );
+
+    // const [loading, setLoading] = useState( true );
 
 
     // const handleEditUser = ( item ) => {
@@ -46,7 +51,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
 
     const handleDeleteTurn = ( item ) => {
         setTurnData( item );
-        setIsModalDeleteTurnVisible(true);
+        setIsModalDeleteTurnVisible( true );
 
     };
 
@@ -72,43 +77,19 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
             }
             {!loading && iconActive === 'Users'
                 ? <>
-                    <table className='Users animate__animated animate__fadeIn'>
-                        <thead>
-                            <tr>
-                                <th scope='col' className='thead__name'>Nombre</th>
-                                <th scope='col' className='thead__lastName'>Apellido</th>
-                                <th scope='col' className='thead__email'>Email</th>
-                                <th scope='col' className='thead__land'>Lote</th>
-                                <th scope='col' className='thead__buttons'>buttons</th>
-                            </tr>
-                        </thead>
-                        {tableData?.map( ( item, key ) => (
-                            <tbody key={key}>
-                                <tr key={`${item.id}`} className='table-users__data'>
-                                    <td>{`${item.name}`}</td>
-                                    <td>{`${item.lastName}`}</td>
-                                    <td>{`${item.email}`}</td>
-                                    <td>{`${item.land}`}</td>
-                                </tr>
-                                <tr className='table-users__buttons' key={key}>
-                                    <PurpleButton
-                                        button_name='Eliminar'
-                                        button_func={() => handleDeleteUser( item )}
-                                    />
-                                </tr>
-                            </tbody>
-                        ) )}
-                    </table>
-                    <ModalEditUser
+                    <UsersTable
+                        tableData={tableData}
+                        setUserData={setUserData}
+                        setIsModalVisible={setIsModalDeleteVisible}
+                    />
+                    {/* <ModalEditUser
                         isModalVisible={isModalEditVisible}
                         setIsModalVisible={setIsModalEditVisible}
                         data={userData}
                         collection={iconActive}
                         setIsMessageEditUserVisible={setIsMessageEditUserVisible}
                         setIsMessageSendEmail={setIsMessageSendEmail}
-
-
-                    />
+                    /> */}
                     <ModalDeleteUser
                         isModalVisible={isModalDeleteVisible}
                         setIsModalVisible={setIsModalDeleteVisible}
@@ -132,7 +113,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
 
                             </thead>
                             {
-                                tableData?.map( ( item, key) => (
+                                tableData?.map( ( item, key ) => (
                                     <tbody key={key}>
 
                                         <tr key={`${item.id}`} className='bg-purple-mid text-white'>
@@ -166,14 +147,14 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                             <td className='table-turns__td--saved'>{`${item.savedIn?.day} de ${months[item.savedIn?.month]} de ${item.savedIn?.year} - ${item.savedIn?.hour}:${item.savedIn?.minute}`}</td>
 
                                         </tr>
-                                        <tr 
+                                        <tr
                                             key={key}
                                             className='table-turns__buttons'
                                         >
                                             <td>
                                                 <PurpleButton
                                                     button_name='Eliminar'
-                                                    button_func={ () => handleDeleteTurn(item)}
+                                                    button_func={() => handleDeleteTurn( item )}
                                                 />
                                             </td>
                                         </tr>
@@ -182,7 +163,11 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                 ) )
                             }
                         </table>
-                        <ModalDeleteTurn 
+                        <ModalAddTurn 
+                            isModalVisible={isModalAddTurnVisible}
+                            setIsModalVisible={setIsModalAddTurnVisible}
+                        />
+                        <ModalDeleteTurn
                             turn={turnData}
                             isModalVisible={isModalDeleteTurnVisible}
                             setIsModalVisible={setIsModalDeleteTurnVisible}

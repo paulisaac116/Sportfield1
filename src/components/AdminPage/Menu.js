@@ -17,6 +17,7 @@ import { MessageEditUser } from './MessageEditUser';
 import { MessageSendEmail } from './MessageSendEmail';
 import { ModalDeleteCourse } from './ModalDeleteCourse';
 import { Message } from '../Message';
+import { ModalAddTurn } from './ModalAddTurn';
 
 export const Menu = React.memo( () => {
 
@@ -26,6 +27,7 @@ export const Menu = React.memo( () => {
 
 
     const [isModalAddUserVisible, setIsModalAddUserVisible] = useState( false );
+    const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
     const [isModalAddCourseVisible, setIsModalAddCourseVisible] = useState( false );
     const [isModalAddNotificationVisible, setIsModalAddNotificationVisible] = useState( false );
 
@@ -36,21 +38,25 @@ export const Menu = React.memo( () => {
 
     const [isMessageAddCourseVisible, setIsMessageAddCourseVisible] = useState( 'hidden' );
     const [isMessageDeleteCourseVisible, setIsMessageDeleteCourseVisible] = useState( 'hidden' );
-    const [isMessageEditCourseVisible, setIsMessageEditCourseVisible] = useState('hidden');
+    const [isMessageEditCourseVisible, setIsMessageEditCourseVisible] = useState( 'hidden' );
 
 
 
     const showModalAddUser = () => {
         setIsModalAddUserVisible( true );
     };
-    const showModalAddNotification = () => {
-        setIsModalAddNotificationVisible( true );
+    const showModalAddTurn = () => {
+        setIsModalAddTurnVisible( true );
+
     };
     const showModalAddCourse = () => {
-        console.log('button click')
+        console.log( 'button click' );
         setIsModalAddCourseVisible( true );
     };
 
+    const showModalAddNotification = () => {
+        setIsModalAddNotificationVisible( true );
+    };
 
     const changeIconState = ( iconId ) => {
 
@@ -133,10 +139,18 @@ export const Menu = React.memo( () => {
 
                         </>
                         : iconActive === 'Turns'
-                            ? <GreenButton
-                                button_name='Agregar turno'
-                            // button_func={showModal}
-                            />
+                            ? <>
+                                <GreenButton
+                                    button_name='Agregar turno'
+                                    button_func={showModalAddTurn}
+                                />
+                                <ModalAddTurn 
+                                    isModalVisible={isModalAddTurnVisible}
+                                    setIsModalVisible={setIsModalAddTurnVisible}
+                                />
+
+                            </>
+
                             : iconActive === 'Courses'
                                 ? <>
                                     <GreenButton

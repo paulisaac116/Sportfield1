@@ -2,11 +2,11 @@ import React from 'react';
 import { months } from '../../data/CalendarMonths';
 import { getDate } from '../../helpers/getDate';
 
-import '../../styles/TurnsPage.css'
+import '../../styles/TurnsPage.css';
 
 export const CalendarBar = () => {
 
-    const today = getDate()
+    const today = getDate();
 
     return (
         <div className='calendar-bar'>
@@ -25,7 +25,11 @@ export const CalendarBar = () => {
                 </div>
 
             </div>
-            <p className='calendar-bar__month-year'>{months[today.month]}<br/>{today.year}</p>
-        </div>
+            <div className='calendar-bar__month-year'>
+                <p>{months[today.month]}</p>
+                <p>{today.year}</p>
+
+            </div>
+        </div >
     );
 };

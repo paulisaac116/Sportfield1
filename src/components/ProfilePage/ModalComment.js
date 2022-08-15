@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { getDate } from '../../helpers/getDate';
 
-export const ModalComment = React.memo(( { userName, userLastName, userLand, isModalVisible, setIsModalVisible, setIsMessageVisible} ) => {
+export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalVisible, setIsMessageVisible} ) => {
 
     const initialValues = { title: '', description: '' };
     const [commentData, setCommentData] = useState( initialValues );
@@ -21,10 +21,9 @@ export const ModalComment = React.memo(( { userName, userLastName, userLand, isM
     
     useEffect(() => {
         
-        console.log('useEffect started')
         const date = getDate();
-
         setCommentDate(date)
+
     }, [isModalVisible])
 
 
@@ -51,9 +50,9 @@ export const ModalComment = React.memo(( { userName, userLastName, userLand, isM
                     title: title,
                     description: description,
                     date: `${commentDate.day} de ${months[commentDate.month]} de ${commentDate.year} - ${commentDate.hour}:${commentDate.minutes <= 9 ? `0${commentDate.minutes}` : commentDate.minutes}`,
-                    userName: userName,
-                    userLastName: userLastName,
-                    userLand: userLand,
+                    userName: userData.name,
+                    userLastName: userData.lastName,
+                    userLand: userData.land,
                 } );
                 // console.log( 'Comentario registrado con éxito' );
 

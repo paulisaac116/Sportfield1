@@ -156,21 +156,6 @@
   background-color: var(--red);
 }
 
-/*********/
-
-/* .futbol-1,
-.futbol-2,
-.voleibol-1,
-.voleibol-2,
-.voleibol-3,
-.voleibol-4,
-.basquet-1,
-.basquet-2,
-.basquet-3,
-.tennis-1 {
-  transition: background-color 300ms ease-in;
-} */
-
 /*
   FIELDS BAR
 */
@@ -187,6 +172,7 @@
   border-radius: 10px;
   background-color: theme('colors.black');
 }
+
 .bar__circle {
   width: .75rem;
   height: .75rem;

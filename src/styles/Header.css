@@ -29,5 +29,9 @@
      
   }
 
+  .header .back-logo {
+    color: theme('colors.white')
+  }
+
 }
 

@@ -82,7 +82,7 @@ export const FieldCardsData = {
             v2: {
                 id: "v2",
                 code: "V2",
-                fieldType: "Voleibol 2",
+                fieldType: "Voleibol",
                 location: "Sector Medio",
                 className: "voleibol-2",
                 locationClassname: "middle",
