@@ -406,6 +406,29 @@
     @apply lg:w-17rem lg:h-17rem lg:left-3
   
   }
+
+  /*
+    MODAL SAVE TURN
+  */
+
+  .TurnsPage .modal__content--title {
+    @apply lg:text-2xl
+    /* font-size: 1.5rem; */
+  }
+  
+  .TurnsPage .modal-turn__content .modal-turn__data{
+    margin-top: 1.5rem;
+    @apply  sm:text-base lg:text-lg;
+    /* margin-top: 1.25rem; */
+    /* font-size: 1.15rem; */
+  }
+
+  .TurnsPage .modal__content .rounded-button{
+    width: fit-content;
+    padding: .5rem .85rem;
+
+    @apply lg:px-5
+  }
   
 
 }
@@ -679,6 +702,12 @@
 .modal-turn__data {
   font-size: .85rem;
 }
+
+/*
+  MODAL SAVE TURN
+*/
+
+
 
 .modal-turn__data--row {
   margin-bottom: 1rem;

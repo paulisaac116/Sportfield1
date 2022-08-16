@@ -36,7 +36,8 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
                 land: userData.land,
                 field: {
                     location: fieldData.location,
-                    fieldType: fieldData.fieldType
+                    fieldType: fieldData.fieldType,
+                    fieldId: fieldData.id
                 },
                 date: dateData.map( item => ( {
                     year: item.year,
@@ -75,7 +76,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             .onSnapshot( ( doc ) => {
                 setUserData( doc.data() );
             } );
-            
+
         return () => {
             const unsubscribe = db.collection( "Users" )
                 .onSnapshot( () => { } );
@@ -135,7 +136,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
                                             dateData.map( ( day, key ) => (
                                                 <div className='modal-turn__data--row' key={key + 1}>
                                                     <p>{`Hora ${key + 1}`}</p>
-                                                    <p>{`${hours.find( item => item.start === day.timeStart ).timeRange}`}</p>
+                                                    <p>{`${hours.find( item => item.start === day.timeStart )?.timeRange}`}</p>
 
                                                 </div>
                                             ) )

@@ -77,6 +77,12 @@ export const Menu = React.memo( () => {
         setMenuData( newObject );
     };
 
+    useEffect(() => {
+        setIconActive('Users')
+        setIconType('Usuarios')
+        setMenuData(menuAdminData)
+    }, [])
+
     return (
         <div className='admin-page__content'>
             <div className='menu__icon menu__style sm:hidden'>

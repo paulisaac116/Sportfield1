@@ -42,7 +42,7 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const changeColor = ( array, arrayElement ) => {
         setFieldData( arrayElement );
-        // console.log(arrayElement)
+        console.log('array element: ', arrayElement)
         const newArray = [];
         confirmField( true );
 
