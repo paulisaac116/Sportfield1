@@ -14,8 +14,6 @@ import { ModalSaveTurn } from '../components/TurnsPage/ModalSaveTurn';
 import { HeaderBack } from '../components/HeaderBack';
 
 import '../styles/TurnsPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 export const TurnsPage = React.memo( () => {
 
@@ -34,9 +32,6 @@ export const TurnsPage = React.memo( () => {
 
     const [isModalVisible, setIsModalVisible] = useState( false );
     const [isMessageFieldErrorVisible, setIsMessageFieldErrorVisible] = useState( 'hidden' );
-
-    
-
 
     const [errorsArray, setErrorsArray] = useState( [] );
 

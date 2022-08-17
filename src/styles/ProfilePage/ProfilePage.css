@@ -344,7 +344,7 @@
     /* background-color: #784dbb; */
     border-radius: 20px;
 
-    @apply lg:flex-col lg:flex-wrap lg:h-44 lg:justify-center lg:overflow-x-scroll lg:gap-x-3 lg:max-w-3xl lg:scroll-smooth
+    @apply lg:flex-col lg:flex-wrap lg:h-44 lg:justify-center lg:overflow-x-auto lg:gap-x-3 lg:max-w-3xl lg:scroll-smooth
   }
 
   .courses__table .field__table--row {

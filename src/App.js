@@ -59,7 +59,7 @@ const App = () => {
           />
           <Route
             path="/admin"
-            element={<AdminPage adminData={admin}/>}
+            element={<AdminPage />}
           />
 
           <Route

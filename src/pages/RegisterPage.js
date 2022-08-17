@@ -45,7 +45,7 @@ const RegisterPage = () => {
 
         // Signed in
         const user = userCredential.user;
-        const userId = user.up
+        const userId = user.uid
 
         await db.collection( "Users" ).doc( userId ).set(
           {

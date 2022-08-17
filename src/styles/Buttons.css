@@ -5,16 +5,18 @@
 @layer components {
 
     .rounded-button {
-        padding: .75rem 1.5rem;
+        /* padding: .75rem 1.5rem; */
+        height: fit-content;
+        padding: .4rem .85rem;
         color: theme('colors.white');
-        font-size: 1rem;
+        font-size: .85rem;
         font-weight: 600;
         border-radius: .75rem;
         box-shadow: 0 8px 0 rgba(0, 0, 0, 0.6);
         cursor: pointer;
         transition: background-color 200ms ease-in, transform 200ms ease-in;
 
-        @apply sm:text-lg
+        @apply sm:text-sm xl:text-base
     }
 
     .green-button {
@@ -27,10 +29,10 @@
     }
 
     .red-button {
-        background-color: theme('colors.red-dark');
+        background-color: theme('colors.red-mid');
     }
     .red-button:hover {
-        background-color: #A53A46;
+        background-color:theme('colors.red-dark');
     }
 
     .purple-button {

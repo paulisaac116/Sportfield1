@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { GreenButton } from '../Buttons/GreenButton';
-
-import { useFetchFirestore } from '../../hooks/useFetchFirestore';
-import { UsersTable } from './UsersTable';
 
 import '../../styles/AdminPage/adminPage.css';
 
@@ -13,12 +11,10 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
 
 
     const { data: tableData, loading } = useFetchFirestore( 'Users' );
-
+    
     const [itemSelected, setItemSelected] = useState( false );
-
     const [userSelectedId, setUserSelectedId] = useState( '' );
 
-    // let history = useHistory();
     const navigate = useNavigate();
 
     const hiddeModal = () => {

@@ -192,11 +192,11 @@
         display: flex;
         justify-content: center;
         margin-bottom: 1rem;
-        padding: .8rem .5rem;
+        padding: .5rem .5rem;
         width: 17.5rem;
         /* max-width: 20rem; */
 
-        @apply sm:col-start-1 sm:col-end-3 sm:row-start-2 sm:row-end-3 sm:w-full sm:h-64 sm:overflow-x-auto lg:h-96 lg:px-4
+        @apply sm:col-start-1 sm:col-end-3 sm:row-start-2 sm:row-end-3 sm:w-full sm:h-17rem sm:overflow-x-auto lg:h-96 lg:px-4
     }
 
     /**
@@ -545,6 +545,89 @@
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
     }
+
+
+    /*
+        USERS TABLE - NEW DESIGN
+    */
+
+    .Users {
+        width: 100%
+    }
+
+    .Users .table-users__head {
+        display: none;
+        color: theme('colors.white');
+        font-size: 1.15rem;
+        font-weight: 600;
+        column-gap: .5rem;
+
+
+        @apply lg:flex lg:mb-2 xl:text-xl
+    }
+
+    .Users .table-users__head p:nth-child(1){ flex-basis: 20%; margin-left: .5rem;}
+    .Users .table-users__head p:nth-child(2){ flex-basis: 20%}
+    .Users .table-users__head p:nth-child(3){ flex-basis: 30%}
+    .Users .table-users__head p:nth-child(4){ flex-basis: 15%}
+
+
+
+    .Users .table-users__body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .Users .table-users__body--row {
+        width: 100%;
+        padding: .5rem .75rem;
+        margin-bottom: .75rem;
+        background-color: theme('colors.purple-mid');
+        border-radius: 20px;
+
+        @apply md:flex md:justify-between md:gap-x-4
+    }
+
+    .Users .body-row__data {
+        width: 100%;
+        color: theme('colors.white');
+        overflow: auto;
+
+        @apply lg:flex lg:gap-x-4 lg:items-center xl:text-xl
+    }
+
+    .Users .body-row__data p:nth-child(1) {flex-basis: 23%;}
+    .Users .body-row__data p:nth-child(2) {flex-basis: 23%;}
+    .Users .body-row__data p:nth-child(3) {flex-basis: 40%; @apply xl:basis-35%}
+    .Users .body-row__data p:nth-child(4) {flex-basis: 5%;}
+
+    .Users .body-row__data p:nth-child(1)::before { 
+        content: 'Nombre: ';
+        font-weight: 600;
+
+        @apply lg:content-none
+    }
+    .Users .body-row__data p:nth-child(2)::before { content: 'Apellido: '; font-weight: 600; @apply lg:content-none}
+    .Users .body-row__data p:nth-child(3)::before { content: 'Email: '; font-weight: 600; @apply lg:content-none}
+    .Users .body-row__data p:nth-child(4)::before { content: 'Lote: '; font-weight: 600; @apply lg:content-none}
+
+    .Users .body-row__buttons {
+        display: flex;
+        justify-content: center;
+        margin: .25rem .5rem;
+
+        @apply md:items-center
+    }
+
+    .menu__table .main-button {
+        font-size: 1.15rem;
+        width: 100%;
+        max-width: 15rem;
+
+        @apply sm:text-base
+    }
+    
 }
 
 @media(min-width: 1024px) {

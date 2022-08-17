@@ -195,7 +195,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
                                     <td
                                         key={day.id}
                                         id={day.id}
-                                        className={`${!day.available ? 'gray' : ''}${confirmField && day.busy ? 'red' : ''}`}
+                                        className={`${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
                                         onClick={() => selectedCell( day )}
                                     >
                                         {day.id}

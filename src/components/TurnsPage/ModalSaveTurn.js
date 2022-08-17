@@ -59,7 +59,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             } );
 
             setIsModalVisible( false );
-            navigate( '/profile' );
+            navigate( -1 );
 
 
         } catch ( error ) {
@@ -83,11 +83,6 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             unsubscribe();
         };
     }, [userId] );
-
-    // console.log('dateDate from modal', dateData)
-
-    // console.log('dateData lenght from modal: ', dateData.length)
-
 
     return (
         <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>

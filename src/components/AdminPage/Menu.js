@@ -3,17 +3,14 @@ import React, { useEffect, useState } from 'react';
 import { menuAdminData } from '../../data/menuAdminData';
 import { Table } from './Table';
 import { GreenButton } from '../Buttons/GreenButton';
-import { ModalAddUser } from './ModalAddUser';
+import { ModalAddUser } from './Users/ModalAddUser';
 import { ModalNotification } from './ModalNotification';
-import { MessageAddUser } from './MessageAddUser';
-import { MessageDeleteUser } from './MessageDeleteUser';
 
 import '../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { ModalAddCourse } from './ModalAddCourse';
 import { MessageAddCourse } from './MessageAddCourse';
 import { MessageDeleteCourse } from './MessageDeleteCourse';
-import { MessageEditUser } from './MessageEditUser';
 import { MessageSendEmail } from './MessageSendEmail';
 import { ModalDeleteCourse } from './ModalDeleteCourse';
 import { Message } from '../Message';
@@ -123,26 +120,21 @@ export const Menu = React.memo( () => {
                             <GreenButton
                                 button_name='Agregar usuario'
                                 button_func={showModalAddUser}
+                                extraClass='main-button'
                             />
                             <ModalAddUser
                                 isModalAddUserVisible={isModalAddUserVisible}
                                 setIsModalAddUserVisible={setIsModalAddUserVisible}
                                 setIsMessageVisible={setIsMessageAddUserVisible}
                             />
-                            <MessageAddUser
-                                isMessageAddUserVisible={isMessageAddUserVisible}
+                            <Message 
+                                isMessageVisible={isMessageAddUserVisible}
+                                messageContent={'Usuario registrado'}
                             />
-                            <MessageDeleteUser
-                                isMessageDeleteUserVisible={isMessageDeleteUserVisible}
+                            <Message
+                                isMessageVisible={isMessageDeleteUserVisible}
+                                messageContent={'Usuario eliminado'}
                             />
-                            <MessageEditUser
-                                isMessageEditUserVisible={isMessageEditUserVisible}
-                            />
-                            <MessageSendEmail
-                                isMessageSendEmail={isMessageSendEmail}
-                            />
-
-
                         </>
                         : iconActive === 'Turns'
                             ? <>

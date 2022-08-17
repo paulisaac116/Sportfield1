@@ -18,7 +18,11 @@ module.exports = {
       width: {
         '20%': '20%',
         '17rem': '17rem',
-        '18rem': '18rem'
+        '18rem': '18rem',
+        '25rem': '25rem',
+        '26rem': '26rem',
+        '27rem': '27rem',
+
       },
       borderRadius: {
         '20px': '20px'
@@ -37,11 +41,15 @@ module.exports = {
       },
       minHeight: {
         '5rem': '5rem'
+      },
+      flexBasis: {
+        '35%': '35%'
       }
     },
     colors: {
       'red': '#bb4d59',
-      'red-dark': '#9F424C',
+      'red-mid': '#9F424C',
+      'red-dark': '#81363E',
       'yellow': '#BBAF4D',
       'green': '#46b36f',
       'purple-gaudy': '#AF4DBB',

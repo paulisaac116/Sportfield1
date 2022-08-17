@@ -46,6 +46,17 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                             description: course.description
                         } )
                     } );
+
+                    db.collection('Courses').doc(courseIdSelected).update({
+                        registered: firebase.firestore.FieldValue.arrayUnion({
+                            id: userData.id,
+                            name: userData.name,
+                            lastName: userData.lastName,
+                            email: userData.email,
+                            land: userData.land
+                        })
+                    })
+
                 } catch ( error ) {
                     const errorCode = error.code;
                     const errorMessage = error.message;

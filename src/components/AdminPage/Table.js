@@ -8,25 +8,25 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { GreenButton } from '../Buttons/GreenButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { ModalDeleteCourse } from './ModalDeleteCourse';
-import { ModalDeleteUser } from './ModalDeleteUser';
+import { ModalDeleteUser } from './Users/ModalDeleteUser';
 import { ModalEditCourse } from './ModalEditCourse';
-import { ModalEditUser } from './ModalEditUser';
+import { ModalEditUser } from './Users/ModalEditUser';
 
 import { months } from '../../data/CalendarMonths';
 import { hours } from '../../data/CalendarHours';
 import { ModalDeleteTurn } from './ModalDeleteTurn';
-import { UsersTable } from './UsersTable';
+import { UsersTable } from './Users/UsersTable';
 import { ModalAddTurn } from './ModalAddTurn';
 
 export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible } ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
 
-    const [isModalEditVisible, setIsModalEditVisible] = useState( false );
+    // const [isModalEditVisible, setIsModalEditVisible] = useState( false );
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
 
-    const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState(false);
+    const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
     const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState( false );
     const [turnData, setTurnData] = useState( {} );
 
@@ -82,14 +82,6 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                         setUserData={setUserData}
                         setIsModalVisible={setIsModalDeleteVisible}
                     />
-                    {/* <ModalEditUser
-                        isModalVisible={isModalEditVisible}
-                        setIsModalVisible={setIsModalEditVisible}
-                        data={userData}
-                        collection={iconActive}
-                        setIsMessageEditUserVisible={setIsMessageEditUserVisible}
-                        setIsMessageSendEmail={setIsMessageSendEmail}
-                    /> */}
                     <ModalDeleteUser
                         isModalVisible={isModalDeleteVisible}
                         setIsModalVisible={setIsModalDeleteVisible}
@@ -105,10 +97,10 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                 <tr>
                                     <th scope='col'>Nombre</th>
                                     <th scope='col'>Apellido</th>
-                                    {/* <th scope='col'>Fecha</th>
-                            <th scope='col'>Hora</th>
-                            <th scope='col'>Cancha</th>
-                            <th scope='col'>Agendado</th> */}
+                                    <th scope='col'>Fecha</th>
+                                    <th scope='col'>Hora</th>
+                                    <th scope='col'>Cancha</th>
+                                    <th scope='col'>Agendado</th>
                                 </tr>
 
                             </thead>
@@ -163,7 +155,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                 ) )
                             }
                         </table>
-                        <ModalAddTurn 
+                        <ModalAddTurn
                             isModalVisible={isModalAddTurnVisible}
                             setIsModalVisible={setIsModalAddTurnVisible}
                         />
@@ -186,7 +178,6 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                             <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4 table-courses__data'>
                                                 <td className='td__title'>{`${item.title}`}</td>
                                                 <td className='td__description'>{`${item.description}`}</td>
-                                                {/* <td>{item.schedule}</td> */}
                                             </tr>
                                             <tr className='table-users__buttons courses-table__buttons'>
                                                 <GreenButton
@@ -197,6 +188,28 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                                                     button_name='Eliminar'
                                                     button_func={() => handleDeleteCourse( item )}
                                                 />
+                                            </tr>
+                                            <tr className='courses-table__registered'>
+                                                <td className='courses-table__registered--header'>
+                                                    <p>Registrados</p>
+                                                    <p>{`${Array.isArray(item.registered) ? item.registered.length : ''}`}</p>
+                                                </td>
+                                                <td className='courses-table__registered--list'>
+                                                    {
+                                                        Array.isArray( item.registered )
+                                                            ? item.registered.map( ( user, key ) => (
+                                                                <div className='registered-list__row'>
+                                                                    {/* <p>Nombre</p> */}
+                                                                    <p>{user.name}</p>
+                                                                    <p>{user.lastName}</p>
+                                                                    <p>{user.email}</p>
+                                                                    <p>{user.land}</p>
+                                                                </div>
+
+                                                            ) )
+                                                            : <div></div>
+                                                    }
+                                                </td>
                                             </tr>
 
                                         </tbody>

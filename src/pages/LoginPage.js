@@ -52,11 +52,9 @@ export const LoginPage = ( { adminData } ) => {
           password
         );
 
-        console.log( 'si entro' );
-        // Signed in
+        console.log( 'admin' );
         const user = userCredential.user;
-        setUserLogged( user.email );
-        navigate( "/admin" );
+        navigate( "/admin", {state: { id: user.uid}});
 
       } catch ( error ) {
         const errorCode = error.code;
@@ -79,6 +77,8 @@ export const LoginPage = ( { adminData } ) => {
 
         // Signed in
         const user = userCredential.user;
+
+        console.log('profile')
         setUserLogged( user.email );
         navigate( "/profile" );
 
@@ -107,7 +107,7 @@ export const LoginPage = ( { adminData } ) => {
         console.log( 'admin from login', adminData );
 
         if ( user.email === 'paulgualab@gmail.com') {
-          console.log('si entro')
+          console.log('admin')
           setLoginSession( true );
           navigate( '/admin' );
 

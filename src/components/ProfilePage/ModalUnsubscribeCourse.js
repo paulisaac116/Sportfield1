@@ -19,6 +19,17 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
                 } )
             } );
 
+            db.collection( 'Courses' ).doc( course?.id ).update( {
+                registered: firebase.firestore.FieldValue.arrayRemove( {
+                    id: userData.id,
+                    name: userData.name,
+                    lastName: userData.lastName,
+                    email: userData.email,
+                    land: userData.land
+
+                } )
+            } );
+
 
         } catch ( error ) {
 
@@ -28,8 +39,8 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
             console.log( errorMessage );
         }
 
-        setIsModalVisible(false);
-        console.log('curso borrado');
+        setIsModalVisible( false );
+        console.log( 'curso borrado' );
     };
 
     const hiddeModal = () => {

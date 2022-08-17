@@ -5,20 +5,29 @@ import { HeaderComp } from '../components/HeaderComp';
 import { Menu } from '../components/AdminPage/Menu';
 
 import '../styles/AdminPage/adminPage.css';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useFetchFirestore } from '../hooks/useFetchFirestore';
 
-export const AdminPage = ({adminData}) => {
+export const AdminPage = () => {
 
     const [adminSession, setAdminSession] = useState( false );
+    const {data: adminData, loading} = useFetchFirestore('Admin')
 
     let navigation = useNavigate();
+    const location = useLocation()
 
     useEffect( () => {
+
+        // console.log(location.state.id)
+        // if (location.state.id === adminData[0]?.id) setAdminSession(true)
+        // else console.log('nel')
+
+        // console.log('useEffect init: ')
 
         firebase.auth().onAuthStateChanged( ( user ) => {
 
             if ( user ) {
-                if ( user.email === 'paulgualab@gmail.com' ) {
+                if ( user.email === 'paulgualab@gmail.com') {
                     console.log( 'si entro' );
                     setAdminSession( true );
                 }
@@ -43,7 +52,6 @@ export const AdminPage = ({adminData}) => {
                 <Menu />
             </div >
             : <div className='bg-purple-mid h-screen'></div>
-
 
     );
 };

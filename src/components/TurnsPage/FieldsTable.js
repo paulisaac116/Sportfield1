@@ -4,22 +4,15 @@ import PropTypes from 'prop-types';
 import { BlackButton } from '../Buttons/BlackButton';
 import { FieldCardsData } from '../../data/FieldCardsData';
 
+import '../../styles/TurnsPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
-// import { Calendar } from './Calendar';
-import { CalendarBar } from './CalendarBar';
-import { CalendarTable } from './CalendarTable';
-
-// import '../../styles/FieldsTable.css';
-
-import '../../styles/TurnsPage.css'
 
 export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData, setDateData, dateRef, field } ) => {
 
 
     const [menuItem, setMenuItem] = useState( [] );
     const [fieldCardTable, setFieldCardTable] = useState( [] );
-    // const [dateArray, setDateArray] = useState( [1, 2, 3, 4] );
 
     const { sectorInferior: sectorInferiorArray, sectorMedio: sectorMedioArray } = FieldCardsData;
 
@@ -72,21 +65,15 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
     };
 
     const medioMenu = () => {
-        // console.log( 'dateData (medioMenu): ', dateData );
-
         setMenuItem( medioMenuList );
     };
 
     const inferiorMenu = () => {
-        // console.log( 'dateData (inferiorMenu): ', dateData );
-
         setMenuItem( inferiorMenuList );
     };
 
 
     const medioMenuItem = () => {
-
-        // console.log( 'dateData: (medioMenuItem)', dateData );
 
         return <BlackButton
             button_name="SECTOR MEDIO"
@@ -165,23 +152,12 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
             ) )}
         </div> );
 
-    // useEffect( () => {
-
-    //     setDateArray( dateData );
-    //     console.log( 'useEffect: ', dateData );
-    //     console.log( 'array (useEffect: )', dateArray );
-    // }, [dateData, dateArray] );
-
-
     useEffect( () => {
 
         setMenuItem( medioMenuItem );
         setFieldCardTable( medioFieldsTable );
 
     }, [] );
-
-
-
 
     return (
         <>
@@ -191,44 +167,9 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
                 </div>
                 {fieldCardTable}
             </div>
-
-            {/* <div className='calendar'>
-                <CalendarBar />
-                <table className='table__calendar'>
-                    <thead>
-                        <tr>
-                            {
-                                days.map( ( item, key ) => (
-                                    <th
-                                        key={key}
-                                        scope='col'
-                                        className={`${today.day === weekArray[key] ? 'purple-light' : 'hola'}`}
-                                    >
-                                        {item.symbol}<br></br>{weekArray[key]}
-                                    </th>
-
-                                ) )
-                            }
-                        </tr>
-                    </thead>
-                    <CalendarTable
-                        setWeekArray={setWeekArray}
-                        confirmDate={setVerifySelectedDate}
-                        setDateData={setDateData}
-                        confirmField={confirmField}
-                    // dateRef={dateRef}
-                    // dateData={dateData}
-
-                    />
-                </table>
-            </div> */}
-
         </>
     );
 } );
-
-
-
 
 FieldsTable.propTypes = {
     confirmField: PropTypes.func,

@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
 
-import { GreenButton } from '../Buttons/GreenButton';
-import { PurpleButton } from '../Buttons/PurpleButton';
+import { GreenButton } from '../../Buttons/GreenButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
 // import {RedButton} from '../Buttons/RedButton';
 
-import '../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../../firebase';
 
 export const ModalEditUser = ( { isModalVisible, setIsModalVisible, data, setIsMessageEditUserVisible, setIsMessageSendEmail } ) => {
 

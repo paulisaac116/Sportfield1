@@ -1,34 +1,31 @@
 import React, { useState } from 'react';
-import { auth, db } from '../../firebase';
+import PropTypes from 'prop-types';
+import firebase from 'firebase';
+import { auth, db } from '../../../firebase';
 
-import '../../styles/AdminPage/adminPage.css';
-import { GreenButton } from '../Buttons/GreenButton';
-import { PurpleButton } from '../Buttons/PurpleButton';
-// import { RedButton } from '../Buttons/RedButton';
+import { GreenButton } from '../../Buttons/GreenButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
 
+import '../../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-// import { MessageAddUser } from './MessageAddUser';
 
-export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible, setIsMessageVisible} ) => {
-
-    // const [isModalVisible, setIsModalVisible] = useState(false);
+export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible, setIsMessageVisible } ) => {
 
     const initialValues = { name: '', lastName: '', land: '', email: "", password: "" };
     const [formValues, setFormValues] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
-    // const [isMessageVisible, setIsMessageVisible] = useState(false);
 
-    Object.keys(formErrors).map(item => console.log('first items FormErrors: ', item));
+    Object.keys( formErrors ).map( item => console.log( 'first items FormErrors: ', item ) );
 
     const hiddeModal = () => {
-        setFormErrors({})
+        setFormErrors( {} );
         setIsModalAddUserVisible( false );
     };
 
 
-    const handleSubmit = async () => {
-        // e.preventDefault();
+    const handleSubmit = async ( e ) => {
+        e.preventDefault();
 
         const { name, lastName, land, email, password } = formValues;
 
@@ -42,26 +39,30 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                     password
                 );
 
+                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
+
                 // Signed in
                 const user = userCredential.user;
                 const userId = user.uid;
 
                 await db.collection( "Users" ).doc( userId ).set(
                     {
+                        id: userId,
                         name,
                         lastName,
                         email,
                         land
                     }
                 );
-                setFormValues(initialValues)
-                setFormErrors({});
-                setIsModalAddUserVisible(false);
-                setIsMessageVisible('flex slide-in-top');
-                setTimeout(() => setIsMessageVisible('flex slide-out-top'), 3000);
-                setTimeout(() => setIsMessageVisible('hidden'), 4000);
-                // setIsMessageVisible('')
 
+                await auth.signOut().then( () => {
+                    setFormValues( initialValues );
+                    setFormErrors( {} );
+                    setIsModalAddUserVisible( false );
+                    setIsMessageVisible( 'flex slide-in-top' );
+                    setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 3000 );
+                    setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
+                } );
             }
 
             catch ( error ) {
@@ -71,8 +72,9 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                 console.log( 'errorMesagge: ', errorMesage );
             }
         } else {
-            Object.keys(formErrors).map(item => console.log(item))
-            console.log('no registro :(')}
+            Object.keys( formErrors ).map( item => console.log( item ) );
+            console.log( 'no registro :(' );
+        }
 
 
     };
@@ -80,7 +82,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
     const handleInputChange = ( e ) => {
         const { name, value } = e.target;
         setFormValues( { ...formValues, [name]: value } );
-        // setFormErrors( {...formErrors, [name]: ''});
     };
 
     const validate = ( values ) => {
@@ -218,10 +219,15 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                         button_name='Cancelar'
                         button_func={hiddeModal}
                     />
-
                 </div>
             </div>
-
         </div>
     );
+};
+
+ModalAddUser.propTypes = {
+    isModalAddUserVisible: PropTypes.bool,
+    setIsModalAddUserVisible: PropTypes.func,
+    setIsMessageVisible: PropTypes.func
+
 };
