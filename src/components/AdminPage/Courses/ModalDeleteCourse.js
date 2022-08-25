@@ -1,8 +1,8 @@
 import React from 'react';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 
-import { PurpleButton } from '../Buttons/PurpleButton';
-import { RedButton } from '../Buttons/RedButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
+import { RedButton } from '../../Buttons/RedButton';
 
 export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, collection, setIsMessageVisible } ) => {
 

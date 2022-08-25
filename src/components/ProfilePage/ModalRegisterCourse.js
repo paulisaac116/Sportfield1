@@ -6,6 +6,7 @@ import { GreenButton } from '../Buttons/GreenButton';
 
 import '../../styles/ProfilePage/ProfilePage.css';
 import { db } from '../../firebase';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, courses, userData } ) => {
 
@@ -17,6 +18,7 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
 
 
     const hiddeModal = () => {
+        bodyOverflow( 'auto' );
         setCourseIdSelected( '' );
         setIsModalVisible( false );
         scrollTop();
@@ -47,15 +49,21 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                         } )
                     } );
 
-                    db.collection('Courses').doc(courseIdSelected).update({
-                        registered: firebase.firestore.FieldValue.arrayUnion({
+                    db.collection( 'Courses' ).doc( courseIdSelected ).update( {
+                        registered: firebase.firestore.FieldValue.arrayUnion( {
                             id: userData.id,
                             name: userData.name,
                             lastName: userData.lastName,
                             email: userData.email,
                             land: userData.land
-                        })
-                    })
+                        } )
+                    } );
+
+                    bodyOverflow('auto')
+                    setIsModalVisible( false );
+                    setCourseIdSelected( '' );
+                    scrollTop();
+                    console.log( 'registered :)' );
 
                 } catch ( error ) {
                     const errorCode = error.code;
@@ -65,10 +73,7 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
 
                 }
 
-                setIsModalVisible( false );
-                setCourseIdSelected( '' );
-                scrollTop();
-                console.log( 'registered :)' );
+
 
             }
 

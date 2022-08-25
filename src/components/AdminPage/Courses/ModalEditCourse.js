@@ -1,71 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import firebase from 'firebase';
 
-import { GreenButton } from '../Buttons/GreenButton';
-import { PurpleButton } from '../Buttons/PurpleButton';
+import { GreenButton } from '../../Buttons/GreenButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
+// import {RedButton} from '../Buttons/RedButton';
 
-import '../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { auth, db } from '../../firebase';
+import { auth, db } from '../../../firebase';
 
-export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setIsMessageVisible } ) => {
+export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, setIsMessageVisible } ) => {
 
-    const initialValues = { title: '', description: '' };
-    const [formValues, setFormValues] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
+    const [formValues, setFormValues] = useState( {} );
 
-    const handleInputChange = ( { target } ) => {
-        const { name, value } = target;
-        setFormValues( { ...formValues, [name]: value } );
-    };
+    // console.log(data);
 
-
-
-    const hiddeModal = () => {
-        setFormErrors({})
-        setIsModalVisible( false );
-
-    };
-
-    useEffect(() => {
-        console.log('errors each time: ', formErrors)
-    }, [formErrors])
-
-    const handleAddCourse = async () => {
-
-        
-        setFormErrors( validate( formValues ) );
-        
-        if ( Object.keys( formErrors ).length === 0 ) {
-            
-            const { title, description } = formValues;
-
-            try {
-                console.log('start the try statement')
-                await db.collection( 'Courses' ).add( {
-                    title,
-                    description,
-                    registered: []
-                } );
-
-                setFormErrors({})
-                setFormValues( initialValues );
-                setIsModalVisible( false );
-                setIsMessageVisible( 'flex slide-in-top' );
-                setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 2000 );
-                setTimeout( () => setIsMessageVisible( 'hidden' ), 3500 );
-
-            } catch ( error ) {
-                const errorCode = error.code;
-                const errorMesage = error.message;
-                console.log( 'errorCode: ', errorCode );
-                console.log( 'errorMesagge: ', errorMesage );
-
-            }
-
-        } else console.log('hay errores')
-
-    };
+    useEffect( () => {
+        setFormValues( course );
+    }, [course] );
 
     const validate = ( values ) => {
 
@@ -76,15 +30,56 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setIsMessag
         if ( !values.description ) {
             errors.description = 'Ingresa la descripción del curso';
         }
-        console.log('errors: ', errors)
         return errors;
     };
 
+    const handleEditCourse = async () => {
+
+        const { id, title, description } = formValues;
+
+        setFormErrors( validate( formValues ) );
+
+        if ( Object.keys( formErrors ).length === 0 ) {
+
+            try {
+
+                await db.collection( 'Courses' ).doc( id ).update( {
+                    title: title,
+                    description: description,
+                } );
+
+                setFormValues( {} );
+                setFormErrors( {} );
+                setIsModalVisible( false );
+                setIsMessageVisible( 'flex slide-in-top' );
+                setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 3000 );
+                setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
+
+            } catch ( error ) {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log( errorCode );
+                console.log( errorMessage );
+            }
+        }
+
+    };
+
+
+    const hiddeModal = () => {
+        setFormErrors( {} );
+        setIsModalVisible( false );
+    };
+
+    const handleInputChange = ( e ) => {
+        const { name, value } = e.target;
+        setFormValues( { ...formValues, [name]: value } );
+    };
 
     return (
         <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
             <div className='modal__content  modal__addCourse'>
-                <h1 className='modal__content--title'>Agregar nuevo curso</h1>
+                <h1 className='modal__content--title'>Editar curso</h1>
                 <div className="register__form form">
                     <div className="register__form--row">
                         <div className='register__form--column input__error--group'>
@@ -129,7 +124,7 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setIsMessag
                 <div className='modal__buttons'>
                     <GreenButton
                         button_name='Aceptar'
-                        button_func={handleAddCourse}
+                        button_func={handleEditCourse}
                     />
                     <PurpleButton
                         button_name='Cancelar'

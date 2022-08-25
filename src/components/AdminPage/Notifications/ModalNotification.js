@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { months } from '../../data/CalendarMonths';
-import { db } from '../../firebase';
-import { getDate } from '../../helpers/getDate';
-import { GreenButton } from '../Buttons/GreenButton';
-import { PurpleButton } from '../Buttons/PurpleButton';
+import { months } from '../../../data/CalendarMonths';
+import { db } from '../../../firebase';
+import { getDate } from '../../../helpers/getDate';
+import { GreenButton } from '../../Buttons/GreenButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
 
 export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAddNotificationVisible } ) => {
 

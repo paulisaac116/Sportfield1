@@ -9,7 +9,7 @@
 import firebase from "firebase/app";
 import 'firebase/firestore';
 import 'firebase/auth';
-import * as admin from 'firebase-admin';
+// import * as admin from 'firebase-admin';
 
 
 // const firebase = require("firebase");
@@ -29,33 +29,33 @@ import * as admin from 'firebase-admin';
 
 // PAST FIRESTORE DATABASE
 
-// const firebaseConfig = {
-//   apiKey: "AIzaSyCYWq_FnVtSUTx4FXm0dcCDK-vc7y1WfTc",
-//   authDomain: "sportfield-489a8.firebaseapp.com",
-//   databaseURL: "https://sportfield-489a8-default-rtdb.firebaseio.com",
-//   projectId: "sportfield-489a8",
-//   storageBucket: "sportfield-489a8.appspot.com",
-//   messagingSenderId: "137685770818",
-//   appId: "1:137685770818:web:da1fa91eaa7b1c796a03db",
-//   measurementId: "G-1H108RMX8H"
-// };
-
 const firebaseConfig = {
-  apiKey: "AIzaSyDfg76WHkKwOQF12-1kNV5TcAqJbuTMYiA",
-  authDomain: "sportfield.firebaseapp.com",
-  projectId: "sportfield",
-  storageBucket: "sportfield.appspot.com",
-  messagingSenderId: "225682973089",
-  appId: "1:225682973089:web:13b23f73fe6cea17872be0",
-  measurementId: "G-BM6VWYKBTM"
+  apiKey: "AIzaSyCYWq_FnVtSUTx4FXm0dcCDK-vc7y1WfTc",
+  authDomain: "sportfield-489a8.firebaseapp.com",
+  databaseURL: "https://sportfield-489a8-default-rtdb.firebaseio.com",
+  projectId: "sportfield-489a8",
+  storageBucket: "sportfield-489a8.appspot.com",
+  messagingSenderId: "137685770818",
+  appId: "1:137685770818:web:da1fa91eaa7b1c796a03db",
+  measurementId: "G-1H108RMX8H"
 };
 
+// const firebaseConfig = {
+//   apiKey: "AIzaSyDfg76WHkKwOQF12-1kNV5TcAqJbuTMYiA",
+//   authDomain: "sportfield.firebaseapp.com",
+//   projectId: "sportfield",
+//   storageBucket: "sportfield.appspot.com",
+//   messagingSenderId: "225682973089",
+//   appId: "1:225682973089:web:13b23f73fe6cea17872be0",
+//   measurementId: "G-BM6VWYKBTM"
+// };
+
 // var admin = require('firebase-admin')
-// const app = firebase.initializeApp(firebaseConfig);
 
-const app = admin.initializeApp(firebaseConfig)
+// const app = admin.initializeApp(firebaseConfig)
 
 
+const app = firebase.initializeApp(firebaseConfig);
 
 export const db = app.firestore();
 export const auth = app.auth();

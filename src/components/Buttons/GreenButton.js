@@ -6,7 +6,7 @@ export const GreenButton = ( { button_name, button_func, extraClass} ) => {
 
     return (
         <button
-            className={`rounded-button green-button ${extraClass}`}
+            className={`rounded-button green-button ${extraClass? extraClass : ''}`}
             onClick={button_func}
         >
             {button_name}

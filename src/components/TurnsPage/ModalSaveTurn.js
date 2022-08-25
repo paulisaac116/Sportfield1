@@ -8,6 +8,7 @@ import { GreenButton } from '../Buttons/GreenButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { getDate } from '../../helpers/getDate';
 import { UserContext } from '../UserContext';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData, userId } ) => {
 
@@ -21,6 +22,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
 
 
     const hiddeModal = () => {
+        bodyOverflow('auto')
         setIsModalVisible( false );
 
     };
@@ -58,6 +60,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
 
             } );
 
+            bodyOverflow('auto')
             setIsModalVisible( false );
             navigate( -1 );
 

@@ -4,8 +4,9 @@ import { db } from '../../../firebase';
 
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { RedButton } from '../../Buttons/RedButton';
+import { Message } from '../../Message';
 
-export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setIsMessageDeleteUserVisible } ) => {
+export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const hiddeModal = () => {
         setIsModalVisible( false );
@@ -17,6 +18,16 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setI
             await db.collection( 'Users' ).doc( id ).delete()
                 .then( () => console.log( 'User deleted' ) )
                 .catch( () => console.log( 'Error deleting the user' ) );
+
+            setIsModalVisible( false );
+            setArrayMessage( ( prevState ) => (
+                [
+                    ...prevState,
+                    <Message
+                        messageContent={'Usuario eliminado'}
+                    />
+                ]
+            ) );
         }
         catch ( error ) {
             const errorCode = error.code;
@@ -24,28 +35,24 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setI
             console.log( 'errorCode: ', errorCode );
             console.log( 'errorMesagge: ', errorMesage );
         }
-        setIsModalVisible( false );
-        setIsMessageDeleteUserVisible( 'flex slide-in-top' );
-        setTimeout( () => setIsMessageDeleteUserVisible( 'flex slide-out-top' ), 3000 );
-        setTimeout( () => setIsMessageDeleteUserVisible( 'hidden' ), 4000 );
 
     };
 
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Eliminar usuario</h1>
                 <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente usuario:</p>
-                
+
                 <div className='modal__deleteUser--userData'>
                     <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{user.name}</p></div>
                     <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{user.lastName}</p></div>
                     <div className='userData--row'><p className='userData__title'>Email: </p><p>{user.email}</p></div>
                     <div className='userData--row'><p className='userData__title'>Lote: </p><p>{user.land}</p></div>
                 </div>
-                
+
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
-                
+
                 <div className='modal__buttons'>
                     <RedButton
                         button_name='Eliminar'
@@ -68,4 +75,4 @@ ModalDeleteUser.propTypes = {
     isModalVisible: PropTypes.bool,
     setIsModalVisible: PropTypes.func,
     setIsMessageDeleteUserVisible: PropTypes.func
-}
+};

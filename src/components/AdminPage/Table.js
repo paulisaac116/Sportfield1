@@ -5,30 +5,32 @@ import '../../styles/AdminPage/adminPage.css';
 import 'animate.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { GreenButton } from '../Buttons/GreenButton';
-import { PurpleButton } from '../Buttons/PurpleButton';
-import { ModalDeleteCourse } from './ModalDeleteCourse';
+// import { GreenButton } from '../Buttons/GreenButton';
+// import { PurpleButton } from '../Buttons/PurpleButton';
+import { ModalDeleteCourse } from './Courses/ModalDeleteCourse';
 import { ModalDeleteUser } from './Users/ModalDeleteUser';
-import { ModalEditCourse } from './ModalEditCourse';
-import { ModalEditUser } from './Users/ModalEditUser';
+import { ModalEditCourse } from './Courses/ModalEditCourse';
+// import { ModalEditUser } from './Users/ModalEditUser';
 
 import { months } from '../../data/CalendarMonths';
 import { hours } from '../../data/CalendarHours';
-import { ModalDeleteTurn } from './ModalDeleteTurn';
+import { ModalDeleteTurn } from './Turns/ModalDeleteTurn';
 import { UsersTable } from './Users/UsersTable';
-import { ModalAddTurn } from './ModalAddTurn';
+import { ModalAddTurn } from './Turns/ModalAddTurn';
+import { TurnsTable } from './Turns/TurnsTable';
+import { CoursesTable } from './Courses/CoursesTable';
 
-export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible } ) => {
+export const Table = React.memo( ( { iconActive, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible, setArrayMessageDeleteUser} ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
 
-    // const [isModalEditVisible, setIsModalEditVisible] = useState( false );
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
 
     const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
     const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState( false );
     const [turnData, setTurnData] = useState( {} );
+
 
     const [isModalEditCourseVisible, setIsModalEditCourseVisible] = useState( false );
     const [isModalDeleteCourseVisible, setIsModalDeleteCourseVisible] = useState( false );
@@ -83,78 +85,20 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
                         setIsModalVisible={setIsModalDeleteVisible}
                     />
                     <ModalDeleteUser
+                        user={userData}
                         isModalVisible={isModalDeleteVisible}
                         setIsModalVisible={setIsModalDeleteVisible}
-                        setIsMessageDeleteUserVisible={setIsMessageDeleteUserVisible}
-                        user={userData}
+                        setArrayMessage={setArrayMessageDeleteUser}
                     />
                 </>
 
                 : !loading && iconActive === 'Turns'
                     ? <>
-                        <table className='Turns animate__animated animate__fadeIn'>
-                            <thead>
-                                <tr>
-                                    <th scope='col'>Nombre</th>
-                                    <th scope='col'>Apellido</th>
-                                    <th scope='col'>Fecha</th>
-                                    <th scope='col'>Hora</th>
-                                    <th scope='col'>Cancha</th>
-                                    <th scope='col'>Agendado</th>
-                                </tr>
-
-                            </thead>
-                            {
-                                tableData?.map( ( item, key ) => (
-                                    <tbody key={key}>
-
-                                        <tr key={`${item.id}`} className='bg-purple-mid text-white'>
-                                            <td className='table-turns__td--name'>{`${item.name}`}</td>
-                                            <td className='table-turns__td--lastName'>{`${item.lastName}`}</td>
-                                            {Array.isArray( item.date )
-                                                ? item.date.length === 1 || item.date[0]?.date !== item.date[1]?.date
-                                                    ? item.date.map( ( date, key ) => (
-                                                        <>
-                                                            <td
-                                                                className={`table-turns__td--date${item.date.length === 2 ? key + 1 : ''}`}
-                                                                key={key}
-                                                            >
-                                                                {`${date.day} ${date.date} de ${months[date.month]}`}</td>
-                                                            <td className='table-turns__td--hour' key={key + 100}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</td>
-
-                                                        </>
-                                                    ) )
-                                                    : <>
-                                                        <td className='table-turns__td--date'>{`${item.date[0].day} ${item.date[0].date} de ${months[item.date[0].month]}`}</td>
-                                                        {
-                                                            item.date.map( ( date, key ) => (
-                                                                <td key={key + 1000} className={`table-turns__td--hour${key + 1}`}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</td>
-                                                            ) )
-                                                        }
-                                                    </>
-
-                                                : <td><p>ups</p></td>
-                                            }
-                                            <td className='table-turns__td--field'>{`${item.field?.fieldType} - ${item.field?.location}`}</td>
-                                            <td className='table-turns__td--saved'>{`${item.savedIn?.day} de ${months[item.savedIn?.month]} de ${item.savedIn?.year} - ${item.savedIn?.hour}:${item.savedIn?.minute}`}</td>
-
-                                        </tr>
-                                        <tr
-                                            key={key}
-                                            className='table-turns__buttons'
-                                        >
-                                            <td>
-                                                <PurpleButton
-                                                    button_name='Eliminar'
-                                                    button_func={() => handleDeleteTurn( item )}
-                                                />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-
-                                ) )
-                            }
-                        </table>
+                        <TurnsTable
+                            tursData={tableData}
+                            setTurnData={setTurnData}
+                            setIsModalVisible={setIsModalDeleteTurnVisible}
+                        />
                         <ModalAddTurn
                             isModalVisible={isModalAddTurnVisible}
                             setIsModalVisible={setIsModalAddTurnVisible}
@@ -170,52 +114,12 @@ export const Table = React.memo( ( { iconActive, setIsMessageDeleteUserVisible, 
 
                     : !loading && iconActive === 'Courses'
                         ? <>
-                            <table className='Courses animate__animated animate__fadeIn'>
-                                <thead></thead>
-                                {
-                                    tableData?.map( ( item ) => (
-                                        <tbody>
-                                            <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4 table-courses__data'>
-                                                <td className='td__title'>{`${item.title}`}</td>
-                                                <td className='td__description'>{`${item.description}`}</td>
-                                            </tr>
-                                            <tr className='table-users__buttons courses-table__buttons'>
-                                                <GreenButton
-                                                    button_name='Editar'
-                                                    button_func={() => handleEditCourse( item )}
-                                                />
-                                                <PurpleButton
-                                                    button_name='Eliminar'
-                                                    button_func={() => handleDeleteCourse( item )}
-                                                />
-                                            </tr>
-                                            <tr className='courses-table__registered'>
-                                                <td className='courses-table__registered--header'>
-                                                    <p>Registrados</p>
-                                                    <p>{`${Array.isArray(item.registered) ? item.registered.length : ''}`}</p>
-                                                </td>
-                                                <td className='courses-table__registered--list'>
-                                                    {
-                                                        Array.isArray( item.registered )
-                                                            ? item.registered.map( ( user, key ) => (
-                                                                <div className='registered-list__row'>
-                                                                    {/* <p>Nombre</p> */}
-                                                                    <p>{user.name}</p>
-                                                                    <p>{user.lastName}</p>
-                                                                    <p>{user.email}</p>
-                                                                    <p>{user.land}</p>
-                                                                </div>
-
-                                                            ) )
-                                                            : <div></div>
-                                                    }
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
-                                    ) )
-                                }
-                            </table>
+                            <CoursesTable
+                                tableData={tableData}
+                                setCourseData={setCourseData}
+                                setIsModalEditVisible={setIsModalEditCourseVisible}
+                                setIsModalDeleteVisible={setIsModalDeleteCourseVisible}
+                            />
                             <ModalDeleteCourse
                                 course={courseData}
                                 isModalVisible={isModalDeleteCourseVisible}

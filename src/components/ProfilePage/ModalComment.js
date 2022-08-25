@@ -9,6 +9,7 @@ import '../../styles/ProfilePage/ModalComment.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { getDate } from '../../helpers/getDate';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalVisible, setIsMessageVisible} ) => {
 
@@ -29,6 +30,7 @@ export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalV
 
     const hiddeModal = () => {
         setFormErrors( {} );
+        bodyOverflow('auto')
         setIsModalVisible( false );
     };
 

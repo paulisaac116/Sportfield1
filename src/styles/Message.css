@@ -4,6 +4,7 @@
 
 
 @layer components {
+
     .message {
         display: flex;
         padding: 1rem;
@@ -12,10 +13,10 @@
         position: fixed;
         justify-content: center;
         align-items: center;
-        top: 5rem;
-        left: 50%;
+        top: 3rem;
+        /* left: 50%;
         margin-right: -50%;
-        transform : translate(-50%,-50%);
+        transform: translate(-50%, -50%); */
         z-index: 2000;
 
         @apply sm:top-12
@@ -32,5 +33,34 @@
         font-weight: 600;
 
         @apply md:text-xl
+    }
+
+    .error-message {
+        width: fit-content;
+        display: flex;
+        background-color: theme('colors.red');
+        color: theme('colors.white');
+        font-weight: 600;
+        align-items: center;
+        justify-content: space-between;
+        padding: .5rem .85rem;
+        border-radius: 10px;
+        position: fixed;
+        top: 40px;
+        /* left: 50%; */
+        /* right: -50%; */
+        /* transform: translate(-50%, -50%); */
+        z-index: 8000;
+        /* margin: 0 auto; */
+        border: 2px solid theme('colors.black');
+
+    }
+
+    .error-message svg {
+        margin-right: .5rem;
+    }
+
+    .animate__animated.animate__fadeInDown {
+        --animate-duration: 700ms;
     }
 }

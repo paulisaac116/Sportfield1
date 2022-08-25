@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { RedButton } from '../Buttons/RedButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { db } from '../../firebase';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, course, userData } ) => {
 
@@ -30,6 +31,10 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
                 } )
             } );
 
+            setIsModalVisible( false );
+            bodyOverflow( 'auto' );
+            console.log( 'curso borrado' );
+
 
         } catch ( error ) {
 
@@ -39,11 +44,11 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
             console.log( errorMessage );
         }
 
-        setIsModalVisible( false );
-        console.log( 'curso borrado' );
+
     };
 
     const hiddeModal = () => {
+        bodyOverflow( 'auto' );
         setIsModalVisible( false );
 
     };

@@ -9,6 +9,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 import '../../styles/CoursesUser.css';
 import { ModalUnsubscribeCourse } from './ModalUnsubscribeCourse';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
 
@@ -27,12 +28,14 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
     );
 
     const showModalUnsubscribe = ( course ) => {
+        bodyOverflow('hidden')
         setCourseData( course );
         setIsModalUnsubscribeVisible( true );
 
     };
 
     const showModalRegister = () => {
+        bodyOverflow('hidden')
         setIsModalRegisterVisible( true );
     };
 

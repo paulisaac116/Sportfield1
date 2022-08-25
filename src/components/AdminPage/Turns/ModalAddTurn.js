@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useFetchFirestore } from '../../hooks/useFetchFirestore';
+import { useFetchFirestore } from '../../../hooks/useFetchFirestore';
 
-import { PurpleButton } from '../Buttons/PurpleButton';
-import { GreenButton } from '../Buttons/GreenButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
+import { GreenButton } from '../../Buttons/GreenButton';
 
-import '../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/adminPage.css';
 
 export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
 
-
-    const { data: tableData, loading } = useFetchFirestore( 'Users' );
-    
-    const [itemSelected, setItemSelected] = useState( false );
+    const { data: tableData, loading } = useFetchFirestore( 'Users' );    
     const [userSelectedId, setUserSelectedId] = useState( '' );
 
     const navigate = useNavigate();

@@ -40,7 +40,10 @@ module.exports = {
         '90%': '90%'
       },
       minHeight: {
-        '5rem': '5rem'
+        '5rem': '5rem',
+        '6rem': '6rem',
+        '7rem': '7rem',
+        '8rem': '8rem'
       },
       flexBasis: {
         '35%': '35%'
@@ -51,7 +54,7 @@ module.exports = {
       'red-mid': '#9F424C',
       'red-dark': '#81363E',
       'yellow': '#BBAF4D',
-      'green': '#46b36f',
+      'green': '#42A869',
       'purple-gaudy': '#AF4DBB',
       'purple-light': '#784DBB',
       'purple-mid': '#4d59bb',

@@ -1,81 +1,78 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { bodyOverflow } from '../helpers/bodyOverflow';
 
-import { HeaderComp } from '../components/HeaderComp';
-import { PurpleTitle } from '../components/PurpleTitle';
-import { InstructionCard } from '../components/InstructionCard';
 import { GreenButton } from '../components/Buttons/GreenButton';
 import { FieldsTable } from '../components/TurnsPage/FieldsTable';
 import { FieldBar } from '../components/TurnsPage/FieldBar';
-import { HourBar } from '../components/TurnsPage/HourBar';
 import { Calendar } from '../components/TurnsPage/Calendar';
-import { MessageFieldError } from '../components/TurnsPage/MessageFieldError';
 import { ModalSaveTurn } from '../components/TurnsPage/ModalSaveTurn';
 import { HeaderBack } from '../components/HeaderBack';
+import { ErrorMessage } from '../components/ErrorMessage';
 
 import '../styles/TurnsPage.css';
 
 export const TurnsPage = React.memo( () => {
 
     const location = useLocation();
-    
+
     const [verifySelectedField, setVerifySelectedField] = useState( false );
-
-    const [fieldType, setFieldType] = useState( "" );
-    const [fieldLocation, setFieldLocation] = useState( "" );
-    const [fieldCode, setFieldCode] = useState( "" );
-    const [fieldBackground, setFieldBackground] = useState( "" );
-
     const [fieldData, setFieldData] = useState( [] );
     const [dateData, setDateData] = useState( [] );
     const cellRef = useRef();
 
     const [isModalVisible, setIsModalVisible] = useState( false );
-    const [isMessageFieldErrorVisible, setIsMessageFieldErrorVisible] = useState( 'hidden' );
-
-    const [errorsArray, setErrorsArray] = useState( [] );
-
-    const messageFieldError = <MessageFieldError />;
-    let errors = [messageFieldError, messageFieldError];
-
-    // console.log(messageFieldError)
+    const [messageFieldError, setMessageFieldError] = useState( [] );
+    const [messageDateError, setMessageDateError] = useState( [] );
 
     const saveTurn = () => {
         console.log( 'date on click ', dateData );
         if ( verifySelectedField && dateData.length !== 0 ) {
             console.log( 'puede agendar su turno' );
             console.log( 'dateData lenght: ', dateData.length );
+            bodyOverflow( 'hidden' );
             setIsModalVisible( true );
 
         } else if ( !verifySelectedField ) {
+            setMessageFieldError( [
+                ...messageFieldError,
+                <ErrorMessage
+                    messageContent={'Seleccione una cancha'}
+                />
+            ] );
             console.log( 'seleccione una cancha' );
         }
         else if ( dateData.length === 0 ) {
+            setMessageDateError( [
+                ...messageDateError,
+                <ErrorMessage
+                    messageContent={'Seleccione una fecha'}
+                />
+            ] );
 
             console.log( 'seleccione una fecha' );
         }
-        // } else {
-        //     errors.push( messageFieldError );
-        //     // setErrorsArray(errors)
-        //     console.log( 'errors', errors );
-        //     console.log( 'array', errorsArray );
-        // }
-        // setTimeout( () => {
-        //     while ( errors.length ) {
-        //         errors.pop();
-        //     }
-        //     console.log( 'final errors', errors );
-        // }, 2000 );
     };
-
-    // console.log( 'errors: ', errors );
 
     useEffect( () => {
 
-        setErrorsArray( errors );
-        window.scrollTo( 0, 0 );
+        setTimeout( () => {
+            while ( messageFieldError.length !== 0 ) {
+                messageFieldError.pop();
+            }
+        }, 10000 );
 
-    }, [] );
+    }, [messageFieldError] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( messageDateError.length !== 0 ) {
+                messageDateError.pop();
+            }
+        }, 10000 );
+
+    }, [messageDateError] );
 
     return (
         <div className='TurnsPage'>
@@ -115,8 +112,6 @@ export const TurnsPage = React.memo( () => {
                         setDateData={setDateData}
                         confirmField={verifySelectedField}
                         fieldData={fieldData}
-                    // dateRef={cellRef}
-                    // dateData={dateData}
                     />
                     <GreenButton
                         button_name="Agendar turno"
@@ -131,8 +126,16 @@ export const TurnsPage = React.memo( () => {
                 setIsModalVisible={setIsModalVisible}
                 userId={location.state.id}
             />
+            {
+                messageFieldError.map( message => (
+                    message
+                ) )
+            }
+            {
+                messageDateError.map( message => (
+                    message
+                ) )
+            }
         </div>
     );
 } );
-
-// export default TurnsPage;

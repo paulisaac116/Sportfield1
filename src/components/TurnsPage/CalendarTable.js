@@ -32,16 +32,6 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
     const [tableDays, setTableDays] = useState( fullTable );
 
 
-
-
-    const inputRef = useRef();
-
-
-    // conaole
-    // const [newArray, setNewArray] = useState(tableDays)
-    // console.log( 'tableDays: ', tableDays );
-    // console.log('weekArray: ', weekArray)
-
     const selectedCell = ( day ) => {
         // console.log('day', day)
 

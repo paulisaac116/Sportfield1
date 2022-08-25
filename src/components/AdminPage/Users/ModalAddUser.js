@@ -9,8 +9,9 @@ import { PurpleButton } from '../../Buttons/PurpleButton';
 import '../../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+import { Message } from '../../Message';
 
-export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible, setIsMessageVisible } ) => {
+export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible, setArrayMessage } ) => {
 
     const initialValues = { name: '', lastName: '', land: '', email: "", password: "" };
     const [formValues, setFormValues] = useState( initialValues );
@@ -39,8 +40,7 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                     password
                 );
 
-                firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE)
-
+                firebase.auth().setPersistence( firebase.auth.Auth.Persistence.NONE );
                 // Signed in
                 const user = userCredential.user;
                 const userId = user.uid;
@@ -55,14 +55,19 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                     }
                 );
 
-                await auth.signOut().then( () => {
-                    setFormValues( initialValues );
-                    setFormErrors( {} );
-                    setIsModalAddUserVisible( false );
-                    setIsMessageVisible( 'flex slide-in-top' );
-                    setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 3000 );
-                    setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
-                } );
+                setFormValues( initialValues );
+                setFormErrors( {} );
+                setIsModalAddUserVisible( false );
+                setArrayMessage( ( previusState ) => (
+                    [
+                        ...previusState,
+                        <Message
+                            messageContent={'Usuario registrado'}
+                        />
+                    ]
+                ) );
+
+                await auth.signOut();
             }
 
             catch ( error ) {
@@ -110,7 +115,7 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
     };
 
     return (
-        <div className={`modal ${isModalAddUserVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
+        <div className={`modal animate__animated ${isModalAddUserVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Agregar nuevo usuario</h1>
                 <form className="register__form form" onSubmit={handleSubmit}>

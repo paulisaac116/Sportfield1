@@ -1,11 +1,11 @@
 import React from 'react';
-import { db } from '../../firebase';
+import { db } from '../../../firebase';
 
-import { PurpleButton } from '../Buttons/PurpleButton';
-import { RedButton } from '../Buttons/RedButton';
+import { PurpleButton } from '../../Buttons/PurpleButton';
+import { RedButton } from '../../Buttons/RedButton';
 
-import { months } from '../../data/CalendarMonths';
-import { hours } from '../../data/CalendarHours';
+import { months } from '../../../data/CalendarMonths';
+import { hours } from '../../../data/CalendarHours';
 
 export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) => {
 

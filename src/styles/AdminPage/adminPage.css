@@ -20,7 +20,7 @@
 .Users td:nth-of-type(3)::before { content: "Email: "; }
 .Users td:nth-of-type(4)::before { content: "Lote: "; }
 
-.Turns .table-turns__td--name::before { content: "Nombre: ";}
+/* .Turns .table-turns__td--name::before { content: "Nombre: ";} */
 .Turns .table-turns__td--lastName::before { content: "Apellido: ";}
 .Turns .table-turns__td--date::before{ content: "Fecha: ";}
 .Turns .table-turns__td--date1::before{ content: "Fecha 1: ";}
@@ -28,8 +28,8 @@
 .Turns .table-turns__td--hour::before{ content: "Hora: ";}
 .Turns .table-turns__td--hour1::before{ content: "Hora 1: ";}
 .Turns .table-turns__td--hour2::before{ content: "Hora 2: ";}
-.Turns .table-turns__td--field::before{ content: "Cancha: ";}
-.Turns .table-turns__td--saved::before{ content: "Agendado: ";}
+/* .Turns .table-turns__td--field::before{ content: "Cancha: ";} */
+/* .Turns .table-turns__td--saved::before{ content: "Agendado: ";} */
 /* .Turns td:nth-of-type(5)::before { content: "Cancha: "; } */
 
 
@@ -147,6 +147,7 @@
         align-items: center;
         justify-items: center;
         row-gap: .75rem;
+        position: relative;
 
         @apply sm:grid sm:grid-cols-2 basis-2/3 sm:gap-y-7 lg:basis-3/4;
     }
@@ -161,7 +162,7 @@
         @apply sm:col-start-1 sm:col-end-2 sm:row-start-1 sm:row-end-2 lg:text-2xl
     }
 
-    .menu__table .green-button {
+    .menu__table .modal .rounded-button {
         @apply sm:text-sm md:text-lg sm:col-start-2 sm:col-end-3 sm:row-start-1 sm:row-end-2
     }
 
@@ -551,11 +552,14 @@
         USERS TABLE - NEW DESIGN
     */
 
-    .Users {
+    .Users,
+    .Turns,
+    .Courses {
         width: 100%
     }
 
-    .Users .table-users__head {
+    .Users .table-users__head,
+    .Turns .table-turns__head {
         display: none;
         color: theme('colors.white');
         font-size: 1.15rem;
@@ -573,13 +577,17 @@
 
 
 
-    .Users .table-users__body {
+    .Users .table-users__body,
+    .Turns .table-turns__body,
+    .Courses .table-courses__body {
         display: flex;
         flex-direction: column;
         align-items: center;
     }
 
-    .Users .table-users__body--row {
+    .Users .table-users__body--row, 
+    .Turns .table-turns__body--row,
+    .Courses .table-courses__body--row{
         width: 100%;
         padding: .5rem .75rem;
         margin-bottom: .75rem;
@@ -589,7 +597,9 @@
         @apply md:flex md:justify-between md:gap-x-4
     }
 
-    .Users .body-row__data {
+    .Users .body-row__data, 
+    .Turns .body-row__data,
+    .Courses .body-row__data {
         width: 100%;
         color: theme('colors.white');
         overflow: auto;
@@ -602,20 +612,17 @@
     .Users .body-row__data p:nth-child(3) {flex-basis: 40%; @apply xl:basis-35%}
     .Users .body-row__data p:nth-child(4) {flex-basis: 5%;}
 
-    .Users .body-row__data p:nth-child(1)::before { 
-        content: 'Nombre: ';
-        font-weight: 600;
-
-        @apply lg:content-none
-    }
+    .Users .body-row__data p:nth-child(1)::before { content: 'Nombre: '; font-weight: 600; @apply lg:content-none}
     .Users .body-row__data p:nth-child(2)::before { content: 'Apellido: '; font-weight: 600; @apply lg:content-none}
     .Users .body-row__data p:nth-child(3)::before { content: 'Email: '; font-weight: 600; @apply lg:content-none}
     .Users .body-row__data p:nth-child(4)::before { content: 'Lote: '; font-weight: 600; @apply lg:content-none}
 
-    .Users .body-row__buttons {
+    .Users .body-row__buttons,
+    .Turns .body-row__buttons,
+    .Courses .body-row__buttons{
         display: flex;
         justify-content: center;
-        margin: .25rem .5rem;
+        margin: .5rem 0;
 
         @apply md:items-center
     }
@@ -625,9 +632,221 @@
         width: 100%;
         max-width: 15rem;
 
-        @apply sm:text-base
+        @apply sm:text-base  xl:text-lg
     }
+
+    /*
+        TURNS TABLE - NEW DESIGN
+    */
+
+    .Turns .body-row__data--user {
+        display: flex;
+    }
+
+    .Turns .table-turns__head {
+
+        @apply lg:ml-2
+    }
+
+    .Turns .table-turns__head p:nth-child(1) { flex-basis: 20%; }
+    .Turns .table-turns__head p:nth-child(2) { flex-basis: 20%; }
+    .Turns .table-turns__head p:nth-child(3) { flex-basis: 20%; }
+    .Turns .table-turns__head p:nth-child(4) { flex-basis: 20%;  }
+    .Turns .table-turns__head p:nth-child(5) { flex-basis: 20%; }
+
+    .Turns .body-row__data .body-row__data-name { flex-basis: 15%;}
+    .Turns .body-row__data-field--col { flex-basis: 20%; }
+
+    .Turns .body-row__data--date-row  {flex-basis: 25%; }
+    .Turns .date-list { flex-basis: 25%; }
+
+    .Turns .body-row__data--hour-row { flex-basis: 20%; }
+    .Turns .body-row__data-saved { flex-basis: 20%; }
+
+
+
+    .Turns .body-row__data .body-row__data-name::before { content: 'Nombre: '; font-weight: 600; @apply lg:content-none}
     
+    .Turns .body-row__data--date-list .date-list::before,
+    .Turns .body-row__data .date-list::before { content: 'Fecha: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data--date-list .date-list1::before { content: 'Fecha 1: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data--date-list .date-list2::before { content: 'Fecha 2: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data--date-list p:nth-child(even)::before { content: 'Hora: '; font-weight: 600; @apply lg:content-none}
+    
+    .Turns .body-row__data--date-row p::before { content: 'Fecha: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data--hour-row p:nth-child(1)::before { content: 'Hora 1: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data--hour-row p:nth-child(2)::before { content: 'Hora 2: '; font-weight: 600; @apply lg:content-none}
+    
+    .Turns .body-row__data .body-row__data-field--row::before { content: 'Cancha: '; font-weight: 600; @apply lg:content-none}
+    .Turns .body-row__data .body-row__data-saved::before { content: 'Agendado: '; font-weight: 600; @apply lg:content-none}
+
+
+    .Turns .body-row__data--date-list {
+
+        @apply lg:hidden
+    }
+
+    .Turns .body-row__data .body-row__data-field--row {
+        
+        @apply lg:hidden
+    }
+
+    .Turns .body-row__data-field--col {
+
+        @apply lg:flex lg:flex-col lg:text-center
+    }
+
+    .Turns .body-row__data--date-row {
+
+        @apply lg:flex lg:flex-col
+    }
+    .Turns .body-row__data--hour-row {
+
+        @apply lg:flex lg:flex-col lg:justify-between
+    }
+
+    .Turns .table-turns__body--row {
+
+        @apply md:flex-col
+    }
+
+    .Turns .body-row__data {
+        @apply lg:my-2
+    }
+
+    .Turns .body-row__data--date-row p:first-of-type {
+        
+        @apply lg:mb-4
+    }
+    .Turns .body-row__data--hour-row  p:first-of-type {
+        
+        @apply lg:mb-4
+    }
+
+    /*
+        COURSE TABLE - NEW DESIGN
+    */
+
+    .Courses {
+
+        @apply lg:mt-2
+    }
+
+    .Courses .table-courses__body--row {
+        padding: 0;
+
+        @apply md:flex-col
+    }
+
+    .Courses .body-row__data-buttons {
+        
+        @apply lg:flex
+    }
+
+    .Courses .body-row__data {
+        padding: .5rem .75rem;
+
+        @apply lg:flex-col lg:items-start lg:pl-4 xl:text-lg
+    }
+
+    .Courses .body-row__buttons {
+
+        @apply lg:flex-col lg:items-stretch lg:pr-4 lg:mt-4
+    }
+
+    .Courses .body-row__buttons .rounded-buttons {
+        
+        @apply lg:w-full
+    }
+
+    .Courses .body-row__data--title {
+        font-weight: 600;
+    }
+
+    .Courses .body-row__buttons .rounded-button:last-of-type {
+        margin-left: 1rem;
+
+        @apply lg:ml-0 lg:mt-4
+    }
+
+    .Courses .body-row__registered {
+        margin-top: 1rem;
+        
+    }
+
+    .Courses .body-row__registered--head {
+        width: 100%;
+        padding: .5rem .75rem;
+        display: flex;
+        justify-content: space-between;
+        color: theme('colors.white');
+        font-weight: 600;
+        background-color: theme('colors.purple-mid');
+        border-top: 4px solid theme('colors.purple-dark');
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        cursor: pointer;
+    }
+
+    .Courses .body-row__registered--head:hover {
+        background-color: theme('colors.black');
+    }
+
+    .Courses .registered-head__usersNumber {
+        display: flex;
+        align-items: center;
+
+        @apply lg:text-xl
+    }
+
+    .Courses .registered-head__usersNumber svg {
+        margin-left: .5rem;
+    }
+
+    .Courses .body-row__registered--body {
+        padding: .5rem;
+        flex-direction: column;
+        background-color: theme('colors.black');
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+    }
+
+    .Courses .registered-body__user {
+        display: flex;
+        align-items: center;
+        font-size: .95rem;
+        /* flex-direction: column; */
+        color: theme('colors.white');
+        border-bottom: 1.5px solid theme('colors.white');
+        margin-bottom: .4rem;
+    }
+
+    .Courses .registered-body__user svg {
+        margin-right: .75rem;
+    }
+
+    .Courses .registered-body__user:last-of-type {
+        border: none;
+    }
+
+    .Courses .body-user__data {
+
+        @apply lg:flex
+    }
+
+    .Courses .body-user__data p:last-of-type {
+        
+        @apply lg:ml-8
+    }
+
+    .Courses .radius-none {
+        border-radius: 0px;
+        border-bottom: 1.5px solid theme('colors.white');
+    }
+
+
+
+  
 }
 
 @media(min-width: 1024px) {

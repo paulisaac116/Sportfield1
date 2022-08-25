@@ -16,6 +16,7 @@ import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCour
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
 import { ModalUnsubscribeCourse } from '../components/ProfilePage/ModalUnsubscribeCourse';
 import { UserContext } from '../components/UserContext';
+import { bodyOverflow } from '../helpers/bodyOverflow';
 
 export const ProfilePage = React.memo( () => {
 
@@ -37,6 +38,7 @@ export const ProfilePage = React.memo( () => {
     const userId = useContext( UserContext );
 
     const showModal = () => {
+        bodyOverflow('hidden')
         setIsModalAddCommentVisible( true );
     };
 
