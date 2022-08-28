@@ -14,12 +14,9 @@
         justify-content: center;
         align-items: center;
         top: 3rem;
-        /* left: 50%;
-        margin-right: -50%;
-        transform: translate(-50%, -50%); */
         z-index: 2000;
 
-        @apply sm:top-12
+        @apply sm:top-12 sm:top-16 sm:left-60 md:left-17rem lg:left-26rem xl:left-40rem
     }
 
     .message__icon {
@@ -32,7 +29,7 @@
         font-size: 1rem;
         font-weight: 600;
 
-        @apply md:text-xl
+        @apply md:text-lg
     }
 
     .error-message {

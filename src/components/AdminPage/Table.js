@@ -66,7 +66,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageEditUserVisible, se
         setCourseData( item );
         setIsModalDeleteCourseVisible( true );
     };
-    console.log( 'table again' );
+    // console.log( 'table again' );
 
     return (
 

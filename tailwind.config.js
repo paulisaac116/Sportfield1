@@ -13,7 +13,12 @@ module.exports = {
         '20rem': '20rem'
       },
       spacing: {
-        '5px': '5px'
+        '5px': '5px',
+        '17rem': '17rem',
+        '26rem': '26rem',
+        '30rem': '30rem',
+        '36rem': '36rem',
+        '40rem': '40rem'
       },
       width: {
         '20%': '20%',

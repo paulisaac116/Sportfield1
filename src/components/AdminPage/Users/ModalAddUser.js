@@ -67,7 +67,7 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                     ]
                 ) );
 
-                await auth.signOut();
+                // await auth.signOut();
             }
 
             catch ( error ) {

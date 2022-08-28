@@ -18,7 +18,9 @@ export const LoginPage = ( { adminData } ) => {
   const navigate = useNavigate();
 
   const [loginSession, setLoginSession] = useState( false );
-  const [userLogged, setUserLogged] = useState( '' );
+  // const [userLogged, setuserLogged] = useState(second)
+  const [adminLogged, setAdminLogged] = useState(false )
+  const [userLogged, setUserLogged] = useState( false );
 
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState( initialValues );
@@ -54,7 +56,10 @@ export const LoginPage = ( { adminData } ) => {
 
         console.log( 'admin' );
         const user = userCredential.user;
-        navigate( "/admin", {state: { id: user.uid}});
+        // console.log('user from login: (handle)', user.uid)
+        setAdminLogged(true)
+        setLoginSession(true)
+        navigate( "/admin", {state: { adminData: user.uid}});
 
       } catch ( error ) {
         const errorCode = error.code;
@@ -79,8 +84,9 @@ export const LoginPage = ( { adminData } ) => {
         const user = userCredential.user;
 
         console.log('profile')
-        setUserLogged( user.email );
-        navigate( "/profile" );
+        setUserLogged( true );
+        setLoginSession(true)
+        navigate( "/profile", {state: {userData: user.uid}});
 
       } catch ( error ) {
         const errorCode = error.code;
@@ -101,27 +107,8 @@ export const LoginPage = ( { adminData } ) => {
 
   useEffect( () => {
 
-    firebase.auth().onAuthStateChanged( ( user ) => {
-      if ( user ) {
-        console.log( 'user from login', user );
-        console.log( 'admin from login', adminData );
-
-        if ( user.email === 'paulgualab@gmail.com') {
-          console.log('admin')
-          setLoginSession( true );
-          navigate( '/admin' );
-
-        } else {
-          setLoginSession( true );
-          navigate( '/profile' );
-        }
-      } else {
-        navigate( '/login' );
-        console.log( 'not user' );
-      }
-    } );
-
-    console.log( 'userlogged: ', userLogged );
+    if(adminLogged && loginSession) navigate('/admin')
+    else if(userLogged && loginSession ) navigate('/profile')
 
   }, [] );
 
@@ -175,8 +162,6 @@ export const LoginPage = ( { adminData } ) => {
               button_name="Aceptar"
               button_func={handleSubmit}
             />
-
-
           </form>
           {/* <a
             href='/password'

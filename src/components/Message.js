@@ -18,7 +18,7 @@ export const Message = ( { messageContent } ) => {
     }, [] );
 
     return (
-        <div className={`message animate__animated ${messageState}`}>
+        <div className={`message animate__animated`}>
             <FontAwesomeIcon icon={faCheckCircle} className='message__icon fa-2x' />
             <p className='message__text'>{messageContent}</p>
         </div>

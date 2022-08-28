@@ -24,7 +24,7 @@ export const Message = ( { isMessageVisible } ) => {
 
 
     return (
-        <div className={`message animate__animated ${messageState}`}>
+        <div className={`message animate__animated`}>
             This is a message ♥
         </div>
     );

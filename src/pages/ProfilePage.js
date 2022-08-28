@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import firebase from 'firebase';
 import { db, auth } from '../firebase';
 
@@ -20,25 +20,23 @@ import { bodyOverflow } from '../helpers/bodyOverflow';
 
 export const ProfilePage = React.memo( () => {
 
-    const navigate = useNavigate();
+    const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
 
     const [userSession, setUserSession] = useState( false );
-
-    const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
-    // const {data: user, loading: loading1} = useFetchFirestore('Users')
-
     const [userData, setUserData] = useState( [] );
 
     const [isModalAddCommentVisible, setIsModalAddCommentVisible] = useState( false );
     const [isModalRegisterCourseVisible, setIsModalRegisterCourseVisible] = useState( false );
 
-
     const [isMessageAddCommentVisible, setIsMessageAddCommentVisible] = useState( 'hidden' );
 
+
     const userId = useContext( UserContext );
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const showModal = () => {
-        bodyOverflow('hidden')
+        bodyOverflow( 'hidden' );
         setIsModalAddCommentVisible( true );
     };
 
@@ -68,59 +66,16 @@ export const ProfilePage = React.memo( () => {
         // setIsModalVisible( false );
     };
 
-    // useEffect( () => {
-    //     auth.onAuthStateChanged( ( user ) => {
-    //         const userId = user?.uid;
-    //         db.collection( "Users" ).doc( userId )
-    //             .onSnapshot( ( doc ) => {
-    //                 setUserData( doc.data() );
-    //             } );
-    //     } );
-    //     // return () => {
-    //     //     const unsubscribe = db.collection( "Users" )
-    //     //         .onSnapshot( () => {
-    //     //         } );
-    //     //     unsubscribe();
-    //     // };
-    // }, [userId] );
-
-    // useEffect( () => {
-
-    //     firebase.auth().onAuthStateChanged( ( user ) => {
-
-    //         if ( user && userData?.email !== 'paulgualab@gmail.com' ) {
-    //             setUserSession( true );
-    //         } else navigate( '/login' );
-
-    //     } );
-
-    //     return () => {
-    //         const unsubscribe = db.collection( "Users" )
-    //             .onSnapshot( () => { } );
-    //         unsubscribe();
-    //     };
-    // }, [userData] );
-
     useEffect( () => {
 
-        firebase.auth().onAuthStateChanged( ( user ) => {
+        if ( location.state?.userData !== undefined ) {
+            setUserSession( true );
+        }
 
-            if ( user && user.email !== 'paulgualab@gmail.com' ) {
-                db.collection( "Users" ).doc( user.uid )
-                    .onSnapshot( ( doc ) => {
-                        setUserData( {
-                            ...doc.data()
-                        } );
-                    } );
-                setUserSession( true );
-            } else navigate( '/login' );
-        } );
+        else {
+            navigate( '/login' );
+        }
 
-        return () => {
-            const unsubscribe = db.collection( "Users" )
-                .onSnapshot( () => { } );
-            unsubscribe();
-        };
     }, [] );
 
 

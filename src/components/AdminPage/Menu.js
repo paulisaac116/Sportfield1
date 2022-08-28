@@ -5,12 +5,12 @@ import { Table } from './Table';
 import { GreenButton } from '../Buttons/GreenButton';
 import { ModalAddUser } from './Users/ModalAddUser';
 import { ModalNotification } from './Notifications/ModalNotification';
-import { Message } from '../Message';
 import { ModalAddCourse } from './Courses/ModalAddCourse';
 import { ModalAddTurn } from './Turns/ModalAddTurn';
 
 import '../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Message } from '../Message';
 
 export const Menu = React.memo( () => {
 

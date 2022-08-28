@@ -3,14 +3,11 @@ import  {auth} from '../firebase/index'
 import {useNavigate}  from "react-router-dom";
 import { UserContext } from './UserContext';
 
-
-
+import '../styles/Header.css'
 import sportfield_logo from '../images/sportfield_log.png'
 
-import '../styles/Header.css'
 export const HeaderComp = () => {
     
-    // let history = useHistory()
     const navigate = useNavigate();
 
     const userId = useContext( UserContext );
