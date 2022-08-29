@@ -79,6 +79,40 @@ export const ProfilePage = React.memo( () => {
     }, [] );
 
 
+    // useEffect( () => {
+    //     auth.onAuthStateChanged( ( user ) => {
+    //         const userId = user?.uid;
+    //         db.collection( "Users" ).doc( userId )
+    //             .onSnapshot( ( doc ) => {
+    //                 setUserData( doc.data() );
+    //             } );
+    //     } );
+    //     // return () => {
+    //     //     const unsubscribe = db.collection( "Users" )
+    //     //         .onSnapshot( () => {
+    //     //         } );
+    //     //     unsubscribe();
+    //     // };
+    // }, [userId] );
+
+    // useEffect( () => {
+
+    //     firebase.auth().onAuthStateChanged( ( user ) => {
+
+    //         if ( user && userData?.email !== 'paulgualab@gmail.com' ) {
+    //             setUserSession( true );
+    //         } else navigate( '/login' );
+
+    //     } );
+
+    //     return () => {
+    //         const unsubscribe = db.collection( "Users" )
+    //             .onSnapshot( () => { } );
+    //         unsubscribe();
+    //     };
+    // }, [userData] );
+
+
     return (
         userSession
             ? <div className='ProfilePage'>

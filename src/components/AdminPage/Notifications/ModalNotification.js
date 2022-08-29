@@ -4,63 +4,23 @@ import { db } from '../../../firebase';
 import { getDate } from '../../../helpers/getDate';
 import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
+import { Message } from '../../Message';
 
-export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAddNotificationVisible } ) => {
+export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const initialValue = { title: '', description: '' };
 
     const [formErrors, setFormErrors] = useState( {} );
-
     const [modalData, setModalData] = useState( initialValue );
 
-
-    useEffect(() => {
-        console.log('formErrors: ', formErrors)
-    }, [formErrors])
-
     const handleInputChange = ( { target } ) => {
-        // e.preventDefault();
         const { name, value } = target;
         setModalData( { ...modalData, [name]: value } );
     };
 
     const hiddeModal = () => {
-        setIsModalAddNotificationVisible( false );
+        setIsModalVisible( false );
     };
-
-    const handleAddNotification = async (e) => {
-        e.preventDefault();
-
-        const { title, description } = modalData;
-        const today = getDate();
-        setFormErrors( validate( modalData ) );
-
-        if ( Object.keys( formErrors ).length === 0 ) {
-
-            console.log('the is enters');
-
-            try {
-                await db.collection( 'Notifications' ).add( {
-                    title: title,
-                    description: description,
-                    date: `${today.day} de ${months[today.month]} de ${today.year} - ${today.hour}:${today.minutes <= 9 ? `0${today.minutes}` : today.minutes}`
-                } );
-                console.log( 'Notificacion registrada con éxito' );
-            }
-            catch ( error ) {
-                const errorCode = error.code;
-                const errorMesage = error.message;
-                console.log( 'errorCode: ', errorCode );
-                console.log( 'errorMesagge: ', errorMesage );
-            }
-            setModalData( initialValue );
-            setIsModalAddNotificationVisible( false );
-
-        } else console.log( 'no se pudo man :(' );
-
-
-    };
-
 
     const validate = ( values ) => {
 
@@ -72,8 +32,45 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
 
     };
 
+    const handleAddNotification = async ( e ) => {
+        e.preventDefault();
+
+        const { title, description } = modalData;
+        const today = getDate();
+        setFormErrors( validate( modalData ) );
+
+        if ( Object.keys( formErrors ).length === 0 ) {
+
+            try {
+                await db.collection( 'Notifications' ).add( {
+                    title: title,
+                    description: description,
+                    date: `${today.day} de ${months[today.month]} de ${today.year} - ${today.hour}:${today.minutes <= 9 ? `0${today.minutes}` : today.minutes}`
+                } );
+                setModalData( initialValue );
+                setFormErrors( {} );
+                setIsModalVisible( false );
+                setArrayMessage( ( prevState ) => (
+                    [
+                        ...prevState,
+                        <Message
+                            messageContent={'Notificación creada'}
+                        />
+                    ]
+                ) );
+            }
+            catch ( error ) {
+                const errorCode = error.code;
+                const errorMesage = error.message;
+                console.log( 'errorCode: ', errorCode );
+                console.log( 'errorMesagge: ', errorMesage );
+            }
+
+        } else console.log( 'no se pudo man :(' );
+    };
+
     return (
-        <div className={`modal ${isModalAddNotificationVisible ? 'flex slide-in-fwd-center' : 'hidden'}`}>
+        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'hidden'}`}>
             <div className='modal__content modal__notification'>
                 <h1 className='modal__content--title'>Enviar nueva notificación</h1>
                 <form className='register__form form' onSubmit={handleAddNotification}>
@@ -94,6 +91,7 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
 
                     />
                 </form>
+                
                 <div className='modal__buttons'>
                     <GreenButton
                         button_name='Enviar'
@@ -104,9 +102,7 @@ export const ModalNotification = ( { isModalAddNotificationVisible, setIsModalAd
                         button_func={hiddeModal}
                     />
                 </div>
-
             </div>
-
         </div>
     );
 };

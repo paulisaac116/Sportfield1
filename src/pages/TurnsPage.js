@@ -28,8 +28,6 @@ export const TurnsPage = React.memo( () => {
     const saveTurn = () => {
         console.log( 'date on click ', dateData );
         if ( verifySelectedField && dateData.length !== 0 ) {
-            console.log( 'puede agendar su turno' );
-            console.log( 'dateData lenght: ', dateData.length );
             bodyOverflow( 'hidden' );
             setIsModalVisible( true );
 
@@ -40,7 +38,6 @@ export const TurnsPage = React.memo( () => {
                     messageContent={'Seleccione una cancha'}
                 />
             ] );
-            console.log( 'seleccione una cancha' );
         }
         else if ( dateData.length === 0 ) {
             setMessageDateError( [
@@ -49,8 +46,6 @@ export const TurnsPage = React.memo( () => {
                     messageContent={'Seleccione una fecha'}
                 />
             ] );
-
-            console.log( 'seleccione una fecha' );
         }
     };
 

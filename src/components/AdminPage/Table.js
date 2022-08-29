@@ -20,7 +20,7 @@ import { ModalAddTurn } from './Turns/ModalAddTurn';
 import { TurnsTable } from './Turns/TurnsTable';
 import { CoursesTable } from './Courses/CoursesTable';
 
-export const Table = React.memo( ( { iconActive, setIsMessageEditUserVisible, setIsMessageSendEmail, setIsMessageDeleteCourseVisible, setIsMessageEditCourseVisible, setArrayMessageDeleteUser} ) => {
+export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse} ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
 
@@ -107,6 +107,7 @@ export const Table = React.memo( ( { iconActive, setIsMessageEditUserVisible, se
                             turn={turnData}
                             isModalVisible={isModalDeleteTurnVisible}
                             setIsModalVisible={setIsModalDeleteTurnVisible}
+                            setArrayMessage={setArrayMessageDeleteTurn}
 
                         />
                     </>
@@ -125,13 +126,13 @@ export const Table = React.memo( ( { iconActive, setIsMessageEditUserVisible, se
                                 isModalVisible={isModalDeleteCourseVisible}
                                 setIsModalVisible={setIsModalDeleteCourseVisible}
                                 collection={iconActive}
-                                setIsMessageVisible={setIsMessageDeleteCourseVisible}
+                                setArrayMessage={setArrayMessageDeleteCourse}
                             />
                             <ModalEditCourse
                                 course={courseData}
                                 isModalVisible={isModalEditCourseVisible}
                                 setIsModalVisible={setIsModalEditCourseVisible}
-                                setIsMessageVisible={setIsMessageEditCourseVisible}
+                                setArrayMessage={setArrayMessageEditCourse}
                             />
                         </>
 

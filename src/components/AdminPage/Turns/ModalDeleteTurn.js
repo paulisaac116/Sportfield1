@@ -3,14 +3,12 @@ import { db } from '../../../firebase';
 
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { RedButton } from '../../Buttons/RedButton';
+import { Message } from '../../Message';
 
 import { months } from '../../../data/CalendarMonths';
 import { hours } from '../../../data/CalendarHours';
 
-export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) => {
-
-
-    // service cloud.fires 
+export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const hiddeModal = () => {
         setIsModalVisible( false );
@@ -18,46 +16,52 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) =
 
     const handleDeleteTurn = async ( id ) => {
 
-        console.log('item from modal: ', id)
+        try {
+            await db.collection( 'Turns' ).doc( id ).delete();
+            setIsModalVisible( false );
+            setArrayMessage( ( prevState ) => (
+                [
+                    ...prevState,
+                    <Message
+                        messageContent={'Turno eliminado'}
+                    />
+                ]
+            ) );
 
-        // try {
-        //     await db.collection( 'Turns' ).doc( id ).delete()
-        //         .then( () => console.log( 'User deleted' ) )
-        //         .catch( () => console.log( 'Error deleting the user' ) );
-        //     // await firebase.auth().currentUser.uid.de
-        // }
-        // catch ( error ) {
-        //     const errorCode = error.code;
-        //     const errorMesage = error.message;
-        //     console.log( 'errorCode: ', errorCode );
-        //     console.log( 'errorMesagge: ', errorMesage );
-        // }
-        // setIsModalVisible( false );
-        // setIsMessageDeleteUserVisible( 'flex slide-in-top' );
-        // setTimeout( () => setIsMessageDeleteUserVisible( 'flex slide-out-top' ), 3000 );
-        // setTimeout( () => setIsMessageDeleteUserVisible( 'hidden' ), 4000 );
-
+        }
+        catch ( error ) {
+            const errorCode = error.code;
+            const errorMesage = error.message;
+            console.log( 'errorCode: ', errorCode );
+            console.log( 'errorMesagge: ', errorMesage );
+        }
     };
 
 
     return (
         <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
-            <div className='modal__content'>
+            <div className='modal__content modal-delete-turn'>
                 <h1 className='modal__content--title'>Eliminar turno</h1>
                 <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente turno:</p>
                 <div className='modal__deleteUser--userData'>
-                    <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{turn.name}</p></div>
-                    <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{turn.lastName}</p></div>
-                    { Array.isArray(turn.date)
+                    <div className='userData--row'>
+                        <p className='userData__title'>Nombre: </p>
+                        <p>{`${turn.name} ${turn.lastName}`}</p>
+                    </div>
+                    <div className='userData--row'>
+                        <p className='userData__title'>Cancha:</p>
+                        <p>{turn.field?.fieldType} {turn.field?.fieldId} - {turn.field?.location}</p>
+                    </div>
+                    {Array.isArray( turn.date )
                         ? turn.date.length === 1 || turn.date[0]?.date !== turn.date[1]?.date
                             ? turn.date.map( ( date, key ) => (
                                 <>
                                     <div className='userData--row' key={key}>
-                                        <p className='userData__title'>{`Fecha ${turn.date.length === 2 ? key + 1 : ''}: `}</p>
+                                        <p className='userData__title'>{`Fecha ${turn.date.length === 2 ? key + 1 : ''}:`}</p>
                                         <p>{`${date.day} ${date.date} de ${months[date.month]}`}</p>
                                     </div>
                                     <div className='userData--row'>
-                                        <p className='userData__title'>Hora: </p>
+                                        <p className='userData__title'>Hora:</p>
                                         <p>{`${hours.find( turn => turn.start === date.timeStart ).timeRange}`}</p>
                                     </div>
 
@@ -65,13 +69,13 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) =
                             ) )
                             : <>
                                 <div className='userData--row'>
-                                    <p className='userData__title'>Fecha</p>
+                                    <p className='userData__title'>Fecha:</p>
                                     <p>{`${turn.date[0].day} ${turn.date[0].date} de ${months[turn.date[0].month]}`}</p>
                                 </div>
                                 {
                                     turn?.date.map( ( date, key ) => (
                                         <div className='userData--row'>
-                                            <p className='userData__title'>{`Hora ${key + 1}: `}</p>
+                                            <p className='userData__title'>{`Hora ${key + 1}:`}</p>
                                             <p>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</p>
                                         </div>
                                     ) )
@@ -79,11 +83,11 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) =
                             </>
                         : <p>no is not :c</p>
                     }
-                    <div className='userData--row'><p className='userData__title'>Cancha: </p><p>{turn.field?.fieldType}<br></br>{turn.field?.location}</p></div>
-
 
                 </div>
+
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
+
                 <div className='modal__buttons'>
                     <RedButton
                         button_name='Eliminar'
@@ -95,7 +99,6 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible } ) =
                     />
 
                 </div>
-
             </div>
         </div >
     );

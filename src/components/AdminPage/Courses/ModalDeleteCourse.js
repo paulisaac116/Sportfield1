@@ -3,8 +3,9 @@ import { db } from '../../../firebase';
 
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { RedButton } from '../../Buttons/RedButton';
+import { Message } from '../../Message';
 
-export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, collection, setIsMessageVisible } ) => {
+export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, collection, setArrayMessage } ) => {
 
 
     const hiddeModal = () => {
@@ -16,9 +17,15 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
         try {
             await db.collection( collection ).doc( id ).delete();
             setIsModalVisible( false );
-            setIsMessageVisible( 'flex slide-in-top' );
-            setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 2000 );
-            setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
+            setArrayMessage( ( prevState ) => (
+                [
+                    ...prevState,
+                    <Message
+                        messageContent={'Curso eliminado'}
+                    />
+                ]
+            ) );
+
         }
         catch ( error ) {
             const errorCode = error.code;
@@ -26,8 +33,6 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
             console.log( 'errorCode: ', errorCode );
             console.log( 'errorMesagge: ', errorMesage );
         }
-
-
     };
 
 
@@ -42,6 +47,7 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
                     </div>
                 }
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
+                
                 <div className='modal__buttons'>
                     <RedButton
                         button_name='Eliminar'
@@ -51,9 +57,7 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
                         button_name='Cancelar'
                         button_func={hiddeModal}
                     />
-
                 </div>
-
             </div>
         </div>
     );

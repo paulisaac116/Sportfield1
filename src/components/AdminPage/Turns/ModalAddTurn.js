@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFetchFirestore } from '../../../hooks/useFetchFirestore';
 
@@ -6,11 +6,14 @@ import { PurpleButton } from '../../Buttons/PurpleButton';
 import { GreenButton } from '../../Buttons/GreenButton';
 
 import '../../../styles/AdminPage/adminPage.css';
+import { ErrorMessage } from '../../ErrorMessage';
 
-export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
+export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
-    const { data: tableData, loading } = useFetchFirestore( 'Users' );    
+    const { data: tableData, loading } = useFetchFirestore( 'Users' );
     const [userSelectedId, setUserSelectedId] = useState( '' );
+
+    const [arrayUserSelectedError, setArrayUserSelectedError] = useState( [] );
 
     const navigate = useNavigate();
 
@@ -20,7 +23,12 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
     };
 
     const gotoTurnsPage = () => {
-        if ( userSelectedId === '' ) console.log( 'Select a user first' );
+        if ( userSelectedId === '' ) setArrayUserSelectedError( [
+            ...arrayUserSelectedError,
+            <ErrorMessage
+                messageContent={'Selecciona un usuario'}
+            />
+        ] );
         else {
 
             navigate( '/turns', { state: { id: userSelectedId } } );
@@ -33,6 +41,26 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
         if ( userSelectedId !== id ) setUserSelectedId( id );
 
     };
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayUserSelectedError.length !== 0 ) {
+                arrayUserSelectedError.pop();
+            }
+        }, 4000 );
+
+    }, [arrayUserSelectedError] );
+
+    // useEffect( () => {
+
+    //     if ( arrayUserSelectedError.length !== 0 ) {
+    //         setTimeout( () => {
+    //             arrayUserSelectedError.pop();
+
+    //         }, 10000 );
+    //     }
+    // }, [arrayUserSelectedError] );
 
     return (
         <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
@@ -78,8 +106,12 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible } ) => {
                         button_name='Cancelar'
                         button_func={hiddeModal}
                     />
-
                 </div>
+                {
+                    arrayUserSelectedError.map( message => (
+                        message
+                    ) )
+                }
 
             </div>
         </div >

@@ -10,7 +10,6 @@ import { ModalAddTurn } from './Turns/ModalAddTurn';
 
 import '../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Message } from '../Message';
 
 export const Menu = React.memo( () => {
 
@@ -27,17 +26,14 @@ export const Menu = React.memo( () => {
     const [arrayMessageAddUser, setArrayMessageAddUser] = useState( [] );
     const [arrayMessageDeleteUser, setArrayMessageDeleteUser] = useState( [] );
 
+    const [arrayMessageAddTurn, setArrayMessageAddTurn] = useState( [] );
+    const [arrayMessageDeleteTurn, setArrayMessageDeleteTurn] = useState( [] );
+
     const [arrayMessageAddCourse, setArrayMessageAddCourse] = useState( [] );
+    const [arrayMessageEditCourse, setArrayMessageEditCourse] = useState( [] );
+    const [arrayMessageDeleteCourse, setArrayMessageDeleteCourse] = useState( [] );
 
-    const [isMessageAddUserVisible, setIsMessageAddUserVisible] = useState( 'hidden' );
-    const [isMessageEditUserVisible, setIsMessageEditUserVisible] = useState( 'hidden' );
-    const [isMessageDeleteUserVisible, setIsMessageDeleteUserVisible] = useState( 'hidden' );
-    const [isMessageSendEmail, setIsMessageSendEmail] = useState( 'hidden' );
-
-    const [isMessageAddCourseVisible, setIsMessageAddCourseVisible] = useState( 'hidden' );
-    const [isMessageDeleteCourseVisible, setIsMessageDeleteCourseVisible] = useState( 'hidden' );
-    const [isMessageEditCourseVisible, setIsMessageEditCourseVisible] = useState( 'hidden' );
-
+    const [arrayMessageAddNotification, setArrayMessageAddNotification] = useState( [] );
 
 
     const showModalAddUser = () => {
@@ -48,7 +44,6 @@ export const Menu = React.memo( () => {
 
     };
     const showModalAddCourse = () => {
-        console.log( 'button click' );
         setIsModalAddCourseVisible( true );
     };
 
@@ -81,6 +76,67 @@ export const Menu = React.memo( () => {
         setMenuData( menuAdminData );
     }, [] );
 
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageAddUser.length !== 0 ) {
+                arrayMessageAddUser.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageAddUser] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageDeleteUser.length !== 0 ) {
+                arrayMessageDeleteUser.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageDeleteUser] );
+
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageAddTurn.length !== 0 ) {
+                arrayMessageAddTurn.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageAddTurn] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageDeleteTurn.length !== 0 ) {
+                arrayMessageDeleteTurn.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageDeleteTurn] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageAddCourse.length !== 0 ) {
+                arrayMessageAddCourse.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageAddCourse] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageEditCourse.length !== 0 ) {
+                arrayMessageEditCourse.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageEditCourse] );
+
     return (
         <div className='admin-page__content'>
             <div className='menu__icon menu__style sm:hidden'>
@@ -109,11 +165,10 @@ export const Menu = React.memo( () => {
                 <p className='table__title'>{iconType}</p>
                 <Table
                     iconActive={iconActive}
-                    setIsMessageEditUserVisible={setIsMessageEditUserVisible}
-                    setIsMessageSendEmail={setIsMessageSendEmail}
-                    setIsMessageDeleteCourseVisible={setIsMessageDeleteCourseVisible}
-                    setIsMessageEditCourseVisible={setIsMessageEditCourseVisible}
                     setArrayMessageDeleteUser={setArrayMessageDeleteUser}
+                    setArrayMessageDeleteTurn={setArrayMessageDeleteTurn}
+                    setArrayMessageEditCourse={setArrayMessageEditCourse}
+                    setArrayMessageDeleteCourse={setArrayMessageDeleteCourse}
                 />
                 {
                     iconActive === 'Users'
@@ -138,9 +193,8 @@ export const Menu = React.memo( () => {
                                     message
                                 ) )
                             }
-
-
                         </>
+
                         : iconActive === 'Turns'
                             ? <>
                                 <GreenButton
@@ -151,7 +205,18 @@ export const Menu = React.memo( () => {
                                 <ModalAddTurn
                                     isModalVisible={isModalAddTurnVisible}
                                     setIsModalVisible={setIsModalAddTurnVisible}
+                                    setArrayMessage={setArrayMessageAddTurn}
                                 />
+                                {
+                                    arrayMessageAddTurn.map( message => (
+                                        message
+                                    ) )
+                                }
+                                {
+                                    arrayMessageDeleteTurn.map( message => (
+                                        message
+                                    ) )
+                                }
 
                             </>
 
@@ -172,7 +237,18 @@ export const Menu = React.memo( () => {
                                             message
                                         ) )
                                     }
+                                    {
+                                        arrayMessageEditCourse.map( message => (
+                                            message
+                                        ) )
+                                    }
+                                    {
+                                        arrayMessageDeleteCourse.map( message => (
+                                            message
+                                        ) )
+                                    }
                                 </>
+
                                 : iconActive === 'Notifications'
                                     ? <>
                                         <GreenButton
@@ -181,9 +257,15 @@ export const Menu = React.memo( () => {
                                             extraClass='main-button'
                                         />
                                         <ModalNotification
-                                            isModalAddNotificationVisible={isModalAddNotificationVisible}
-                                            setIsModalAddNotificationVisible={setIsModalAddNotificationVisible}
+                                            isModalVisible={isModalAddNotificationVisible}
+                                            setIsModalVisible={setIsModalAddNotificationVisible}
+                                            setArrayMessage={setArrayMessageAddNotification}
                                         />
+                                        {
+                                            arrayMessageAddNotification.map( message => (
+                                                message
+                                            ) )
+                                        }
                                     </>
                                     : <></>
                 }

@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
+import { db } from '../../../firebase';
 
 import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
-// import {RedButton} from '../Buttons/RedButton';
+import { Message } from '../../Message';
 
 import '../../../styles/AdminPage/adminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { auth, db } from '../../../firebase';
 
-export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, setIsMessageVisible } ) => {
+export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, setArrayMessage } ) => {
 
     const [formErrors, setFormErrors] = useState( {} );
     const [formValues, setFormValues] = useState( {} );
 
-    // console.log(data);
 
     useEffect( () => {
         setFormValues( course );
@@ -51,9 +49,15 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
                 setFormValues( {} );
                 setFormErrors( {} );
                 setIsModalVisible( false );
-                setIsMessageVisible( 'flex slide-in-top' );
-                setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 3000 );
-                setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
+                setArrayMessage( ( prevState ) => (
+                    [
+                        ...prevState,
+                        <Message
+                            messageContent={'Curso actualizado'}
+                        />
+                    ]
+                ) );
+
 
             } catch ( error ) {
                 const errorCode = error.code;
@@ -64,7 +68,6 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
         }
 
     };
-
 
     const hiddeModal = () => {
         setFormErrors( {} );
@@ -121,6 +124,7 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
                     </div>
 
                 </div>
+                
                 <div className='modal__buttons'>
                     <GreenButton
                         button_name='Aceptar'
@@ -130,10 +134,8 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
                         button_name='Cancelar'
                         button_func={hiddeModal}
                     />
-
                 </div>
             </div>
-
         </div>
     );
 };

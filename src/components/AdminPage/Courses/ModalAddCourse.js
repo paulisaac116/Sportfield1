@@ -20,8 +20,6 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
         setFormValues( { ...formValues, [name]: value } );
     };
 
-
-
     const hiddeModal = () => {
         setFormErrors({})
         setIsModalVisible( false );
@@ -34,7 +32,6 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
     const handleAddCourse = async () => {
 
-        
         setFormErrors( validate( formValues ) );
         
         if ( Object.keys( formErrors ).length === 0 ) {
