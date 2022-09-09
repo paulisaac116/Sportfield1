@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { HeaderLanding } from '../components/LandingPage/HeaderLanding';
 import { GreenButton } from '../components/Buttons/GreenButton';
 
-import '../styles/LandingPage/landingPage.css';
+import '../styles/LandingPage/LandingPage.css';
 import field from '../images/field.jfif';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
@@ -18,7 +18,7 @@ export const LandingPage = () => {
 
     const gotoLogin = () => {
 
-        navigate( '/login' );
+        navigate( '/profile' );
 
     };
 
@@ -44,25 +44,22 @@ export const LandingPage = () => {
                         }
                         {
                             !loading && <table className='Courses animate__animated animate__fadeIn'>
-                                <thead></thead>
                                 {
-                                    tableData?.map( ( item ) => (
-                                        <tbody>
-                                            <tr key={`${item.id}`} className='bg-purple-mid text-white mb-4 table-courses__data'>
-                                                <td className='td__title'>{`${item.title}`}</td>
-                                                <td className='td__description'>{`${item.description}`}</td>
-                                                {/* <td>{item.schedule}</td> */}
-                                            </tr>
-                                            <tr className='table-users__buttons courses-table__buttons'>
-                                                <td>
+                                    tableData?.map( ( course, key ) => (
+                                        <div className='table-courses__body--row landing-page__content--courses' key={key}>
+                                            <div className='body-row__data-buttons'>
+                                                <div className='body-row__data'>
+                                                    <p className='body-row__data--title'>{course.title}</p>
+                                                    <p>{course.description}</p>
+                                                </div>
+                                                <div className='body-row__buttons'>
                                                     <GreenButton
-                                                        button_name='Inscribirse'
-                                                        button_func={gotoLogin}
+                                                        button_name={'Inscribirse'}
+                                                        button_func={() => gotoLogin()}
                                                     />
-                                                </td>
-                                            </tr>
-
-                                        </tbody>
+                                                </div>
+                                            </div>
+                                        </div>
                                     ) )
                                 }
                             </table>

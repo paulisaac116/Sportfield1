@@ -1,14 +1,14 @@
 export const getWeek = () => {
 
-/**
- * Calculate the last week of the month given
- * 
- * @param {*} finalDayNumber 
- * @param {*} finalDay 
- * @param {*} year 
- * @param {*} month 
- * @returns 
- */
+    /**
+     * Calculate the last week of the month given
+     * 
+     * @param {*} finalDayNumber 
+     * @param {*} finalDay 
+     * @param {*} year 
+     * @param {*} month 
+     * @returns 
+     */
 
     const calculate = ( finalDayNumber, finalDay, year, month ) => {
 
@@ -38,10 +38,9 @@ export const getWeek = () => {
     };
 
     const today = new Date();
-    const [year, month, day, dayNumber] = [today.getFullYear(), today.getMonth(), today.getDate(), today.getDay() == 0 ? 7 : today.getDay()];
+    const [year, month, day, dayNumber] = [today.getFullYear(), today.getMonth(), today.getDate(), today.getDay() === 0 ? 7 : today.getDay()];
 
     const weekArray = [];
-    let array = [];
 
     const firstMonday = day - dayNumber + 1;
 

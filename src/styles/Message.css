@@ -43,14 +43,9 @@
         padding: .5rem .85rem;
         border-radius: 10px;
         position: fixed;
-        top: 40px;
-        /* left: 50%; */
-        /* right: -50%; */
-        /* transform: translate(-50%, -50%); */
+        top: 3rem;
         z-index: 8000;
-        /* margin: 0 auto; */
         border: 2px solid theme('colors.black');
-
     }
 
     .error-message svg {

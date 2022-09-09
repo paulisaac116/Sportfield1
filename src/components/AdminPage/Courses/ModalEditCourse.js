@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { db } from '../../../firebase';
 
 import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { Message } from '../../Message';
 
-import '../../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
@@ -14,30 +15,14 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
     const [formErrors, setFormErrors] = useState( {} );
     const [formValues, setFormValues] = useState( {} );
 
-
-    useEffect( () => {
-        setFormValues( course );
-    }, [course] );
-
-    const validate = ( values ) => {
-
-        const errors = {};
-        if ( !values.title ) {
-            errors.title = 'Ingresa un título';
-        }
-        if ( !values.description ) {
-            errors.description = 'Ingresa la descripción del curso';
-        }
-        return errors;
-    };
-
     const handleEditCourse = async () => {
 
-        const { id, title, description } = formValues;
 
-        setFormErrors( validate( formValues ) );
+        if ( !formValues.title ) setFormErrors( { title: 'Ingresa un título' } );
+        else if ( !formValues.description ) setFormErrors( { description: 'Ingresa una descripción' } );
+        else {
 
-        if ( Object.keys( formErrors ).length === 0 ) {
+            const { id, title, description } = formValues;
 
             try {
 
@@ -65,12 +50,14 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
                 console.log( errorCode );
                 console.log( errorMessage );
             }
+
         }
 
     };
 
     const hiddeModal = () => {
         setFormErrors( {} );
+        setFormValues( course );
         setIsModalVisible( false );
     };
 
@@ -79,8 +66,13 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
         setFormValues( { ...formValues, [name]: value } );
     };
 
+    useEffect( () => {
+        setFormValues( course );
+    }, [course] );
+
+
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content  modal__addCourse'>
                 <h1 className='modal__content--title'>Editar curso</h1>
                 <div className="register__form form">
@@ -124,7 +116,7 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
                     </div>
 
                 </div>
-                
+
                 <div className='modal__buttons'>
                     <GreenButton
                         button_name='Aceptar'
@@ -138,4 +130,11 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
             </div>
         </div>
     );
+};
+
+ModalEditCourse.propTypes = {
+    course: PropTypes.array,
+    isModalVisible: PropTypes.bool,
+    setIsModalVisible: PropTypes.func,
+    setArrayMessage: PropTypes.func
 };

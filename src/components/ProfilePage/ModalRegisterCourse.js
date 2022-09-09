@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import firebase from 'firebase';
 
 import { PurpleButton } from '../Buttons/PurpleButton';
@@ -7,10 +7,14 @@ import { GreenButton } from '../Buttons/GreenButton';
 import '../../styles/ProfilePage/ProfilePage.css';
 import { db } from '../../firebase';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
+import { ErrorMessage } from '../ErrorMessage';
+import { Message } from '../Message';
 
-export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, courses, userData } ) => {
+export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, courses, userData, setArrayMessage} ) => {
 
     const [courseIdSelected, setCourseIdSelected] = useState( '' );
+
+    const [arrayMessageCourseError, setArrayMessageCourseError] = useState( [] );
 
     const scrollTop = () => {
         document.getElementById( 'table-scoll' ).scrollTop = 0;
@@ -24,18 +28,21 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
         scrollTop();
     };
     const handleRegisterCourse = () => {
-        if ( courseIdSelected === '' ) console.log( 'Select a course first :(' );
+        if ( courseIdSelected === '' ) setArrayMessageCourseError(
+            [
+                ...arrayMessageCourseError,
+                <ErrorMessage
+                    messageContent={'Selecciona un curso'}
+                />
+            ]
+        );
         else {
 
-            console.log( 'userData, ', userData );
 
             const course = courses.find( item => item.id === courseIdSelected );
             delete course.registered;
-            console.log( 'course selected', course );
 
             const courseUser = userData.courses.find( item => item.id === course.id );
-            console.log( 'user courses: ', userData.courses );
-            console.log( 'course user', courseUser );
 
             if ( courseUser === undefined ) {
 
@@ -59,11 +66,16 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                         } )
                     } );
 
-                    bodyOverflow('auto')
+                    bodyOverflow( 'auto' );
                     setIsModalVisible( false );
                     setCourseIdSelected( '' );
                     scrollTop();
-                    console.log( 'registered :)' );
+                    setArrayMessage([
+                        <Message
+                            messageContent={'Inscrito'}
+                        />
+                    ])
+                    
 
                 } catch ( error ) {
                     const errorCode = error.code;
@@ -73,14 +85,17 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
 
                 }
 
-
-
             }
 
-
             else {
-                console.log( 'ya estas inscrito washo :v' );
-                console.log( 'selecciona otro curso' );
+
+                setArrayMessageCourseError( [
+                    ...arrayMessageCourseError,
+                    <ErrorMessage
+                        messageContent={'Ya estás inscrito en el curso'}
+                    />
+                ] );
+
             }
 
         }
@@ -90,8 +105,19 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
         if ( courseIdSelected !== id ) setCourseIdSelected( id );
     };
 
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageCourseError.length !== 0 ) {
+                arrayMessageCourseError.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageCourseError] );
+
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__registered-course'>
                 <h1 className='modal__content--title'>Registrarse en curso</h1>
                 <p className='modal__deleteUser--text'>Seleccione el curso en que deseas inscribirte</p>
@@ -100,9 +126,8 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                         <thead>
                         </thead>
                         {courses?.map( ( item, key ) => (
-                            <tbody>
+                            <tbody key={key}>
                                 <tr
-                                    key={`${key}`}
                                     className={`table-courses__data ${courseIdSelected === item.id ? 'purple-light border-solid border-2 border-white' : ''}`}
                                     onClick={() => changeColor( item.id )}
                                 >
@@ -126,6 +151,11 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                 </div>
 
             </div>
+            {
+                arrayMessageCourseError.map( message => (
+                    message
+                ) )
+            }
         </div >
     );
 };

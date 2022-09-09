@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import '../styles/Message.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
-import { GreenButton } from './Buttons/GreenButton';
 
 export const Message = ( { messageContent } ) => {
 
@@ -11,10 +11,10 @@ export const Message = ( { messageContent } ) => {
 
     useEffect( () => {
 
-        // setMessageState( '' );
         setTimeout( () => {
             setMessageState( 'animate__fadeOutUp' );
-        }, 3000 );
+        }, 2500 );
+
     }, [] );
 
     return (
@@ -23,4 +23,8 @@ export const Message = ( { messageContent } ) => {
             <p className='message__text'>{messageContent}</p>
         </div>
     );
+};
+
+Message.propTypes = {
+    messageContent: PropTypes.string
 };

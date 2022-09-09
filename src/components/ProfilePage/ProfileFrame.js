@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import '../../styles/ProfilePage/ProfilePage.css';
 import profile_photo from '../../images/dragonball.png';
@@ -12,12 +12,33 @@ export const ProfileFrame = ( { userData } ) => {
 
     const [isModalNotificationUserVisible, setIsModalNotificationUserVisible] = useState( false );
 
+    const [bellActive, setBellActive] = useState( false );
+
+    const [notificationData, setNotificationData] = useState([])
+
+    const [notificationNumber, setNotificationNumber] = useState(notificationData.length);
+
+
     const showNotifications = () => {
-        // document.getElementById('notification-bell').style.color
-        setIsModalNotificationUserVisible(true)
+        setBellActive( true );
+        setIsModalNotificationUserVisible( true );
+
+        if ( isModalNotificationUserVisible ) {
+            setIsModalNotificationUserVisible( false );
+            setBellActive( false );
+        }
+
 
     };
-    
+
+    useEffect(() => {
+
+        setNotificationNumber(notificationData.length - notificationNumber)
+        console.log('notification number: ', notificationNumber)
+
+
+    }, [notificationData, notificationNumber])
+
 
 
     return (
@@ -25,15 +46,19 @@ export const ProfileFrame = ( { userData } ) => {
             <div className='profile-frame__head'>
                 <p className='profile-frame__head--title'>PERFIL</p>
                 <div className='profile-frame__head--notification'>
-                    <FontAwesomeIcon
-                        icon={faBell}
-                        id='notification-bell'
-                        className='fa-2x profile-frame__head--bell'
-                        onClick={showNotifications}
-                    />
+                    <div className={`profile-frame__head--bell ${bellActive ? 'purple-light' : ''}`}>
+                        <FontAwesomeIcon
+                            icon={faBell}
+                            id='notification-bell'
+                            className='fa-2x'
+                            onClick={showNotifications}
+                        />
+                    </div>
                     <ModalNotificationsUser
                         isModalVisible={isModalNotificationUserVisible}
                         setIsModalVisible={setIsModalNotificationUserVisible}
+                        setBellActive={setBellActive}
+                        setNotificationData={setNotificationData}
                     />
                 </div>
             </div>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import '../styles/Message.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +14,7 @@ export const ErrorMessage = ( { messageContent } ) => {
         setMessageState( 'animate__fadeInDown' );
         setTimeout( () => {
             setMessageState( 'animate__fadeOut' );
-        }, 2500);
+        }, 2500 );
     }, [] );
 
     return (
@@ -22,4 +23,8 @@ export const ErrorMessage = ( { messageContent } ) => {
             <p>{messageContent}</p>
         </div>
     );
+};
+
+ErrorMessage.propTypes = {
+    messageContent: PropTypes.string
 };

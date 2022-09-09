@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
 
 import { GreenButton } from '../Buttons/GreenButton';
 import { RedButton } from '../Buttons/RedButton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBatteryQuarter } from '@fortawesome/free-solid-svg-icons';
+import { ModalUnsubscribeCourse } from './ModalUnsubscribeCourse';
+
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-import '../../styles/CoursesUser.css';
-import { ModalUnsubscribeCourse } from './ModalUnsubscribeCourse';
-import { bodyOverflow } from '../../helpers/bodyOverflow';
-
-export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
+export const CoursesUser = ( { userData, setIsModalRegisterVisible} ) => {
 
 
     const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
     const [courseData, setCourseData] = useState( [] );
     const [isModalUnsubscribeVisible, setIsModalUnsubscribeVisible] = useState( false );
-    // const [first, setfirst] = useState(second)
 
     const emptyCourses = () => (
         <div className="empty-turn-bar">
@@ -28,14 +26,14 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
     );
 
     const showModalUnsubscribe = ( course ) => {
-        bodyOverflow('hidden')
+        bodyOverflow( 'hidden' );
         setCourseData( course );
         setIsModalUnsubscribeVisible( true );
 
     };
 
     const showModalRegister = () => {
-        bodyOverflow('hidden')
+        bodyOverflow( 'hidden' );
         setIsModalRegisterVisible( true );
     };
 
@@ -44,22 +42,24 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
             <div className="courses__title">CURSOS</div>
             <div className="field__table courses__table">
                 {
-                    userData.courses?.length === 0
-                        ? ( emptyCourses() )
-                        : userData.courses?.map( ( course, key ) => (
-                            <div className='field__table--row' key={key}>
-                                <div className='courses__table--data'>
-                                    <h3 className='courses__table--title'>{course.title}</h3>
-                                    <p className='courses__table--desc'>{course.description}</p>
+                    loading
+                        ? <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-2x text-white' />
+                        : userData?.courses.length === 0
+                            ? ( emptyCourses() )
+                            : userData?.courses.map( ( course, key ) => (
+                                <div className='field__table--row' key={key}>
+                                    <div className='courses__table--data'>
+                                        <h3 className='courses__table--title'>{course.title}</h3>
+                                        <p className='courses__table--desc'>{course.description}</p>
+                                    </div>
+                                    <div className='courses__table--button'>
+                                        <RedButton
+                                            button_name={'Anular'}
+                                            button_func={() => showModalUnsubscribe( course )}
+                                        />
+                                    </div>
                                 </div>
-                                <div className='courses__table--button'>
-                                    <RedButton
-                                        button_name={'Anular'}
-                                        button_func={() => showModalUnsubscribe( course )}
-                                    />
-                                </div>
-                            </div>
-                        ) )
+                            ) )
                 }
             </div>
             <div className="field__button">

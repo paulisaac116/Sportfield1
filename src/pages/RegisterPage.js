@@ -18,15 +18,10 @@ const RegisterPage = () => {
   const handleInputChange = ( e ) => {
     const { name, value } = e.target;
     setFormValues( { ...formValues, [name]: value } );
-    setFormErrors({...formErrors, [name]: ''});
+    setFormErrors( { ...formErrors, [name]: '' } );
   };
 
-  // let history = useHistory();
   const navigate = useNavigate();
-
-  // const handleAddUser = () => {
-  //   if(formValues)
-  // }
 
   const handleSubmit = async ( e ) => {
     e.preventDefault();
@@ -45,7 +40,7 @@ const RegisterPage = () => {
 
         // Signed in
         const user = userCredential.user;
-        const userId = user.uid
+        const userId = user.uid;
 
         await db.collection( "Users" ).doc( userId ).set(
           {
@@ -58,7 +53,6 @@ const RegisterPage = () => {
           }
         );
         navigate( '/profile' );
-        // message.success( 'Usuario registrado exitosamente' );
 
       }
 
@@ -209,11 +203,6 @@ const RegisterPage = () => {
           button_func={handleSubmit}
         />
       </div>
-
-      {/* <RegisterForm
-        setFormData={setFormValues}
-
-      /> */}
     </div>
   );
 };

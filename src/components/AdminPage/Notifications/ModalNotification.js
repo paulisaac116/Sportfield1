@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+
 import { months } from '../../../data/CalendarMonths';
 import { db } from '../../../firebase';
 import { getDate } from '../../../helpers/getDate';
@@ -6,48 +8,43 @@ import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { Message } from '../../Message';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
+
 export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const initialValue = { title: '', description: '' };
 
     const [formErrors, setFormErrors] = useState( {} );
-    const [modalData, setModalData] = useState( initialValue );
+    const [formValues, setFormValues] = useState( initialValue );
 
     const handleInputChange = ( { target } ) => {
         const { name, value } = target;
-        setModalData( { ...modalData, [name]: value } );
+        setFormValues( { ...formValues, [name]: value } );
     };
 
     const hiddeModal = () => {
+        setFormErrors( {} );
+        setFormValues( initialValue );
         setIsModalVisible( false );
     };
 
-    const validate = ( values ) => {
+    const handleAddNotification = async () => {
 
-        const error = {};
-        if ( !values.title ) error.title = 'Ingresa un título';
-        if ( !values.description ) error.description = 'Ingresa una descripción';
 
-        return error;
+        if ( !formValues.title ) setFormErrors( { title: 'Ingresa un título' } );
+        else if ( !formValues.description ) setFormErrors( { description: 'Ingresa una descripción' } );
+        else {
 
-    };
-
-    const handleAddNotification = async ( e ) => {
-        e.preventDefault();
-
-        const { title, description } = modalData;
-        const today = getDate();
-        setFormErrors( validate( modalData ) );
-
-        if ( Object.keys( formErrors ).length === 0 ) {
-
+            const today = getDate();
+            const { title, description } = formValues;
             try {
                 await db.collection( 'Notifications' ).add( {
                     title: title,
                     description: description,
                     date: `${today.day} de ${months[today.month]} de ${today.year} - ${today.hour}:${today.minutes <= 9 ? `0${today.minutes}` : today.minutes}`
                 } );
-                setModalData( initialValue );
+                setFormValues( initialValue );
                 setFormErrors( {} );
                 setIsModalVisible( false );
                 setArrayMessage( ( prevState ) => (
@@ -66,11 +63,11 @@ export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArray
                 console.log( 'errorMesagge: ', errorMesage );
             }
 
-        } else console.log( 'no se pudo man :(' );
+        }
     };
 
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__notification'>
                 <h1 className='modal__content--title'>Enviar nueva notificación</h1>
                 <form className='register__form form' onSubmit={handleAddNotification}>
@@ -79,19 +76,34 @@ export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArray
                         className='input'
                         type='text'
                         placeholder='Titulo'
-                        value={modalData.title}
+                        value={formValues.title}
                         onChange={handleInputChange}
                     />
+                    {
+                        formErrors.title
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.title}</p>
+                            </div>
+                            : <></>
+                    }
                     <textarea
                         name='description'
                         type='text'
                         placeholder='Descripción...'
-                        value={modalData.description}
+                        value={formValues.description}
                         onChange={handleInputChange}
-
                     />
+                    {
+                        formErrors.description
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.title}</p>
+                            </div>
+                            : <></>
+                    }
                 </form>
-                
+
                 <div className='modal__buttons'>
                     <GreenButton
                         button_name='Enviar'
@@ -105,4 +117,11 @@ export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArray
             </div>
         </div>
     );
+};
+
+
+ModalNotification.propTypes = {
+    isModalVisible: PropTypes.bool,
+    setIsModalVisible: PropTypes.func,
+    setArrayMessage: PropTypes.func
 };

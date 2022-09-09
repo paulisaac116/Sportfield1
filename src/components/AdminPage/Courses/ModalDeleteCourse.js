@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { db } from '../../../firebase';
 
 import { PurpleButton } from '../../Buttons/PurpleButton';
@@ -6,7 +7,6 @@ import { RedButton } from '../../Buttons/RedButton';
 import { Message } from '../../Message';
 
 export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, collection, setArrayMessage } ) => {
-
 
     const hiddeModal = () => {
         setIsModalVisible( false );
@@ -37,7 +37,7 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
 
 
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Eliminar curso</h1>
                 <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente curso:</p>
@@ -47,7 +47,7 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
                     </div>
                 }
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
-                
+
                 <div className='modal__buttons'>
                     <RedButton
                         button_name='Eliminar'
@@ -61,4 +61,11 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
             </div>
         </div>
     );
+};
+
+ModalDeleteCourse.propTypes = {
+    turn: PropTypes.array,
+    isModalVisible: PropTypes.bool,
+    setIsModalVisible: PropTypes.func,
+    setArrayMessage: PropTypes.func
 };

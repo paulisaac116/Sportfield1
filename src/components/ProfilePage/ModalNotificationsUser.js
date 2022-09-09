@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRectangleXmark } from '@fortawesome/free-regular-svg-icons';
 
-export const ModalNotificationsUser = ( { isModalVisible, setIsModalVisible } ) => {
+export const ModalNotificationsUser = ( { isModalVisible, setIsModalVisible, setBellActive, setNotificationData} ) => {
 
     const { data: notificationsData, loading } = useFetchFirestore( 'Notifications' );
 
+    const [notificationLength, setNotificationLength] = useState(notificationsData.length)
+
     const hiddeModal = () => {
         setIsModalVisible(false)
+        setBellActive(false)
     }
+
+    useEffect(() => {
+        // setNotificationData(notificationsData)
+    }, [notificationsData ,setNotificationData])
 
     return (
         <div className={`notifications-frame ${isModalVisible ? 'flex' : 'hidden'}`}>
@@ -25,7 +32,7 @@ export const ModalNotificationsUser = ( { isModalVisible, setIsModalVisible } ) 
             </div>
             {
                 !loading && notificationsData.map( ( notification, key ) => (
-                    <div className='notifications-frame__row'>
+                    <div className='notifications-frame__row' key={key}>
                         <div className='notifications-frame__row--info'>
                             <p className='notifications-frame__row--title'>{notification.title}</p>
                             <p className='notifications-frame__row--desc'>{notification.description}</p>

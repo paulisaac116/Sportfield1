@@ -27,6 +27,7 @@ module.exports = {
         '25rem': '25rem',
         '26rem': '26rem',
         '27rem': '27rem',
+        '44rem': '44rem'
 
       },
       borderRadius: {
@@ -48,7 +49,8 @@ module.exports = {
         '5rem': '5rem',
         '6rem': '6rem',
         '7rem': '7rem',
-        '8rem': '8rem'
+        '8rem': '8rem',
+        '11rem': '11rem'
       },
       flexBasis: {
         '35%': '35%'

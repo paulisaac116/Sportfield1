@@ -1,4 +1,5 @@
 import { React } from 'react';
+import PropTypes from 'prop-types';
 
 import '../../styles/Buttons.css';
 
@@ -13,3 +14,9 @@ export const GreenButton = ( { button_name, button_func, extraClass} ) => {
         </button>
     );
 };
+GreenButton.propTypes = {
+
+    button_name: PropTypes.string,
+    button_func: PropTypes.func,
+    extraClass: PropTypes.string
+}

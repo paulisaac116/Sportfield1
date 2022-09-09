@@ -8,14 +8,17 @@ import { ModalNotification } from './Notifications/ModalNotification';
 import { ModalAddCourse } from './Courses/ModalAddCourse';
 import { ModalAddTurn } from './Turns/ModalAddTurn';
 
-import '../../styles/AdminPage/adminPage.css';
+import '../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const Menu = React.memo( () => {
 
     const [menuData, setMenuData] = useState( menuAdminData );
-    const [iconActive, setIconActive] = useState( 'Users' );
-    const [iconType, setIconType] = useState( 'Usuarios' );
+
+    let activeIcon = menuData.find( item => item.active ).name;
+    let typeIcon = menuData.find( item => item.active ).text;
+    const [iconActive, setIconActive] = useState( activeIcon );
+    const [iconType, setIconType] = useState( typeIcon );
 
     const [isModalAddUserVisible, setIsModalAddUserVisible] = useState( false );
     const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
@@ -35,7 +38,6 @@ export const Menu = React.memo( () => {
 
     const [arrayMessageAddNotification, setArrayMessageAddNotification] = useState( [] );
 
-
     const showModalAddUser = () => {
         setIsModalAddUserVisible( true );
     };
@@ -53,28 +55,16 @@ export const Menu = React.memo( () => {
 
     const changeIconState = ( iconId ) => {
 
-        const newObject = {};
-
-        Object.keys( menuData ).map( item => {
-            if ( menuData[item].id === iconId ) {
-                menuData[item].active = true;
-                newObject[item] = menuData[item];
-                setIconActive( menuData[item].name );
-                setIconType( menuData[item].text );
+        menuData.map( item => {
+            if ( item.id === iconId ) {
+                item.active = true;
+                setIconActive( item.name );
+                setIconType( item.text );
             }
-            else {
-                menuData[item].active = false;
-                newObject[item] = menuData[item];
-            }
+            else item.active = false;
         } );
-        setMenuData( newObject );
-    };
 
-    useEffect( () => {
-        setIconActive( 'Users' );
-        setIconType( 'Usuarios' );
-        setMenuData( menuAdminData );
-    }, [] );
+    };
 
     useEffect( () => {
 
@@ -137,29 +127,44 @@ export const Menu = React.memo( () => {
 
     }, [arrayMessageEditCourse] );
 
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageDeleteCourse.length !== 0 ) {
+                arrayMessageDeleteCourse.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageDeleteCourse] );
+
+
     return (
         <div className='admin-page__content'>
             <div className='menu__icon menu__style sm:hidden'>
-                {Object.keys( menuData ).map( ( item, key ) => (
-                    <span key={key} className={`${menuData[item].active ? 'bg-black' : 'bg-purple-dark'} `} >
-                        <FontAwesomeIcon icon={menuData[item].icon} className='fa-2x' onClick={() => changeIconState( menuData[item].id )} />
-                    </span>
-                ) )}
+                {
+                    menuData.map( ( item, key ) => (
+                        <span key={key} className={`${item.active ? 'bg-black' : 'bg-purple-dark'} `} >
+                            <FontAwesomeIcon icon={item.icon} className='fa-2x' onClick={() => changeIconState( item.id )} />
+                        </span>
+                    ) )
+                }
             </div>
 
             <div className='menu__list menu__style'>
-                {Object.keys( menuData ).map( ( item, key ) => (
-                    <div
-                        key={key}
-                        className={`menu__list--item ${menuData[item].active ? 'bg-black' : 'bg-purple-dark'}`}
-                        onClick={() => changeIconState( menuData[item].id )}
-                    >
-                        <span>
-                            <FontAwesomeIcon icon={menuData[item].icon} className='fa-2x' />
-                        </span>
-                        <p>{menuData[item].text}</p>
-                    </div>
-                ) )}
+                {
+                    menuData.map( ( item, key ) => (
+                        <div
+                            key={key}
+                            className={`menu__list--item ${item.active ? 'bg-black' : 'bg-purple-dark'}`}
+                            onClick={() => changeIconState( item.id )}
+                        >
+                            <span>
+                                <FontAwesomeIcon icon={item.icon} className='fa-2x' />
+                            </span>
+                            <p>{item.text}</p>
+                        </div>
+                    ) )
+                }
             </div>
             <div className='menu__table'>
                 <p className='table__title'>{iconType}</p>

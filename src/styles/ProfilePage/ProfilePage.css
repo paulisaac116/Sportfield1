@@ -5,20 +5,13 @@
 
 @layer components {
 
-  .ProfilePage .header {
-    height: 6rem;
-  }
-
   .profile-content {
     display: flex;
     flex-direction: column;
-    /* grid-template-columns: 1fr; */
-    /* column-gap: 3rem; */
     background-color: theme('colors.purple-mid');
     padding: 2rem 1.25rem;
 
     @apply lg:flex-row lg:px-12 lg:gap-x-12
-    /* @apply sm:grid-cols-2 sm:grid-rows-2 */
   }
 
   .profile-content__top {
@@ -54,9 +47,10 @@
   }
 
   .profile-frame__head {
-    /* display: flex; */
+    display: flex;
     align-items: center;
     position: relative;
+    justify-content: center;
   }
 
   .profile-frame__head--title{
@@ -72,15 +66,21 @@
   }
 
   .profile-frame__head--bell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
-    top: -33px;
-    right: -62px;
-    /* left: 10px; */
+    top: -25px;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    right: -65px;
+
+    @apply md:hidden
   }
 
   .profile-frame--photo {
     width: 6rem;
-    /* height: 6rem; */
     margin: .5rem 0;
 
     @apply lg:w-28 lg:mt-4
@@ -92,8 +92,12 @@
     @apply lg:text-xl lg:leading-10 lg:mt-5
   }
 
-  .profile__content .green-button {
-    @apply sm:col-start-1 sm:col-end-3
+  .profile-content__top .rounded-button.green-button {
+    width: 14rem;
+    /* font-size: 1rem; */
+
+
+    @apply lg:w-72
   }
 
   /*
@@ -105,8 +109,9 @@
     width: 100%;
     flex-direction: column;
     position: absolute;
-    top: -15px;
+    top: 10px;
     right: -58px;
+    color: theme('colors.white');
     background-color: theme('colors.black');
     border: 1.5px solid theme('colors.purple-mid')
   }
@@ -117,6 +122,8 @@
     position: relative;
     background-color: theme('colors.purple-mid');
     border-bottom: 1.5px solid theme('colors.gray');
+
+    @apply md:px-4
   }
 
   .notifications-frame__head--icon {
@@ -130,8 +137,6 @@
     padding: .5rem .75rem;
     flex-direction: column;
     text-align: left;
-    /* border-bottom: 1px solid theme('colors.gray'); */
-    /* margin-bottom: .5rem; */
   }
 
   .notifications-frame__row::after {
@@ -149,7 +154,7 @@
   }
 
   .notifications-frame__row:hover {
-    background-color: theme('colors.purple-mid')
+    background-color: theme('colors.purple-light')
   }
 
   .notifications-frame__row--title {
@@ -211,6 +216,8 @@
     border-radius: 10px;
     padding-right: 5px;
 
+    @apply xl:flex-row xl:flex-wrap xl:justify-center xl:w-44rem xl:h-52 xl:gap-x-4
+
   }
 
   .field__table::-webkit-scrollbar {
@@ -223,7 +230,6 @@
   
   .field__table::-webkit-scrollbar-thumb {
     background-color: theme('colors.purple-light');
-    /* border: .5px solid theme('colors.black'); */
   }
 
   .field__table .spinner {
@@ -235,15 +241,15 @@
     margin-bottom: 1rem;
     color: theme('colors.white');
     border-radius: 20px;
-    padding: .5rem .75rem;
-    font-size: .95rem;
-    /* text-align: center; */
+    padding: .6rem .75rem;
+    font-size: .85rem;
+
+    @apply xl:w-80 xl:h-32 
   }
 
   .turnData--row {
     display: flex;
     justify-content: center;
-    /* position: relative; */
   }
 
   .turnData__title {
@@ -255,10 +261,7 @@
     font-size: 1rem;
     color: theme('colors.white');
     font-weight: 600;
-    /* background-color: theme('colors.purple-dark'); */
-    /* width: 100%; */
-    /* position: absolute; */
-    /* top: 0; */
+
   }
   
   .empty-turn-bar {
@@ -313,38 +316,12 @@
   /*
     COURSES TABLE
   */
-
-  .courses__frame {
-    width: 100%;
-    margin-top: 50px;
-    padding: 1rem 0;
-    border-radius: 40px;
-    display: grid;
-    grid-template-rows: 1fr 3fr 1fr;
-    row-gap: 20px;
-    justify-items: center;
-    align-items: center;
-    background-color: #3a438b;
-    box-shadow: 0 10px 0 rgba(0, 0, 0, 0.6);
-  }
-  
-  /* .courses__title {
-    width: fit-content;
-    margin-bottom: 
-    padding: 10px 30px;
-    font-size: 25px;
-    font-weight: 700;
-    color: white;
-    background-color: #bbaf4d;
-    border-radius: 20px;
-  } */
   
   .courses__table {
     width: 90%;
-    /* background-color: #784dbb; */
     border-radius: 20px;
 
-    @apply lg:flex-col lg:flex-wrap lg:h-44 lg:justify-center lg:overflow-x-auto lg:gap-x-3 lg:max-w-3xl lg:scroll-smooth
+    @apply lg:flex-row lg:flex-wrap lg:min-h-11rem lg:overflow-x-auto lg:gap-x-3 lg:max-w-3xl lg:scroll-smooth
   }
 
   .courses__table .field__table--row {
@@ -383,36 +360,13 @@
   }
   
   .modal__registered-course .table__content .table-courses__data{
+    width: 100%;
     margin-bottom: 1rem;
     padding-right: 1rem;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
   }
 
   .modal__registered-course .table__content .td__title {
     font-size: 1rem;
   }
 
-}
-
-/* .main {
-  padding: 50px 60px;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  column-gap: 60px;
-  background-color: #4d59bb;
-} */
-
-.main__left {
-  height: 95%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.main__left h2 {
-  margin: 0;
-  font-size: 50px;
-  color: white;
 }

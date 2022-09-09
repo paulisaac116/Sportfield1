@@ -1,5 +1,3 @@
-// import { useState } from "react";
-
 export const getDate = () => {
 
     const date = new Date();
@@ -10,10 +8,7 @@ export const getDate = () => {
         day: day,
         hour: hour,
         minutes: minutes
-    }
-
-    // const [hello, setHello] = useState({''});
-
+    };
 
     return today;
 

@@ -55,7 +55,7 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
 
 
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Anular inscripción</h1>
                 <p className='modal__deleteUser--text'>Está a punto cancelar su registro en el siguiente curso:</p>

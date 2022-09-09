@@ -1,72 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
+import PropTypes from 'prop-types';
 
-import '../../styles/AdminPage/adminPage.css';
-import 'animate.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-// import { GreenButton } from '../Buttons/GreenButton';
-// import { PurpleButton } from '../Buttons/PurpleButton';
 import { ModalDeleteCourse } from './Courses/ModalDeleteCourse';
 import { ModalDeleteUser } from './Users/ModalDeleteUser';
 import { ModalEditCourse } from './Courses/ModalEditCourse';
-// import { ModalEditUser } from './Users/ModalEditUser';
-
-import { months } from '../../data/CalendarMonths';
-import { hours } from '../../data/CalendarHours';
 import { ModalDeleteTurn } from './Turns/ModalDeleteTurn';
 import { UsersTable } from './Users/UsersTable';
-import { ModalAddTurn } from './Turns/ModalAddTurn';
 import { TurnsTable } from './Turns/TurnsTable';
 import { CoursesTable } from './Courses/CoursesTable';
 
-export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse} ) => {
+import 'animate.css';
+import '../../styles/AdminPage/AdminPage.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+
+export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse } ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
 
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
 
-    const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
     const [isModalDeleteTurnVisible, setIsModalDeleteTurnVisible] = useState( false );
     const [turnData, setTurnData] = useState( {} );
-
 
     const [isModalEditCourseVisible, setIsModalEditCourseVisible] = useState( false );
     const [isModalDeleteCourseVisible, setIsModalDeleteCourseVisible] = useState( false );
     const [courseData, setCourseData] = useState( {} );
-
-    // const [loading, setLoading] = useState( true );
-
-
-    // const handleEditUser = ( item ) => {
-    //     setUserData( item );
-    //     setIsModalEditVisible( true );
-
-    // };
-
-    const handleDeleteUser = ( item ) => {
-        setUserData( item );
-        setIsModalDeleteVisible( true );
-
-    };
-
-    const handleDeleteTurn = ( item ) => {
-        setTurnData( item );
-        setIsModalDeleteTurnVisible( true );
-
-    };
-
-    const handleEditCourse = ( item ) => {
-        setCourseData( item );
-        setIsModalEditCourseVisible( true );
-    };
-
-    const handleDeleteCourse = ( item ) => {
-        setCourseData( item );
-        setIsModalDeleteCourseVisible( true );
-    };
-    // console.log( 'table again' );
 
     return (
 
@@ -98,10 +59,6 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
                             tursData={tableData}
                             setTurnData={setTurnData}
                             setIsModalVisible={setIsModalDeleteTurnVisible}
-                        />
-                        <ModalAddTurn
-                            isModalVisible={isModalAddTurnVisible}
-                            setIsModalVisible={setIsModalAddTurnVisible}
                         />
                         <ModalDeleteTurn
                             turn={turnData}
@@ -185,9 +142,18 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
                                     </table>
 
                                 </>
-                                : console.log( 'Database not founded' )
+                                : <></>
             }
 
         </div>
     );
 } );
+
+
+Table.propTypes = {
+    iconActive: PropTypes.string,
+    setArrayMessageDeleteUser: PropTypes.func,
+    setArrayMessageDeleteTurn: PropTypes.func,
+    setArrayMessageEditCourse: PropTypes.func,
+    setArrayMessageDeleteCourse: PropTypes.func,
+};

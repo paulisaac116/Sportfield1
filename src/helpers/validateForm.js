@@ -1,5 +1,5 @@
-export const validateForm = ( formValues, setFormErrors, setFormData) => {
-    
+export const validateForm = ( formValues, setFormErrors, setFormData ) => {
+
     const errors = {};
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if ( !formValues.name ) {
@@ -19,8 +19,8 @@ export const validateForm = ( formValues, setFormErrors, setFormData) => {
     if ( !formValues.password ) {
         errors.password = 'Ingresa tu contraseña';
     } else if ( formValues.password.length <= 5 ) errors.password = 'La contraseña debe tener mínino 6 caracteres';
-    
-    if(Object.keys(errors).length === 0) setFormData(formValues)
-    else setFormErrors(errors)
+
+    if ( Object.keys( errors ).length === 0 ) setFormData( formValues );
+    else setFormErrors( errors );
 
 };

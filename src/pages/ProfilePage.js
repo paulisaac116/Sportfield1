@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import firebase from 'firebase';
-import { db, auth } from '../firebase';
+import { useFetchFirestore } from '../hooks/useFetchFirestore';
+import { bodyOverflow } from '../helpers/bodyOverflow';
 
 import { CoursesUser } from '../components/ProfilePage/CoursesUser';
 import { FieldUser } from '../components/ProfilePage/FieldUser';
@@ -9,16 +9,13 @@ import { HeaderComp } from '../components/HeaderComp';
 import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
 import { ModalComment } from '../components/ProfilePage/ModalComment';
 import { GreenButton } from '../components/Buttons/GreenButton';
-import { MessageAddComment } from '../components/ProfilePage/MessageAddComment';
+import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
 
 import '../styles/ProfilePage/ProfilePage.css';
-import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
-import { useFetchFirestore } from '../hooks/useFetchFirestore';
-import { ModalUnsubscribeCourse } from '../components/ProfilePage/ModalUnsubscribeCourse';
-import { UserContext } from '../components/UserContext';
-import { bodyOverflow } from '../helpers/bodyOverflow';
 
 export const ProfilePage = React.memo( () => {
+
+    const { data: userFetchData, loading: loadingUserDataFetch } = useFetchFirestore( 'Users' );
 
     const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
 
@@ -28,10 +25,10 @@ export const ProfilePage = React.memo( () => {
     const [isModalAddCommentVisible, setIsModalAddCommentVisible] = useState( false );
     const [isModalRegisterCourseVisible, setIsModalRegisterCourseVisible] = useState( false );
 
-    const [isMessageAddCommentVisible, setIsMessageAddCommentVisible] = useState( 'hidden' );
+    const [arrayMessageAddTurn, setArrayMessageAddTurn] = useState( [] );
+    const [arrayMessageRegisterCourse, setArrayMessageRegisterCourse] = useState( [] );
+    const [arrayMessageAddComment, setArrayMessageAddComment] = useState( [] );
 
-
-    const userId = useContext( UserContext );
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -40,35 +37,9 @@ export const ProfilePage = React.memo( () => {
         setIsModalAddCommentVisible( true );
     };
 
-    const handleOk = async ( commentTitle, commentContent ) => {
-
-        try {
-            await db.collection( "Comments" ).add( {
-                title: commentTitle,
-                content: commentContent,
-                userName: userData.name,
-                userLastName: userData.lastName,
-                userLand: userData.land,
-                // date: userInfo.date
-            } );
-            console.log( 'Comentario registrado con éxito' );
-
-        } catch ( error ) {
-            const errorCode = error.code;
-            const errorMesage = error.message;
-            console.log( 'errorCode: ', errorCode );
-            console.log( 'errorMesagge: ', errorMesage );
-        }
-        // setUserData([]);
-        document.getElementById( "comment-title" ).value = "";
-        document.getElementById( "comment-content" ).value = "";
-
-        // setIsModalVisible( false );
-    };
-
     useEffect( () => {
 
-        if ( location.state?.userData !== undefined ) {
+        if ( location.state?.userId !== undefined ) {
             setUserSession( true );
         }
 
@@ -79,38 +50,31 @@ export const ProfilePage = React.memo( () => {
     }, [] );
 
 
-    // useEffect( () => {
-    //     auth.onAuthStateChanged( ( user ) => {
-    //         const userId = user?.uid;
-    //         db.collection( "Users" ).doc( userId )
-    //             .onSnapshot( ( doc ) => {
-    //                 setUserData( doc.data() );
-    //             } );
-    //     } );
-    //     // return () => {
-    //     //     const unsubscribe = db.collection( "Users" )
-    //     //         .onSnapshot( () => {
-    //     //         } );
-    //     //     unsubscribe();
-    //     // };
-    // }, [userId] );
+    useEffect( () => {
 
-    // useEffect( () => {
+        setUserData( userFetchData?.find( user => user.id === location.state?.userId ) );
 
-    //     firebase.auth().onAuthStateChanged( ( user ) => {
+    }, [userFetchData] );
 
-    //         if ( user && userData?.email !== 'paulgualab@gmail.com' ) {
-    //             setUserSession( true );
-    //         } else navigate( '/login' );
+    useEffect( () => {
 
-    //     } );
+        setTimeout( () => {
+            while ( arrayMessageAddTurn.length !== 0 ) {
+                arrayMessageAddTurn.pop();
+            }
+        }, 4000 );
 
-    //     return () => {
-    //         const unsubscribe = db.collection( "Users" )
-    //             .onSnapshot( () => { } );
-    //         unsubscribe();
-    //     };
-    // }, [userData] );
+    }, [arrayMessageAddTurn] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageRegisterCourse.length !== 0 ) {
+                arrayMessageRegisterCourse.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageRegisterCourse] );
 
 
     return (
@@ -129,22 +93,16 @@ export const ProfilePage = React.memo( () => {
                             button_func={showModal}
                         />
                         <ModalComment
-                            // userName={userData.name}
-                            // userLastName={userData.lastName}
-                            // userLand={userData.land}
                             userData={userData}
                             isModalVisible={isModalAddCommentVisible}
                             setIsModalVisible={setIsModalAddCommentVisible}
-                            setIsMessageVisible={setIsMessageAddCommentVisible}
-                        />
-                        <MessageAddComment
-                            isMessageAddCommentVisible={isMessageAddCommentVisible}
-
+                            setArrayMessage={setArrayMessageAddComment}
                         />
                     </div>
                     <div className='profile-content__bottom'>
                         <FieldUser
                             userData={userData}
+                            setArrayMessage={setArrayMessageAddTurn}
                         />
                         <CoursesUser
                             userData={userData}
@@ -155,10 +113,27 @@ export const ProfilePage = React.memo( () => {
                             setIsModalVisible={setIsModalRegisterCourseVisible}
                             courses={coursesData}
                             userData={userData}
+                            setArrayMessage={setArrayMessageRegisterCourse}
+
                         />
                     </div>
 
                 </div>
+                {
+                    arrayMessageAddTurn.map( message => (
+                        message
+                    ) )
+                }
+                {
+                    arrayMessageRegisterCourse.map( message => (
+                        message
+                    ) )
+                }
+                {
+                    arrayMessageAddComment.map( message => (
+                        message
+                    ) )
+                }
             </div>
             : <div className='bg-purple-mid h-screen'></div>
     );

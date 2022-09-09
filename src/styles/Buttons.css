@@ -9,14 +9,14 @@
         height: fit-content;
         padding: .4rem .85rem;
         color: theme('colors.white');
-        font-size: .85rem;
+        font-size: .95rem;
         font-weight: 600;
         border-radius: .75rem;
         box-shadow: 0 8px 0 rgba(0, 0, 0, 0.6);
         cursor: pointer;
         transition: background-color 200ms ease-in, transform 200ms ease-in;
 
-        @apply sm:text-sm xl:text-base
+        @apply lg:text-base lg:py-2 lg:px-4 xl:text-lg
     }
 
     .green-button {

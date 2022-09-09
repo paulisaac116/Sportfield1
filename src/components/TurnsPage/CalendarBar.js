@@ -2,7 +2,7 @@ import React from 'react';
 import { months } from '../../data/CalendarMonths';
 import { getDate } from '../../helpers/getDate';
 
-import '../../styles/TurnsPage.css';
+import '../../styles/TurnsPage/TurnsPage.css';
 
 export const CalendarBar = () => {
 

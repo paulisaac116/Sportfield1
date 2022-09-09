@@ -5,32 +5,23 @@ import { GreenButton } from '../Buttons/GreenButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { months } from '../../data/CalendarMonths';
 
-import '../../styles/ProfilePage/ModalComment.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { getDate } from '../../helpers/getDate';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
+import { Message } from '../Message';
 
-export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalVisible, setIsMessageVisible} ) => {
+export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModalVisible, setArrayMessage} ) => {
 
     const initialValues = { title: '', description: '' };
     const [commentData, setCommentData] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
-    const [commentDate, setCommentDate] = useState('');
-
-    
-    
-    useEffect(() => {
-        
-        const date = getDate();
-        setCommentDate(date)
-
-    }, [isModalVisible])
+    const [commentDate, setCommentDate] = useState( '' );
 
 
     const hiddeModal = () => {
         setFormErrors( {} );
-        bodyOverflow('auto')
+        bodyOverflow( 'auto' );
         setIsModalVisible( false );
     };
 
@@ -41,12 +32,10 @@ export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalV
 
     const handleSaveComment = async () => {
 
-        const { title, description } = commentData;
-
-        setFormErrors( validate( commentData ) );
-
-        if ( Object.keys( formErrors ).length === 0 ) {
-
+        if ( !commentData.title ) setFormErrors( { title: 'Ingresa un título' } );
+        else if ( !commentData.description ) setFormErrors( { description: 'Ingresa una descripción' } );
+        else {
+            const { title, description } = commentData;
             try {
                 await db.collection( "Comments" ).add( {
                     title: title,
@@ -56,7 +45,16 @@ export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalV
                     userLastName: userData.lastName,
                     userLand: userData.land,
                 } );
-                // console.log( 'Comentario registrado con éxito' );
+
+                setCommentData( initialValues );
+                setFormErrors( {} );
+                setIsModalVisible( false );
+                bodyOverflow( 'auto' );
+                setArrayMessage([
+                    <Message
+                        messageContent={'Comentario enviado'}
+                    />
+                ])
 
             } catch ( error ) {
                 const errorCode = error.code;
@@ -65,36 +63,19 @@ export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalV
                 console.log( 'errorMesagge: ', errorMesage );
             }
 
-            setCommentData( initialValues );
-            setFormErrors( {} );
-            setIsModalVisible( false );
-            setIsMessageVisible( 'flex slide-in-top' );
-            setTimeout( () => setIsMessageVisible( 'flex slide-out-top' ), 3000 );
-            setTimeout( () => setIsMessageVisible( 'hidden' ), 4000 );
-
         }
-
-
     };
 
-    const validate = ( values ) => {
+    useEffect( () => {
 
-        const errors = {};
-        if ( !values.title ) {
-            errors.title = 'Ingresa un título';
-        }
-        if ( !values.description ) {
-            errors.description = 'Ingresa tu comentario';
-        }
+        const date = getDate();
+        setCommentDate( date );
 
-        return errors;
-
-    };
-
+    }, [isModalVisible] );
 
     return (
 
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Enviar comentario</h1>
                 <p className='modal__content--info'>Envíanos tus comentarios, opiniones o reclamos sobre el estado de las canchas,
@@ -155,4 +136,4 @@ export const ModalComment = React.memo(( { userData, isModalVisible, setIsModalV
         </div>
 
     );
-});
+} );

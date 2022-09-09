@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import sportfield_logo from '../../images/sportfield_log.png';
 
-import '../../styles/LandingPage/landingPage.css';
+import '../../styles/LandingPage/LandingPage.css';
 
 export const HeaderLanding = () => {
 

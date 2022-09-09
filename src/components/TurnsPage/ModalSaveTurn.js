@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { hours } from '../../data/CalendarHours';
 import { months } from '../../data/CalendarMonths';
 import { db, auth } from '../../firebase';
@@ -9,17 +9,14 @@ import { PurpleButton } from '../Buttons/PurpleButton';
 import { getDate } from '../../helpers/getDate';
 import { UserContext } from '../UserContext';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
+import { Message } from '../Message';
 
-export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData, userId } ) => {
+export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData, userId} ) => {
 
 
     const [userData, setUserData] = useState( [] );
-    // const userId = useContext( UserContext );
     const today = getDate();
-    // const history = useHistory();
     const navigate = useNavigate();
-
-
 
     const hiddeModal = () => {
         bodyOverflow('auto')
@@ -62,8 +59,7 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
 
             bodyOverflow('auto')
             setIsModalVisible( false );
-            navigate( -1 );
-
+            navigate(-1)
 
         } catch ( error ) {
             const message = error.message;
@@ -79,16 +75,19 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             .onSnapshot( ( doc ) => {
                 setUserData( doc.data() );
             } );
+            
 
         return () => {
             const unsubscribe = db.collection( "Users" )
                 .onSnapshot( () => { } );
             unsubscribe();
         };
+
+        
     }, [userId] );
 
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Agendar turno</h1>
                 <div className='modal-turn__content'>
@@ -140,14 +139,6 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
                                             ) )
                                         }
                                     </>
-                                    // dateData.map( ( day, key ) => (
-                                    //     <>
-                                    //         <div className='modal-turn__data--row date-row' key={key}>
-                                    //             <p>{`Fecha ${dateData.length === 2 ? key + 1 : ''}`}</p>
-                                    //             <p>{`${day.day} ${day.date} de ${months[day.month]}`}</p>
-                                    //         </div>
-                                    //     </>
-                                    // ) )
                                 )
 
                         }

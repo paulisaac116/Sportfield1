@@ -6,7 +6,7 @@ import { auth, db } from '../../../firebase';
 import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
 
-import '../../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { Message } from '../../Message';
@@ -16,8 +16,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
     const initialValues = { name: '', lastName: '', land: '', email: "", password: "" };
     const [formValues, setFormValues] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
-
-    Object.keys( formErrors ).map( item => console.log( 'first items FormErrors: ', item ) );
 
     const hiddeModal = () => {
         setFormErrors( {} );
@@ -66,8 +64,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                         />
                     ]
                 ) );
-
-                // await auth.signOut();
             }
 
             catch ( error ) {
@@ -78,7 +74,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
             }
         } else {
             Object.keys( formErrors ).map( item => console.log( item ) );
-            console.log( 'no registro :(' );
         }
 
 
@@ -234,5 +229,4 @@ ModalAddUser.propTypes = {
     isModalAddUserVisible: PropTypes.bool,
     setIsModalAddUserVisible: PropTypes.func,
     setIsMessageVisible: PropTypes.func
-
 };

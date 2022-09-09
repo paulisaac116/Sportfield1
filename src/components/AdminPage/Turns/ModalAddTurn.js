@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useFetchFirestore } from '../../../hooks/useFetchFirestore';
+import PropTypes from 'prop-types';
 
 import { PurpleButton } from '../../Buttons/PurpleButton';
 import { GreenButton } from '../../Buttons/GreenButton';
 
-import '../../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/AdminPage.css';
 import { ErrorMessage } from '../../ErrorMessage';
 
 export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
@@ -26,11 +27,10 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
         if ( userSelectedId === '' ) setArrayUserSelectedError( [
             ...arrayUserSelectedError,
             <ErrorMessage
-                messageContent={'Selecciona un usuario'}
+                messageContent={'Seleccione un usuario'}
             />
         ] );
         else {
-
             navigate( '/turns', { state: { id: userSelectedId } } );
         };
 
@@ -52,27 +52,16 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
 
     }, [arrayUserSelectedError] );
 
-    // useEffect( () => {
-
-    //     if ( arrayUserSelectedError.length !== 0 ) {
-    //         setTimeout( () => {
-    //             arrayUserSelectedError.pop();
-
-    //         }, 10000 );
-    //     }
-    // }, [arrayUserSelectedError] );
-
     return (
-        <div className={`modal ${isModalVisible ? 'flex slide-in-fwd-center' : 'slide-out-bck-center hidden'}`}>
+        <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__add-turn'>
                 <h1 className='modal__content--title'>Agendar turno</h1>
                 <p className='modal__deleteUser--text'>Seleccione un usuario para el agendamiento de turno</p>
                 <div aria-labelledby='content' tabIndex='0' role='region' className='table__content overflow-y-auto'>
-                    <table className='Users animate__animated animate__fadeIn'>
+                    <table>
                         <thead>
                             <tr>
-                                <th scope='col' className='thead__name'>Nombre</th>
-                                <th scope='col' className='thead__lastName'>Apellido</th>
+                                <th scope='col' className='thead__name'>Usuario</th>
                                 <th scope='col' className='thead__email'>Email</th>
                                 <th scope='col' className='thead__land'>Lote</th>
                             </tr>
@@ -84,12 +73,11 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
                             >
                                 <tr
                                     key={`${item.id}`}
-                                    className={`table-users__data ${userSelectedId === item.id ? 'purple-light border-solid border-2 border-white' : ''}`}
+                                    className={`${userSelectedId === item.id ? 'purple-light border-solid border-2 border-white' : ''}`}
                                     id={item.id}
                                     onClick={() => changeColor( item.id )}
                                 >
-                                    <td>{`${item.name}`}</td>
-                                    <td>{`${item.lastName}`}</td>
+                                    <td><p>{`${item.name}`}</p> <p>{`${item.lastName}`}</p></td>
                                     <td>{`${item.email}`}</td>
                                     <td>{`${item.land}`}</td>
                                 </tr>
@@ -116,4 +104,11 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
             </div>
         </div >
     );
+};
+
+
+ModalAddTurn.propTypes = {
+    isModalVisible: PropTypes.bool,
+    setIsModalVisible: PropTypes.func,
+    setArrayMessage: PropTypes.func,
 };

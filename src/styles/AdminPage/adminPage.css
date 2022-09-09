@@ -2,37 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.admin-page thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -999px;
-}
-
-.admin-page td::before {
-    white-space: nowrap;
-    font-weight: 500;
-}
-
-
-.Users td:nth-of-type(1)::before { content: "Nombre: "; }
-.Users td:nth-of-type(2)::before { content: "Apellido: ";}
-.Users td:nth-of-type(3)::before { content: "Email: "; }
-.Users td:nth-of-type(4)::before { content: "Lote: "; }
-
-/* .Turns .table-turns__td--name::before { content: "Nombre: ";} */
-.Turns .table-turns__td--lastName::before { content: "Apellido: ";}
-.Turns .table-turns__td--date::before{ content: "Fecha: ";}
-.Turns .table-turns__td--date1::before{ content: "Fecha 1: ";}
-.Turns .table-turns__td--date2::before{ content: "Fecha 2: ";}
-.Turns .table-turns__td--hour::before{ content: "Hora: ";}
-.Turns .table-turns__td--hour1::before{ content: "Hora 1: ";}
-.Turns .table-turns__td--hour2::before{ content: "Hora 2: ";}
-/* .Turns .table-turns__td--field::before{ content: "Cancha: ";} */
-/* .Turns .table-turns__td--saved::before{ content: "Agendado: ";} */
-/* .Turns td:nth-of-type(5)::before { content: "Cancha: "; } */
-
-
 @layer components {
 
     .admin-page {
@@ -53,7 +22,6 @@
 
         @apply sm:flex-row sm:w-11/12 sm:items-start sm:mt-16 sm:gap-x-12
     }
-
 
     .menu__style svg,
     .menu__style p {
@@ -177,14 +145,10 @@
         color: theme('colors.white');
         padding: .6rem 0;
         padding-left: 1rem;
-        border-radius: 20px 20px 0 0;
+        border-radius: 20px;
         display: flex;
         flex-direction: column;
     }
-
-    /* .table__content tbody tr:last-of-type {
-        margin: 0;
-    } */
 
     .menu__table .table__content {
         background-color: theme('colors.purple-dark');
@@ -231,6 +195,7 @@
     .Users .table-users__buttons {
         @apply lg:h-3.55
     }
+    
     /*
         Styling specific details on Courses table
     */
@@ -255,7 +220,6 @@
         font-size: .8rem;
         border-radius: .6rem;
         box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
-        /* border: 1px black solid; */
 
         @apply md:w-full lg:text-sm
     }
@@ -264,7 +228,7 @@
     }
 
     .Courses .table-courses__data {
-        @apply md:py-3 md:rounded-bl-20px md:rounded-tr-none lg:w-full lg:min-h-5rem;
+        @apply md:py-3 lg:w-full lg:min-h-5rem;
     }
 
     .Courses tbody {
@@ -272,54 +236,10 @@
     }
     
 
-    /* .Users .table-users__buttons .rounded-button:last-of-type, */
     .Courses .table-users__buttons .rounded-button:last-of-type {
         margin-left: 1rem;
 
         @apply md:m-0 md:mt-2
-    }
-
-
-
-    .Users tbody {
-        position: relative;
-        @apply md:flex md:border-b-15px md:border-purple-dark md:border-solid lg:h-16
-    }
-
-    .Users thead {
-        text-align: left;
-        color: theme('colors.white');
-        font-size: 1.1rem;
-        /* border-bottom: 10px transparent solid; */
-
-        @apply xl:text-xl lg:border-y-10px lg:border-purple-dark lg:border-solid lg:h-4
-    }
-
-    .Users thead .thead__name {
-        width: 20%
-
-    }
-    .Users thead .thead__lastName {
-        width: 20%
-        
-    }
-    .Users thead .thead__email {
-        width: 30%
-        
-    }
-    .Users thead .thead__land {
-        width: 10%
-        
-    }
-    .Users thead .thead__buttons {
-        width: 20%;
-        color: theme('colors.purple-dark')
-        
-    }
-
-    .Users thead,
-    .Users tbody {
-        @apply lg:table-row-group;
     }
 
     .Courses .td__title {
@@ -328,27 +248,9 @@
     }
 
 
-    .admin-page__content .register__form--row {
-        display: flex;
-        flex-direction: column;
-        /* align-items: center; */
-    }
-
-    .admin-page__content .register__form--row .green-button {
-        width: 10rem;
-        height: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-weight: 500;
-        font-size: .9rem;
-    }
-
-
     /*
         MODAL STYLES
     */
-
 
     .modal {
         display: hidden;
@@ -376,7 +278,6 @@
         border-radius: 20px;
         width: 90%;
         max-width: 30rem;
-        /* overflow-y: hidden; */
     }
 
     .modal__content--title {
@@ -410,6 +311,10 @@
 
     }
 
+    /*
+        MODAL USER TABLE
+    */
+
     .modal__deleteUser--userData {
         display: flex;
         flex-direction: column;
@@ -442,10 +347,17 @@
         display: flex;
     }
 
+    /*
+        MODAL COURSE TABLE
+    */
 
     .modal .modal__addCourse label {
         font-size: 1rem;
-        /* margin-bottom: 3rem; */
+    }
+
+    .modal .modal__addCourse input,
+    .modal .modal__addCourse textarea {
+        font-size: .9rem;
     }
 
     .text-area {
@@ -457,10 +369,73 @@
         padding: .5rem .8rem;
     }
 
-    .modal__add-turn .modal__add-turn--body tr {
+
+    /*
+        MODAL TURNS TABLE
+    */
+
+    .modal .modal__add-turn thead {
+        display: none;
+    }
+
+    .modal .modal__add-turn tbody {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal .modal__add-turn .modal__add-turn--body {
         margin-bottom: 1rem;
-        border-bottom-left-radius: 20px;
-        border-bottom-right-radius: 20px;
+    }
+
+    .modal .modal__add-turn--body tr td:nth-child(1)::before { content: "Usuario: "; font-weight: 600;}
+    .modal .modal__add-turn--body tr td:nth-child(2)::before { content: "Email: "; font-weight: 600;}
+    .modal .modal__add-turn--body tr td:nth-child(3)::before { content: "Lote: "; font-weight: 600;}
+
+    .modal .modal__add-turn--body tr td:first-of-type {
+        display: flex;
+    }
+
+    .modal .modal__add-turn--body tr td:first-of-type p:first-of-type {
+        margin-left: .3rem;
+        margin-right: .3rem;
+    }
+
+    /*
+        MODAL NOTIFICATION
+    */
+
+    .modal__notification .modal__content--title{
+        font-size: 1.15rem;
+
+        @apply md:text-xl
+    }
+
+    .modal .modal__notification form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .modal .modal__notification input {
+        margin-bottom: .5rem;        
+    }
+    
+    .modal .modal__notification textarea {
+        margin-top: .5rem;
+
+        @apply md:h-48
+    }
+
+    .modal .modal__notification input,
+    .modal .modal__notification textarea {
+        min-width: 15rem;
+        font-size: .9rem;
+
+        @apply sm:min-w-20rem md:w-96 md:text-base
+    }
+
+
+    .modal .modal__notification .form__errors {
+        margin: 0;
     }
 
     /*
@@ -496,7 +471,6 @@
         @apply md:flex md:justify-between md:items-center
     }
 
-
     /*
         NOTIFICATION TABLE
     */
@@ -514,22 +488,6 @@
         margin-bottom: 1rem;
     }
 
-    .loading-info {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: fit-content;
-        margin-top: 1.5rem;
-    }
-
-    .loading-info p {
-        margin-left: .5rem;
-    }
-
-    .animate__animated.animate__fadeOut,
-    .animate__animated.animate__fadeIn{
-        --animate-duration: 500ms;
-    }
 
     /*
         TURNS TABLE
@@ -561,7 +519,7 @@
 
 
     /*
-        USERS TABLE - NEW DESIGN
+        USERS TABLE
     */
 
     .Users,
@@ -648,7 +606,7 @@
     }
 
     /*
-        TURNS TABLE - NEW DESIGN
+        TURNS TABLE
     */
 
     .Turns .body-row__data--user {
@@ -736,7 +694,7 @@
     }
 
     /*
-        COURSE TABLE - NEW DESIGN
+        COURSE TABLE
     */
 
     .Courses {
@@ -856,58 +814,31 @@
         border-bottom: 1.5px solid theme('colors.white');
     }
 
+    /*
+        ANIMATION
+        set the animation duration
+    */
 
-
-  
-}
-
-@media(min-width: 1024px) {
-    .Users td:nth-of-type(odd):before,
-     .Users td:nth-of-type(even):before,
-     .Users td:nth-of-type(odd):after,
-     .Users td:nth-of-type(even):after {
-         content: "";
-     }
-
-    .Users thead tr { 
-        position: static;
-    }
-    /* .Users thead, .Users tbody {
-        display: table-row-group;
-        width: 100%;
-    } */
-    /* .Users th, .Users td { 
-        display: table-cell; 
-    } */
-    /* .Users tr {
-        display: table-row;
-    } */
-    /* .Users table{
-        display: table;
-    } */
-
-
-    .Turns td:nth-of-type(odd):before,
-     .Turns td:nth-of-type(even):before,
-     .Turns td:nth-of-type(odd):after,
-     .Turns td:nth-of-type(even):after {
-         content: "";
-     }
-
-    .Turns thead tr { 
-        position: static;
-    }
-    .Turns thead, .Turns tbody {
-        display: table-row-group;
-    }
-    .Turns th, .Turns td { 
-        display: table-cell; 
-    }
-    .Turns tr {
-        display: table-row;
-    }
-    .Turns table{
-        display: table;
+    .animate__animated.animate__fadeOut,
+    .animate__animated.animate__fadeIn{
+        --animate-duration: 500ms;
     }
     
+    /*
+        LOADING STYLES
+            styles of the 'loading' animation
+    */
+    .loading-info {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: fit-content;
+        margin-top: 1.5rem;
+    }
+
+    .loading-info p {
+        margin-left: .5rem;
+    }
+
 }
+

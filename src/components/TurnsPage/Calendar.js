@@ -1,28 +1,17 @@
 import React, { useState } from 'react';
-
-import '../../styles/TurnsPage.css';
-import { days } from '../../data/CalendarDays';
-// import { hours } from '../../data/CalendarHours';
-// import { getWeek } from '../../helpers/getWeek';
-// import { months } from '../../data/CalendarMonths';
-import { CalendarTable } from './CalendarTable';
 import { getDate } from '../../helpers/getDate';
+
+
+import { CalendarTable } from './CalendarTable';
 import { CalendarBar } from './CalendarBar';
-import {GreenButton} from '../Buttons/GreenButton';
+
+import '../../styles/TurnsPage/TurnsPage.css';
+import { days } from '../../data/CalendarDays';
 
 export const Calendar = React.memo( ({setDateData, confirmField, fieldData}) => {
 
-    const [hoursCounter, setHoursCounter] = useState( 0 );
-    const [turnsCounter, setTurnsCounter] = useState( 0 );
     const [weekArray, setWeekArray] = useState( [] );
     const today = getDate();
-
-    const changeColor = ( ) => {
-
-        document.getElementById( '00' ).className = 'green';
-
-    };
-
 
     return (
         <div className='calendar'>
@@ -54,11 +43,6 @@ export const Calendar = React.memo( ({setDateData, confirmField, fieldData}) => 
 
                 />
             </table>
-            {/* <GreenButton
-                button_name={'edit html'}
-                button_func={changeColor}
-            
-            /> */}
         </div>
     );
 } );

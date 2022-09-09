@@ -3,35 +3,26 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Routes } from 'react-router-dom';
 import { UserContext } from './components/UserContext';
 import { auth } from './firebase/index';
-import { useFetchFirestore } from './hooks/useFetchFirestore';
+
 import { AdminPage } from './pages/AdminPage';
 import { FailedPage } from './pages/FailedPage';
 import { LandingPage } from './pages/LandingPage';
-
-import {LoginPage} from './pages/LoginPage';
-import {ProfilePage} from './pages/ProfilePage';
+import { LoginPage } from './pages/LoginPage';
+import { ProfilePage } from './pages/ProfilePage';
 import RegisterPage from './pages/RegisterPage';
 import { TurnsPage } from './pages/TurnsPage';
-// import TurnsPage from './pages/TurnsPage';
-
 
 import './styles/App.css';
-
 
 const App = () => {
 
   const [userId, setUserId] = useState( "" );
-
-  const { data: adminData, loading } = useFetchFirestore( 'Admin' );
-
-  const [admin, setAdmin] = useState([])
 
   useEffect( () => {
     auth.onAuthStateChanged( ( user ) => {
       if ( user ) {
         const uid = user.uid;
         setUserId( uid );
-        // console.log( 'userId: ', uid );
 
       } else {
         console.log( 'Not session' );
@@ -39,17 +30,12 @@ const App = () => {
     } );
   }, [] );
 
-  useEffect(() => {
-
-    setAdmin(adminData)
-
-  }, [adminData])
 
   return (
     <UserContext.Provider value={userId}>
       <Router>
         <Routes>
-          <Route 
+          <Route
             path='/'
             element={<LandingPage />}
           />
@@ -61,15 +47,14 @@ const App = () => {
             path="/admin"
             element={<AdminPage />}
           />
-
           <Route
             path="/login"
-            element={<LoginPage adminData={admin}/>}
+            element={<LoginPage />}
 
           />
           <Route
             path="/profile"
-            element={<ProfilePage adminData={admin}/>}
+            element={<ProfilePage />}
           />
           <Route
             path='/turns'

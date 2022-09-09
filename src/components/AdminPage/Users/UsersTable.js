@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import '../../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/AdminPage.css';
 import { RedButton } from '../../Buttons/RedButton';
 
 export const UsersTable = React.memo( ( { tableData, setUserData, setIsModalVisible } ) => {
@@ -49,4 +49,4 @@ UsersTable.propTypes = {
     tableData: PropTypes.array,
     setUserData: PropTypes.func,
     setIsModalVisible: PropTypes.func
-}
+};

@@ -9,17 +9,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.8rem;
+    padding: 1.5rem 1.8rem;
     box-shadow: 0 15px 5px rgba(0, 0, 0, 0.5);
     background-color: theme('colors.black');
     position: relative;
     z-index: 500;
 
-    @apply sm:py-6 sm:px-10 lg:px-14
+    @apply sm:py-7 sm:px-10 lg:px-14 lg:py-8
   
   }
 
   .header nav a {
+
+    @apply md:ml-8 lg:ml-16
+  }
+
+  .header nav a ,
+  .header-profile__nav--notif {
     font-weight: 700;
     font-size: 1.2rem;
     text-decoration: none;
@@ -29,9 +35,37 @@
      
   }
 
+  .header nav a:hover,
+  .header-profile__nav--notif:hover {
+    text-decoration: underline;
+  }
+
   .header .back-logo {
     color: theme('colors.white')
   }
+
+  .header-profile__nav {
+    display: flex;
+  }
+
+  .header-profile__nav--notif {
+    display: none;
+    cursor: pointer;
+
+    @apply md:flex
+  }
+
+  /*
+    NOTIFICATIONS HEADER
+  */
+
+  header .notifications-frame {
+    width: 25rem;
+    top: 62px;
+    right: 115px;
+  }
+
+  
 
 }
 

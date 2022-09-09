@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { BlackButton } from '../Buttons/BlackButton';
 import { FieldCardsData } from '../../data/FieldCardsData';
 
-import '../../styles/TurnsPage.css'
+import '../../styles/TurnsPage/TurnsPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +18,6 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const sectorMedio = () => {
         confirmField( false );
-        // console.log( field );
         setDateData( [] );
         setMenuItem( medioMenuItem );
         setFieldCardTable( medioFieldsTable );
@@ -26,7 +25,6 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const sectorInferior = () => {
         confirmField( false );
-        console.log( field );
         setDateData( [] );
         setMenuItem( inferiorMenuItem );
         setFieldCardTable( inferiorFieldsTable );
@@ -35,7 +33,7 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
 
     const changeColor = ( array, arrayElement ) => {
         setFieldData( arrayElement );
-        console.log('array element: ', arrayElement)
+        setDateData( [] );
         const newArray = [];
         confirmField( true );
 

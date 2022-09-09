@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { GreenButton } from '../../Buttons/GreenButton';
 import { RedButton } from '../../Buttons/RedButton';
@@ -10,7 +11,6 @@ import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 
 export const CoursesTable = ( { tableData, setCourseData, setIsModalEditVisible, setIsModalDeleteVisible } ) => {
 
-    const [isRegisteredUsersVisible, setIsRegisteredUsersVisible] = useState( {} );
     const [tableCourse, setTableCourse] = useState( [] );
 
     useEffect( () => {
@@ -24,12 +24,7 @@ export const CoursesTable = ( { tableData, setCourseData, setIsModalEditVisible,
 
         setTableCourse( newArray );
 
-    }, [] );
-
-    useEffect( () => {
-        console.log( 'isRegistered ', isRegisteredUsersVisible );
-
-    }, [isRegisteredUsersVisible] );
+    }, [tableData] );
 
 
     const showRegisteredUsers = ( id ) => {
@@ -43,11 +38,15 @@ export const CoursesTable = ( { tableData, setCourseData, setIsModalEditVisible,
         setTableCourse( newArray );
     };
 
-    const handleEditCourse = () => {
+    const handleEditCourse = ( course ) => {
+        setCourseData( course );
+        setIsModalEditVisible( true );
 
     };
 
-    const handleDeleteCourse = () => {
+    const handleDeleteCourse = ( course ) => {
+        setCourseData( course );
+        setIsModalDeleteVisible( true );
 
     };
 
@@ -113,4 +112,12 @@ export const CoursesTable = ( { tableData, setCourseData, setIsModalEditVisible,
 
         </div>
     );
+};
+
+CoursesTable.propTypes = {
+    tableData: PropTypes.array,
+    setCourseData: PropTypes.func,
+    setIsModalEditVisible: PropTypes.func,
+    setIsModalDeleteVisible: PropTypes.func
+
 };

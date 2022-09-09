@@ -1,10 +1,6 @@
 import React from 'react';
 
-// import '../../styles/FieldsTable.css';
-
-// import '../../styles/ProfilePage/ProfilePage.css'
-
-import '../../styles/TurnsPage.css'
+import '../../styles/TurnsPage/TurnsPage.css';
 
 export const FieldBar = () => {
     return (

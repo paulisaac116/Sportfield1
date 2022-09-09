@@ -194,12 +194,6 @@
 
   }
 
-  /*
-    Animation
-  */
-
-
-
 }
 
 .RegisterPage .content__form {
@@ -208,35 +202,4 @@
   /* background-color: #3A438B; */
   /* padding: 25px 35px; */
   /* border-radius: 20px; */
-}
-
-.RegisterPage .content__form .content__form--row {
-  /* display: flex;
-  flex-direction: column; */
-  /* margin-bottom: 10px; */
-}
-
-.RegisterPage .content__form .content__form--column {
-  /* display: flex; */
-  /* justify-content: space-between; */
-}
-
-.RegisterPage .content__form .content__form--column .content__form--row input {
-  /* width: 200px; */
-}
-
-.RegisterPage .content__form .content__form--row label {
-  /* color: white; */
-  /* font-size: 16px; */
-  /* font-weight: 600; */
-  /* margin-bottom: 6px; */
-}
-
-.RegisterPage .content__form {
-  /* width: 500px; */
-}
-
-.login__content .link__login-form:hover {
-  /* color: theme('colors.purple-dark') */
-  /* color: '#296AC5'; */
 }

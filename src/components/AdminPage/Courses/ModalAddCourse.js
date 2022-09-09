@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { auth, db } from '../../../firebase';
+import React, { useState } from 'react';
+import { db } from '../../../firebase';
+import PropTypes from 'prop-types';
 
 import { GreenButton } from '../../Buttons/GreenButton';
 import { PurpleButton } from '../../Buttons/PurpleButton';
+import { Message } from '../../Message';
 
-import '../../../styles/AdminPage/adminPage.css';
+import '../../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
-import { Message } from '../../Message';
 
 export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
@@ -15,72 +16,55 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
     const [formValues, setFormValues] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
 
-    const handleInputChange = ( { target } ) => {
-        const { name, value } = target;
-        setFormValues( { ...formValues, [name]: value } );
-    };
-
     const hiddeModal = () => {
-        setFormErrors({})
+        setFormValues( initialValues );
+        setFormErrors( {} );
         setIsModalVisible( false );
 
     };
 
-    useEffect(() => {
-        console.log('errors each time: ', formErrors)
-    }, [formErrors])
-
     const handleAddCourse = async () => {
 
-        setFormErrors( validate( formValues ) );
-        
-        if ( Object.keys( formErrors ).length === 0 ) {
-            
+        if ( !formValues.title ) setFormErrors( { title: 'Ingresa un título' } );
+        else if ( !formValues.description ) setFormErrors( { description: 'Ingresa una descripción' } );
+        else {
+
             const { title, description } = formValues;
 
             try {
-                console.log('start the try statement')
                 await db.collection( 'Courses' ).add( {
                     title,
                     description,
                     registered: []
                 } );
 
-                setFormErrors({})
+                setFormErrors( {} );
                 setFormValues( initialValues );
                 setIsModalVisible( false );
-                setArrayMessage((prevState) => (
+                setArrayMessage( ( prevState ) => (
                     [
                         ...prevState,
                         <Message
                             messageContent={'Curso registrado'}
                         />
                     ]
-                ))
+                ) );
 
             } catch ( error ) {
                 const errorCode = error.code;
                 const errorMesage = error.message;
-                console.log( 'errorCode: ', errorCode );
-                console.log( 'errorMesagge: ', errorMesage );
+                console.log( 'contact with the provider' );
+                // console.log( 'errorCode: ', errorCode );
+                // console.log( 'errorMesagge: ', errorMesage );
 
             }
-
-        } else console.log('hay errores')
+        }
 
     };
 
-    const validate = ( values ) => {
-
-        const errors = {};
-        if ( !values.title ) {
-            errors.title = 'Ingresa un título';
-        }
-        if ( !values.description ) {
-            errors.description = 'Ingresa la descripción del curso';
-        }
-        console.log('errors: ', errors)
-        return errors;
+    const handleInputChange = ( { target } ) => {
+        const { name, value } = target;
+        setFormValues( { ...formValues, [name]: value } );
     };
 
 
@@ -145,3 +129,10 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
         </div>
     );
 };
+
+ModalAddCourse.propTypes = {
+    isModalVisible: PropTypes.bool,
+    setIsModalVisible: PropTypes.func,
+    setArrayMessage: PropTypes.func
+};
+

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import { hours } from '../../../data/CalendarHours';
 import { months } from '../../../data/CalendarMonths';
 import { RedButton } from '../../Buttons/RedButton';
@@ -76,7 +78,7 @@ export const TurnsTable = ( { tursData, setTurnData, setIsModalVisible } ) => {
                                                 </div></>
                                         : <p className='text-white'>ups</p>
                                 }
-                                
+
                                 <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} de ${turn.savedIn?.year} - ${turn.savedIn?.hour}:${turn.savedIn?.minute}`}</p>
                             </div>
                             <div className='body-row__buttons'>
@@ -94,4 +96,10 @@ export const TurnsTable = ( { tursData, setTurnData, setIsModalVisible } ) => {
 
         </div>
     );
+};
+
+TurnsTable.propTypes = {
+    tursData: PropTypes.array,
+    setTurnData: PropTypes.func,
+    setIsModalVisible: PropTypes.func
 };

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import '../../styles/BlackButton.css';
 
-export const BlackButton = ( { button_name, button_func, button_id, button_logo, button_value } ) => {
+export const BlackButton = ( { button_name, button_func, button_id, button_logo } ) => {
 
     return (
         <button
@@ -14,4 +15,12 @@ export const BlackButton = ( { button_name, button_func, button_id, button_logo,
             {button_name}{button_logo}
         </button>
     );
+};
+
+BlackButton.propTypes = {
+
+    button_name: PropTypes.string,
+    button_func: PropTypes.func,
+    button_id: PropTypes.string,
+    button_logo: PropTypes.func
 };

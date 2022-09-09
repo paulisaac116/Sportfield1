@@ -10,7 +10,7 @@ import { ModalSaveTurn } from '../components/TurnsPage/ModalSaveTurn';
 import { HeaderBack } from '../components/HeaderBack';
 import { ErrorMessage } from '../components/ErrorMessage';
 
-import '../styles/TurnsPage.css';
+import '../styles/TurnsPage/TurnsPage.css';
 
 export const TurnsPage = React.memo( () => {
 
@@ -26,7 +26,6 @@ export const TurnsPage = React.memo( () => {
     const [messageDateError, setMessageDateError] = useState( [] );
 
     const saveTurn = () => {
-        console.log( 'date on click ', dateData );
         if ( verifySelectedField && dateData.length !== 0 ) {
             bodyOverflow( 'hidden' );
             setIsModalVisible( true );
@@ -55,7 +54,7 @@ export const TurnsPage = React.memo( () => {
             while ( messageFieldError.length !== 0 ) {
                 messageFieldError.pop();
             }
-        }, 10000 );
+        }, 4000 );
 
     }, [messageFieldError] );
 
@@ -65,9 +64,15 @@ export const TurnsPage = React.memo( () => {
             while ( messageDateError.length !== 0 ) {
                 messageDateError.pop();
             }
-        }, 10000 );
+        }, 4000 );
 
     }, [messageDateError] );
+
+    useEffect( () => {
+
+        console.log( 'userId turn: ', location.state.id );
+
+    }, [] );
 
     return (
         <div className='TurnsPage'>
@@ -76,7 +81,7 @@ export const TurnsPage = React.memo( () => {
                 <div className="turn__field">
                     <div className="turn__field--instruction">
                         <div className='number__circle'>
-                            <p className='number__one'>1</p>
+                            1
                         </div>
                         <p>Selecciona el sector de ubicación, y el tipo de cancha</p>
                     </div>
@@ -99,7 +104,7 @@ export const TurnsPage = React.memo( () => {
                 <div className="turn__date">
                     <div className="turn__field--instruction">
                         <div className='number__circle'>
-                            <p className='number__one'>2</p>
+                            2
                         </div>
                         <p>Selecciona la fecha y hora</p>
                     </div>
@@ -111,14 +116,15 @@ export const TurnsPage = React.memo( () => {
                     <GreenButton
                         button_name="Agendar turno"
                         button_func={saveTurn}
+                        extraClass='main-button'
                     />
                 </div>
             </div>
             <ModalSaveTurn
                 isModalVisible={isModalVisible}
-                fieldData={fieldData}
-                dateData={dateData}
                 setIsModalVisible={setIsModalVisible}
+                dateData={dateData}
+                fieldData={fieldData}
                 userId={location.state.id}
             />
             {

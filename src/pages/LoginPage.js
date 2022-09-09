@@ -1,26 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import firebase from 'firebase';
 
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { GreenButton } from '../components/Buttons/GreenButton';
 import { PurpleButton } from '../components/Buttons/PurpleButton';
-import { auth, db } from '../firebase/index';
+import { auth } from '../firebase/index';
 
 import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import sportfield_logo from '../images/sportfield_log.png';
-// import { Test } from '../Test';
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
 
-export const LoginPage = ( { adminData } ) => {
+export const LoginPage = () => {
 
   const navigate = useNavigate();
 
   const [loginSession, setLoginSession] = useState( false );
-  // const [userLogged, setuserLogged] = useState(second)
-  const [adminLogged, setAdminLogged] = useState(false )
+  const [adminLogged, setAdminLogged] = useState( false );
+  const [adminId, setAdminId] = useState( undefined );
+
   const [userLogged, setUserLogged] = useState( false );
+  const [userId, setUserId] = useState( undefined );
 
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState( initialValues );
@@ -54,12 +54,11 @@ export const LoginPage = ( { adminData } ) => {
           password
         );
 
-        console.log( 'admin' );
         const user = userCredential.user;
-        // console.log('user from login: (handle)', user.uid)
-        setAdminLogged(true)
-        setLoginSession(true)
-        navigate( "/admin", {state: { adminData: user.uid}});
+        setAdminLogged( true );
+        setLoginSession( true );
+        setAdminId( user.uid );
+        navigate( "/admin", { state: { adminData: user.uid } } );
 
       } catch ( error ) {
         const errorCode = error.code;
@@ -83,10 +82,10 @@ export const LoginPage = ( { adminData } ) => {
         // Signed in
         const user = userCredential.user;
 
-        console.log('profile')
         setUserLogged( true );
-        setLoginSession(true)
-        navigate( "/profile", {state: {userData: user.uid}});
+        setLoginSession( true );
+        setUserId( user.uid );
+        navigate( "/profile", { state: { userId: user.uid } } );
 
       } catch ( error ) {
         const errorCode = error.code;
@@ -107,10 +106,15 @@ export const LoginPage = ( { adminData } ) => {
 
   useEffect( () => {
 
-    if(adminLogged && loginSession) navigate('/admin')
-    else if(userLogged && loginSession ) navigate('/profile')
+    if ( adminLogged && loginSession ) navigate( '/admin', { state: { adminId: adminId } } );
 
-  }, [] );
+  }, [adminLogged, adminId] );
+
+  useEffect( () => {
+
+    if ( userLogged && loginSession ) navigate( '/profile', { state: { userId: userId } } );
+
+  }, [userLogged, userId] );
 
 
   return (
@@ -163,12 +167,6 @@ export const LoginPage = ( { adminData } ) => {
               button_func={handleSubmit}
             />
           </form>
-          {/* <a
-            href='/password'
-            className='link__login-form'
-          >
-            ¿Haz olvidado tu contraseña?
-          </a> */}
           <a
             href='/register'
             className='link__login-form'
