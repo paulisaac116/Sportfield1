@@ -105,48 +105,81 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
 
     }, [fieldData, confirmField] );
 
-    useEffect(() => {
+    useEffect( () => {
 
-        tableDays.forEach(row => {
-            row.forEach(column => {
-                column.forEach(day => {
+        tableDays.forEach( row => {
+            row.forEach( column => {
+                column.forEach( day => {
 
-                    if (document.getElementById(day.id).className === 'green') document.getElementById(day.id).className = ''
-                })
-            })
-        })
+                    if ( document.getElementById( day.id ).className === 'green' ) document.getElementById( day.id ).className = '';
+                } );
+            } );
+        } );
 
-        
-    }, [confirmField, tableDays])
+
+    }, [confirmField, tableDays] );
 
     return (
-        <tbody>
-            {
-                tableDays.map( ( row, rowKey ) => (
-                    <tr key={rowKey}>
-                        {
-                            row.map( ( column ) => (
-                                column.map( ( day, columnKey ) => (
-                                    <td
-                                        key={day.id}
-                                        id={day.id}
-                                        className={`${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
-                                        onClick={() => selectedCell( day )}
-                                    >
-                                        {day.id}
-                                    </td>
+        <>
+            {/* <tbody>
+                {
+                    tableDays.map( ( row, rowKey ) => (
+                        <tr key={rowKey}>
+                            {
+                                row.map( ( column ) => (
+                                    column.map( ( day, columnKey ) => (
+                                        <td
+                                            key={day.id}
+                                            id={day.id}
+                                            className={`${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
+                                            onClick={() => selectedCell( day )}
+                                        >
+                                            {day.id}
+                                        </td>
+                                    ) )
                                 ) )
-                            ) )
-                        }
-                    </tr>
+                            }
+                        </tr>
 
-                ) )
-            }
-            {
-                arrayMessageDateError.map( message => (
-                    message
-                ) )
-            }
-        </tbody>
+                    ) )
+                }
+                {
+                    arrayMessageDateError.map( message => (
+                        message
+                    ) )
+                }
+            </tbody> */}
+            <div className='calendar__body'>
+                {
+                    tableDays.map( ( row, rowKey ) => (
+                        <div className='calendar__body--row' key={rowKey}>
+                            {
+
+                                row.map( ( column, columnKey ) => (
+                                    column.map( ( day, dayKey ) => (
+                                        <div
+                                            key={day.id}
+                                            id={day.id}
+                                            className={`body-row__day ${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
+                                            onClick={() => selectedCell( day )}
+                                        >
+                                            {day.id}
+                                        </div>
+
+                                    ) )
+                                ) )
+                            }
+
+                        </div>
+                    ) )
+                }
+                {
+                    arrayMessageDateError.map( message => (
+                        message
+                    ) )
+                }
+
+            </div>
+        </>
     );
 } );

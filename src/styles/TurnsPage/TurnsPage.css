@@ -363,20 +363,7 @@
     @apply sm:ml-2
   }
 
-  /*
-    CALENDAR TABLE
-  */
-
-  .TurnsPage .calendar {
-    width: 100%;
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    /* padding-left: 2rem; */
-
-    @apply sm:items-center
-  }
+  
 
 
   /*
@@ -411,22 +398,6 @@
   }
 
   /*
-    CALENDAR
-  */
-
-  .TurnsPage .table__calendar {
-    width: 15rem;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    margin-top: 1rem;
-    position: relative;
-    left: -25px;
-
-    @apply sm:left-0 lg:w-17rem lg:h-17rem lg:left-3
-  
-  }
-
-  /*
     MODAL SAVE TURN
   */
 
@@ -449,284 +420,186 @@
     @apply lg:px-5
   }
   
+  .TurnsPage .turn__field__instruction,
+  .TurnsPage .turn__field__fieldCards,
+  .TurnsPage .turn__date__instruction,
+  .TurnsPage .turn__date__calendar {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+  }
+  
+  .TurnsPage .turn__field__fieldCards h2 {
+    padding: 8px 30px;
+    text-transform: uppercase;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: white;
+    border-radius: 40px;
+    background-color: theme('colors.black');
+  }
+  
 
-}
-
-.turn__field__instruction,
-.turn__field__fieldCards,
-.turn__date__instruction,
-.turn__date__calendar {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.turn__field__fieldCards h2 {
-  padding: 8px 30px;
-  text-transform: uppercase;
-  font-size: 1.25rem;
-  font-weight: 700;
-  color: white;
-  border-radius: 40px;
-  background-color: theme('colors.black');
-}
-
-.turn__field__instruction .title {
-  margin-bottom: 20px;
-}
-
-.turn__field__instruction .card {
-  height: 250px;
-}
-
-/**
-  TURN DATE SECTION
-*/
-
-.turn__date__instruction .title {
-  margin-bottom: 20px;
-}
-
-.turn__date__calendar .hour-bar {
-  display: flex;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.turn__date__calendar .site-calendar-demo-card {
-  position: relative;
-  z-index: 400;
-}
-
-.hour-bar .hour-bar__time-and-hour {
-  margin-left: 20px;
-  display: flex;
-  position: relative;
-  width: 275px;
-  z-index: 500;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.time-menu .hour-bar__am-pm-menu,
-.hour-menu .hour-bar__numbers-menu {
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-}
-
-.hour-bar__time-and-hour .time-menu,
-.hour-bar__time-and-hour .hour-menu {
-  position: relative;
-  height: 48px;
-}
-
-.hour-bar__time-and-hour .hour-menu {
-  margin-left: 5px;
-}
-
-.time-menu .hour-bar__am-pm-menu {
-  left: 0;
-}
-
-.time-menu .hour-bar__am-pm-menu .black-button:last-of-type {
-  text-align: left;
-}
-
-.time-menu .black-button {
-  width: 121px;
-}
-
-.hour-menu .hour-bar__numbers-menu .black-button {
-  width: 149px;
-  padding: 1px;
-  font-size: 18px;
-}
-
-.hour-menu .hour-bar__numbers-menu {
-  top: 46px;
-  background-color: #2f2e2e;
-  right: 0;
-  border-radius: 20px;
-  border: 2px solid #4d59bb;
-}
-
-.turn__date__calendar p {
-  padding: 8px 30px;
-  text-transform: uppercase;
-  font-size: 20px;
-  font-weight: 500;
-  color: white;
-  border: none;
-  outline: none;
-  border-radius: 20px;
-  background-color: #2f2e2e;
-  margin: 0;
-}
-
-.turn__date__instruction .button {
-  margin-top: 20px;
-}
-
-/*
+  /*
   CALENDAR
-*/
+  */
+  
+  .TurnsPage .calendar {
+    width: 15rem;
+    margin-top: 1.25rem;
+    position: relative;
+    left: 12px;
+  
+  }
 
+  .TurnsPage .calendar .calendar__head {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .TurnsPage .calendar__head--item {
+    background-color: theme('colors.black');
+    width: 2.4rem;
+    font-weight: 500;
+    text-align: center;
+    color: theme('colors.white');
+  }
+  
 
+  .TurnsPage .calendar__head--item:first-of-type {
+    border-top-left-radius: 10px;
+  }
+  
+  .TurnsPage .calendar__head--item:last-of-type {
+    border-top-right-radius: 10px;
+  
+  }
 
+  .TurnsPage .calendar__body {
+    display: flex;
+    flex-direction: column;
+  }
 
-.table__calendar thead,
-.table__calendar tbody {
-  color: theme('colors.white');
-  /* position: relative; */
-}
+  .TurnsPage .calendar__body--row {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+  }
 
-.table__calendar thead tr th {
-  background-color: theme('colors.black');
-  width: 2rem;
-  font-weight: 500;
-}
+  .TurnsPage .calendar__body--row div {
+    width: 100%;
+    text-align: center;
+    border: 1px solid theme('colors.white');
+    color: transparent;
+    background-color: theme('colors.purple-mid');
+  }
+  
+  
+  .TurnsPage .purple-mid {
+    background-color: theme('colors.purple-mid');
+  }
+  .TurnsPage .green {
+    background-color: theme('colors.green') !important;
+  }
+  .TurnsPage .purple-light {
+    background-color: theme('colors.purple-light') !important;
+  }
+  
+  .TurnsPage .red {
+    background-color: theme('colors.red') !important;
+  }
+  .TurnsPage .gray {
+    background-color: theme('colors.gray') !important;
+  }
+  
+  .TurnsPage .calendar__body--row::before,
+  .TurnsPage .table__calendar tbody tr::after {
+    font-weight: 500;
+    font-size: .75rem;
+    text-align: right;
+    color: theme('colors.white');
+    position: absolute;
+    left: -40px;
+    top: -7px;
+  }
+  
+  .TurnsPage .calendar__body--row:nth-child(1)::before { content: "9AM"; }
+  .TurnsPage .calendar__body--row:nth-child(2)::before { content: "10AM";}
+  .TurnsPage .calendar__body--row:nth-child(3)::before { content: "11AM"; }
+  .TurnsPage .calendar__body--row:nth-child(4)::before { content: "12PM"; }
+  .TurnsPage .calendar__body--row:nth-child(5)::before { content: "13PM"; }
+  .TurnsPage .calendar__body--row:nth-child(6)::before { content: "14PM"; }
+  .TurnsPage .calendar__body--row:nth-child(7)::before { content: "15PM"; }
+  .TurnsPage .calendar__body--row:nth-child(8)::before { content: "16PM"; }
+  .TurnsPage .calendar__body--row:nth-child(9)::before { content: "17PM"; }
+  .TurnsPage .table__calendar tbody tr:nth-of-type(9)::after { content: "18PM"; }
+  
+  .TurnsPage .info--row__square {
+    width: .75rem;
+    height: .75rem;
+    margin-right: .4rem;
+  }
+  
+  
+  .TurnsPage .error__message {
+    width: fit-content;
+    background-color: theme('colors.red');
+    color: theme('colors.white');
+    font-weight: 600;
+    align-items: center;
+    justify-content: space-between;
+    padding: .5rem .85rem;
+    border-radius: 10px;
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    right: -50%;
+    transform: translate(-50%, -50%);
+    z-index: 8000;
+    border: 2px solid theme('colors.black');
+  
+  }
+  
+  .TurnsPage .error__message svg {
+    margin-right: .5rem;
+  }
+  
+  .TurnsPage .modal-turn__data {
+    font-size: .85rem;
+  }
+  
+  /*
+    MODAL SAVE TURN
+  */
+  
+  .TurnsPage .modal-turn__data--row {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  
+  .TurnsPage .modal-turn__data--row.date-row {
+    margin-bottom: .5rem;
+  
+  }
+  
+  .TurnsPage .modal-turn__data--row p:first-of-type {
+    font-weight: 600;
+    margin-right: .5rem;
+    flex-basis: 30%
+  }
+  
+  .TurnsPage .modal-turn__data--row p:last-of-type {
+    min-width: 10rem;
+    background-color: theme('colors.purple-mid');
+    padding: .2rem .4rem;
+    border-radius: 10px;
+    flex-basis: 70%
+  }
+  
 
-.table__calendar thead tr th:first-of-type {
-  border-top-left-radius: 10px;
-}
-
-.table__calendar thead tr th:last-of-type {
-  border-top-right-radius: 10px;
-
-}
-
-
-
-.table__calendar tbody tr td {
-  border: 1px solid theme('colors.white');
-}
-
-.table__calendar tbody tr td{
-  background-color: theme('colors.purple-mid');
-  color: transparent;
-}
-
-.purple-mid {
-  background-color: theme('colors.purple-mid');
-}
-.green {
-  background-color: theme('colors.green') !important;
-}
-.purple-light {
-  background-color: theme('colors.purple-light') !important;
-}
-
-.red {
-  background-color: theme('colors.red') !important;
-}
-.table__calendar tbody tr {
-  position: relative;
-}
-
-.gray {
-  background-color: theme('colors.gray') !important;
-}
-
-
-.table__calendar tbody tr td::before,
-.table__calendar tbody tr td::after {
-  /* white-space: nowrap; */
-  font-weight: 500;
-  font-size: .75rem;
-  color: theme('colors.white');
-  position: absolute;
-}
-
-.table__calendar tbody tr td::before {
-  top: -8px;
-  left: -40px;
-  text-align: right;
-}
-
-.table__calendar tbody tr td::after {
-  bottom: -10px;
-  left: -40px;
-}
-
-.table__calendar tbody tr:nth-of-type(1) td:first-of-type::before { content: "9AM"; }
-.table__calendar tbody tr:nth-of-type(2) td:first-of-type::before { content: "10AM";}
-.table__calendar tbody tr:nth-of-type(3) td:first-of-type::before { content: "11AM"; }
-.table__calendar tbody tr:nth-of-type(4) td:first-of-type::before { content: "12PM"; }
-.table__calendar tbody tr:nth-of-type(5) td:first-of-type::before { content: "13PM"; }
-.table__calendar tbody tr:nth-of-type(6) td:first-of-type::before { content: "14PM"; }
-.table__calendar tbody tr:nth-of-type(7) td:first-of-type::before { content: "15PM"; }
-.table__calendar tbody tr:nth-of-type(8) td:first-of-type::before { content: "16PM"; }
-.table__calendar tbody tr:nth-of-type(9) td:first-of-type::before { content: "17PM"; }
-.table__calendar tbody tr:nth-of-type(9) td:first-of-type::after { content: "18PM"; }
-
-
-.info--row__square {
-  width: .75rem;
-  height: .75rem;
-  margin-right: .4rem;
-}
-
-
-.error__message {
-  width: fit-content;
-  background-color: theme('colors.red');
-  color: theme('colors.white');
-  font-weight: 600;
-  align-items: center;
-  justify-content: space-between;
-  padding: .5rem .85rem;
-  border-radius: 10px;
-  position: fixed;
-  top: 40px;
-  left: 50%;
-  right: -50%;
-  transform: translate(-50%, -50%);
-  z-index: 8000;
-  border: 2px solid theme('colors.black');
-
-}
-
-.error__message svg {
-  margin-right: .5rem;
-}
-
-.modal-turn__data {
-  font-size: .85rem;
-}
-
-/*
-  MODAL SAVE TURN
-*/
-
-
-
-.modal-turn__data--row {
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-
-.modal-turn__data--row.date-row {
-  margin-bottom: .5rem;
-
-}
-
-.modal-turn__data--row p:first-of-type {
-  font-weight: 600;
-  margin-right: .5rem;
-  flex-basis: 30%
-}
-
-.modal-turn__data--row p:last-of-type {
-  min-width: 10rem;
-  background-color: theme('colors.purple-mid');
-  padding: .2rem .4rem;
-  border-radius: 10px;
-  flex-basis: 70%
 }

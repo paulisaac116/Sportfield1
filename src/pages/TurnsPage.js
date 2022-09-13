@@ -68,12 +68,6 @@ export const TurnsPage = React.memo( () => {
 
     }, [messageDateError] );
 
-    useEffect( () => {
-
-        console.log( 'userId turn: ', location.state.id );
-
-    }, [] );
-
     return (
         <div className='TurnsPage'>
             <HeaderBack />
