@@ -16,7 +16,7 @@
         cursor: pointer;
         transition: background-color 200ms ease-in, transform 200ms ease-in;
 
-        @apply lg:text-base lg:py-2 lg:px-4 xl:text-lg
+        @apply lg:text-base lg:py-2 lg:px-4
     }
 
     .green-button {
@@ -37,7 +37,6 @@
 
     .purple-button {
         background-color: theme('colors.purple-mid');
-        /* background-color: white; */
     }
     .purple-button:hover {
         background-color: theme('colors.purple-dark');

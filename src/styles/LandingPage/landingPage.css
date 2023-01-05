@@ -45,13 +45,12 @@
         align-items: center;
         background-color: theme('colors.purple-mid');
         height: 100%;
-        padding-bottom: 2rem;
+        /* padding-bottom: 2rem; */
     }
 
     .landing-page__content {
         width: 100%;
-
-        @apply lg:flex lg:h-screen lg:justify-between
+        padding: 0 1.5rem;
     }
 
     .landing-page__presentation {
@@ -60,12 +59,10 @@
         flex-direction: column;
         align-items: center;
 
-        @apply lg:basis-2/5 lg:ml-12
+        @apply lg:basis-2/5
     }
 
     .landing-page h1 {
-        /* width: 15rem; */
-        font-size: 1.1rem;
         margin-top: 2.5rem;
         color: theme('colors.white');
         font-weight: 600;
@@ -76,17 +73,28 @@
         border-top-width: 0;
         box-shadow: 0 5px 0 rgba(0, 0, 0, 0.6);
         text-align: center;
+
+        @apply md:text-lg lg:text-xl
     }
 
     .landing-page__img {
+        width: 100%;
+        min-height: 15rem;
+        background-color: theme('colors.purple-dark');
+        padding: 1rem 0;
+        background-image: url('../../images/field.jfif');
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
         margin-top: 1rem;
         background-color: theme('colors.purple-dark');
-        width: 100%;
         padding: 1rem 0;
+
+        @apply md:h-80 md:w-10/12 lg:h-96
         
     }
     .landing-page__img img {
-        width: 15rem;
+        /* width: 15rem; */
         margin: 0 auto;
         border-radius: 10px;
 
@@ -102,7 +110,7 @@
         @apply lg:basis-3/5
     }
 
-    .landing-page__courses h2 {
+    .second-title {
         color: theme('colors.white');
         font-size: 1rem;
         font-weight: 600;
@@ -117,7 +125,6 @@
     }
 
     .landing-page .table__content {
-        width: 17rem;
         margin-top: 1rem;
         padding: .5rem;
         background-color: theme('colors.purple-dark');
@@ -125,8 +132,6 @@
         overflow: auto;
         border-radius: 20px;
         font-size: .95rem;
-
-        @apply sm:w-96 lg:w-10/12
     
     }
     .landing-page .table__content .table-users__buttons {
@@ -143,8 +148,81 @@
 
     }
 
-    /* .table-courses__data {
+    .landing-page .table__content table {
+
+        @apply md:flex
+    }
+
+    .landing-page__about {
+        margin-top: 2rem;
         display: flex;
         flex-direction: column;
-    } */
+        align-items: center;
+    }
+
+    .landing-page__about .about__desc {
+        /* width: 17rem; */
+        margin-top: 1rem;
+        padding: 1rem;
+        border-radius: 20px;
+        font-weight: 400;
+        color: theme('colors.white');
+        background-color: theme('colors.purple-dark');
+    }
+
+    .landing-page__about .about__desc p {
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .landing-page__info {
+        width: 100%;
+        margin-top: 2rem;
+        padding: 1.5rem 1rem;
+        display: grid;
+        grid-template-columns: 1;
+        justify-items: center;
+        align-content: center;
+        background-color: theme('colors.black');
+        color: theme('colors.white');
+    }
+
+    .landing-page__info h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        position: relative;
+    }
+
+    .landing-page__info h2::after {
+        content: '';
+        position: absolute;
+        left: -40px;
+        bottom: 0;
+        width: 14rem;
+        height: .1rem;
+        background-color: theme('colors.white');
+    }
+
+    .landing-page__info svg {
+        margin-right: .5rem;
+    }
+
+    .page-info__phone,
+    .page-info__email {
+        display: flex;
+        align-items: center;
+        margin-bottom: .75rem;
+        letter-spacing: 1px;
+    }
+
+    .page-info__rights {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .page-info__rights--logo-brand {
+        display: flex;
+        align-items: center;
+    }
 }

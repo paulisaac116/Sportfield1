@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 
-import '../../styles/ProfilePage/ProfilePage.css';
-import profile_photo from '../../images/dragonball.png';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { ModalNotificationsUser } from './ModalNotificationsUser';
+import { GreenButton } from '../Buttons/GreenButton';
 
-//import { UserContext } from './UserContext'
+import '../../styles/ProfilePage/ProfilePage.css';
+import { faBell } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import profile_photo from '../../images/dragonball.png';
 
 export const ProfileFrame = ( { userData } ) => {
 
@@ -14,9 +14,9 @@ export const ProfileFrame = ( { userData } ) => {
 
     const [bellActive, setBellActive] = useState( false );
 
-    const [notificationData, setNotificationData] = useState([])
+    const [notificationData, setNotificationData] = useState( [] );
 
-    const [notificationNumber, setNotificationNumber] = useState(notificationData.length);
+    const [notificationNumber, setNotificationNumber] = useState( notificationData.length );
 
 
     const showNotifications = () => {
@@ -28,23 +28,21 @@ export const ProfileFrame = ( { userData } ) => {
             setBellActive( false );
         }
 
-
     };
 
-    useEffect(() => {
+    useEffect( () => {
 
-        setNotificationNumber(notificationData.length - notificationNumber)
-        console.log('notification number: ', notificationNumber)
+        setNotificationNumber( notificationData.length - notificationNumber );
+        // console.log( 'notification number: ', notificationNumber );
 
-
-    }, [notificationData, notificationNumber])
+    }, [notificationData, notificationNumber] );
 
 
 
     return (
         <div className="profile-frame">
             <div className='profile-frame__head'>
-                <p className='profile-frame__head--title'>PERFIL</p>
+                <p className='profile-frame__head--title'>MORADOR</p>
                 <div className='profile-frame__head--notification'>
                     <div className={`profile-frame__head--bell ${bellActive ? 'purple-light' : ''}`}>
                         <FontAwesomeIcon
@@ -63,7 +61,7 @@ export const ProfileFrame = ( { userData } ) => {
                 </div>
             </div>
             <img src={profile_photo} alt="profile logo" className='profile-frame--photo' />
-            <div className="profile-frame--data">
+            <div className="profile-frame__data">
                 <p><strong>Nombre: </strong>{userData?.name}</p>
                 <p><strong>Apellido: </strong>{userData?.lastName}</p>
                 {/* <p><strong>Usuario: </strong>{userData.userName}</p> */}
@@ -71,7 +69,14 @@ export const ProfileFrame = ( { userData } ) => {
                 <p><strong>Correo: </strong>{userData?.email}</p>
                 <p><strong>Lote: </strong>{userData?.land}</p>
             </div>
-
+            <div className='profile-frame__buttons'>
+                <GreenButton
+                    button_name='Actualizar información'
+                />
+                <GreenButton
+                    button_name='Enviar comentario'
+                />
+            </div>
         </div>
     );
 };

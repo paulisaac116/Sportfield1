@@ -160,10 +160,27 @@ export const FieldsTable = React.memo( ( { confirmField, setFieldData, dateData,
     return (
         <>
             <div className="menu-and-table">
-                <div className="menu-container">
-                    {menuItem}
+                <div className="menu">
+                    <div className="turn__field--instruction">
+                        <div className='number__circle'>
+                            1
+                        </div>
+                        <p>Selecciona el sector de ubicación</p>
+                    </div>
+                    <div className='menu-container'>
+                        {menuItem}
+                    </div>
                 </div>
-                {fieldCardTable}
+                <div className='table'>
+                    <div className="turn__field--instruction">
+                        <div className='number__circle'>
+                            2
+                        </div>
+                        <p>Selecciona el tipo de cancha dando clic en la cancha de su preferencia</p>
+                    </div>
+                    {fieldCardTable}
+
+                </div>
             </div>
         </>
     );

@@ -11,7 +11,7 @@ import { getDate } from '../../helpers/getDate';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
 import { Message } from '../Message';
 
-export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModalVisible, setArrayMessage} ) => {
+export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const initialValues = { title: '', description: '' };
     const [commentData, setCommentData] = useState( initialValues );
@@ -50,11 +50,11 @@ export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModal
                 setFormErrors( {} );
                 setIsModalVisible( false );
                 bodyOverflow( 'auto' );
-                setArrayMessage([
+                setArrayMessage( [
                     <Message
-                        messageContent={'Comentario enviado'}
+                        messageContent={'Comentario enviado al administrador'}
                     />
-                ])
+                ] );
 
             } catch ( error ) {
                 const errorCode = error.code;
@@ -78,7 +78,7 @@ export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModal
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Enviar comentario</h1>
-                <p className='modal__content--info'>Envíanos tus comentarios, opiniones o reclamos sobre el estado de las canchas,
+                <p className='modal__content--info'>Envía tus comentarios al administrador sobre el estado de las canchas,
                     la agenda de un turno o el funcionamiento de la aplicación</p>
                 <div className="register__form form">
                     <div className="register__form--row">

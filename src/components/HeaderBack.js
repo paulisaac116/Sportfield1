@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import '../styles/Header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSquareCaretLeft } from '@fortawesome/free-regular-svg-icons';
+import { faArrowAltCircleLeft } from '@fortawesome/free-regular-svg-icons';
 import sportfield_logo from '../images/sportfield_log.png';
 
 export const HeaderBack = () => {
@@ -15,7 +15,7 @@ export const HeaderBack = () => {
             <img src={sportfield_logo} alt="sportfield logo" className='w-40 sm:w-48 lg:w-60' />
             <nav>
                 <FontAwesomeIcon
-                    icon={faSquareCaretLeft}
+                    icon={faArrowAltCircleLeft}
                     className='fa-2x back-logo'
                     onClick={() => navigate( -1 )}
                 />

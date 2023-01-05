@@ -8,10 +8,12 @@ import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
+import { useFetchFirestore } from '../hooks/useFetchFirestore';
 
 const RegisterPage = () => {
 
-  const initialValues = { name: '', lastName: '', land: '', email: "", password: "" };
+  const { data, loading } = useFetchFirestore( 'Users' );
+  const initialValues = { name: '', lastName: '', land: '', email: '', cellphone: '', password: '' };
   const [formValues, setFormValues] = useState( initialValues );
   const [formErrors, setFormErrors] = useState( {} );
 
@@ -26,11 +28,10 @@ const RegisterPage = () => {
   const handleSubmit = async ( e ) => {
     e.preventDefault();
 
-    const { name, lastName, land, email, password } = formValues;
+    const { name, lastName, land, email, cellphone, password } = formValues;
+    let errorsObj = validate( formValues );
 
-    setFormErrors( validate( formValues ) );
-
-    if ( Object.keys( formErrors ).length == 0 ) {
+    if ( Object.keys( errorsObj ).length === 0 ) {
 
       try {
         const userCredential = await auth.createUserWithEmailAndPassword(
@@ -45,47 +46,57 @@ const RegisterPage = () => {
         await db.collection( "Users" ).doc( userId ).set(
           {
             id: userId,
+            active: true,
             name,
             lastName,
-            email,
             land,
+            cellphone,
+            email,
             courses: []
           }
         );
-        navigate( '/profile' );
+        navigate( '/profile', { state: { userId: user.uid } } );
 
       }
 
       catch ( error ) {
         const errorCode = error.code;
-        const errorMesage = error.message;
-        console.log( 'errorCode: ', errorCode );
-        console.log( 'errorMesagge: ', errorMesage );
+        if ( errorCode === 'auth/email-already-in-use' ) setFormErrors( { ...formErrors, email: 'El email ya está registrado' } );
       }
-    }
+    } else setFormErrors( errorsObj );
+
   };
 
   const validate = ( values ) => {
 
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if ( !values.name ) {
-      errors.name = 'Ingresa tu nombre';
-    }
-    if ( !values.lastName ) {
-      errors.lastName = 'Ingresa tu apellido';
-    }
-    if ( !values.land ) {
-      errors.land = 'Ingresa tu número de lote';
-    }
-    if ( !values.email ) {
-      errors.email = 'Ingresa tu correo electrónico';
-    } else if ( !regex.test( values.email ) ) {
-      errors.email = 'No es un formato de correo válido';
-    }
-    if ( !values.password ) {
-      errors.password = 'Ingresa tu contraseña';
-    } else if ( values.password.length <= 5 ) errors.password = 'La contraseña debe tener mínino 6 caracteres';
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    const regexText = /^[A-za-z]{3,10}$/m;
+    const regexLand = /^([1-9]|[1-9][0-9]|[1-3][0-5][0-9])$/m;
+    const regexCellphone = /^(09\d{8})$/m;
+
+
+    if ( !values.name ) errors.name = 'Ingrese su nombre';
+    else if ( !regexText.test( values.name ) ) errors.name = 'Ingresa texto entre 3 y 15 caracteres';
+
+    if ( !values.lastName ) errors.lastName = 'Ingrese su apellido';
+    else if ( !regexText.test( values.lastName ) ) errors.lastName = 'Ingresa texto entre 3 y 15 caracteres';
+
+    if ( !values.land ) errors.land = 'Ingrese su número de lote';
+    else if ( !regexLand.test( values.land ) ) errors.land = 'Ingrese un lote entre 1 y 350';
+    else if ( data.find( user => user.land === values.land ) ) errors.land = 'Lote ya registrado';
+
+    if ( !values.cellphone ) errors.cellphone = 'Ingrese su número de celular';
+    else if ( !regexCellphone.test( values.cellphone ) ) errors.cellphone = 'Ingrese un número de celular válido';
+
+    if ( !values.email ) errors.email = 'Ingrese su correo electrónico';
+    else if ( !regexEmail.test( values.email ) ) errors.email = 'No es un formato de correo válido';
+    else if ( data.find( user => user.email === values.email ) ) errors.email = 'El email ya está registrado';
+
+    if ( !values.password ) errors.password = 'Ingrese su contraseña';
+    else if ( values.password.length <= 5 ) errors.password = 'La contraseña debe tener mínino 6 caracteres';
+
     return errors;
 
   };
@@ -107,6 +118,9 @@ const RegisterPage = () => {
                 value={formValues.name}
                 placeholder="Paul"
                 onChange={handleInputChange}
+                minLength="3"
+                maxLength="15"
+                required
               />
               {formErrors.name
                 ? <div className='form__errors'>
@@ -126,6 +140,9 @@ const RegisterPage = () => {
                 value={formValues.lastName}
                 placeholder="Guala"
                 onChange={handleInputChange}
+                minLength="3"
+                maxLength="15"
+                required
               />
               {formErrors.lastName
                 ? <div className='form__errors'>
@@ -147,6 +164,9 @@ const RegisterPage = () => {
               value={formValues.land}
               placeholder='100'
               onChange={handleInputChange}
+              min="1"
+              max="359"
+              required
             />
             {formErrors.land
               ? <div className='form__errors'>
@@ -158,6 +178,26 @@ const RegisterPage = () => {
           </div>
 
           <div className="register__form--row input__error--group">
+            <label htmlFor="cellphone">Celular</label>
+            <input
+              type="number"
+              className={`input ${formErrors.cellphone ? 'input__error' : ''}`}
+              id="cellphone"
+              name="cellphone"
+              value={formValues.cellphone}
+              placeholder='0987654321'
+              onChange={handleInputChange}
+              required
+            />
+            {formErrors.cellphone
+              ? <div className='form__errors'>
+                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                <p className='form__errors--text'>{formErrors.cellphone}</p>
+              </div>
+              : <></>
+            }
+          </div>
+          <div className="register__form--row input__error--group">
             <label htmlFor="email">Correo electrónico</label>
             <input
               type="email"
@@ -167,6 +207,7 @@ const RegisterPage = () => {
               value={formValues.email}
               placeholder='paulguala@gmail.com'
               onChange={handleInputChange}
+              required
             />
             {formErrors.email
               ? <div className='form__errors'>
@@ -186,6 +227,7 @@ const RegisterPage = () => {
               name="password"
               value={formValues.password}
               onChange={handleInputChange}
+              required
             />
             {formErrors.password
               ? <div className='form__errors'>
@@ -194,8 +236,8 @@ const RegisterPage = () => {
               </div>
               : <></>
             }
-          </div>
 
+          </div>
         </form>
         <GreenButton
           button_class='green-button'

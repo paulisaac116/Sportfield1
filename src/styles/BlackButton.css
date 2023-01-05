@@ -14,6 +14,7 @@
 
 .black-button:hover {
   background-color: #4d59bb;
+  outline: 1px solid theme('colors.purple-dark');
 }
 
 .black-button .fa-caret-down {

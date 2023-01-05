@@ -45,6 +45,7 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
 
                 await db.collection( "Users" ).doc( userId ).set(
                     {
+                        active: true,
                         id: userId,
                         name,
                         lastName,

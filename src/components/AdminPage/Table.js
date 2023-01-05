@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 import PropTypes from 'prop-types';
 
@@ -9,15 +9,26 @@ import { ModalDeleteTurn } from './Turns/ModalDeleteTurn';
 import { UsersTable } from './Users/UsersTable';
 import { TurnsTable } from './Turns/TurnsTable';
 import { CoursesTable } from './Courses/CoursesTable';
+import { NotificationsTable } from './Notifications/NotificationsTable';
 
 import 'animate.css';
 import '../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { Stack } from '@mui/system';
+import { Pagination } from '@mui/material';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { CommentsTable } from './Comments/CommentsTable';
 
-export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse } ) => {
+export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activeCourses, currentPage, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse, setCurrentPage } ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
+
+    const [usersArray, setUsersArray] = useState( [] );
+    const [turnsArray, setTurnsArray] = useState( [] );
+    const [coursesArray, setCoursesArray] = useState( [] );
+    const [notificationsArray, setNotificationsArray] = useState( [] );
+    const [commentsArray, setCommentsArray] = useState( [] );
 
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
@@ -29,123 +40,147 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
     const [isModalDeleteCourseVisible, setIsModalDeleteCourseVisible] = useState( false );
     const [courseData, setCourseData] = useState( {} );
 
-    return (
+    const [dataSize, setDataSize] = useState( 0 );
 
-        <div aria-labelledby='content' tabIndex='0' role='region' className='table__content overflow-y-auto'>
-            {loading &&
-                <div className='loading-info animate__animated animate__fadeOut'>
-                    <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-1x text-white' />
-                    <p className=" text-white">Cargando información</p>
-                </div>
+    // Custom Color Palette
+    const theme = createTheme( {
+        palette: {
+            custom: {
+                main: '#784DBB',
+                contrastText: '#ffffff'
             }
-            {!loading && iconActive === 'Users'
-                ? <>
-                    <UsersTable
-                        tableData={tableData}
-                        setUserData={setUserData}
-                        setIsModalVisible={setIsModalDeleteVisible}
-                    />
-                    <ModalDeleteUser
-                        user={userData}
-                        isModalVisible={isModalDeleteVisible}
-                        setIsModalVisible={setIsModalDeleteVisible}
-                        setArrayMessage={setArrayMessageDeleteUser}
-                    />
-                </>
+        }
+    } );
 
-                : !loading && iconActive === 'Turns'
+    useEffect( () => {
+        console.log( 'data size: ', dataSize );
+    }, [dataSize] );
+
+    useEffect( () => {
+
+        iconActive === 'Users'
+            ? setUsersArray( tableData )
+            : iconActive === 'Turns'
+                ? setTurnsArray( tableData )
+                : iconActive === 'Courses'
+                    ? setCoursesArray( tableData )
+                    : iconActive === 'Notifications'
+                        ? setNotificationsArray( tableData )
+                        : setCommentsArray( tableData );
+
+
+        setCurrentPage( 0 );
+
+    }, [iconActive, tableData] );
+
+    return (
+        <>
+            <div className='table__content'>
+                {loading &&
+                    <div className='loading-info animate__animated animate__fadeOut'>
+                        <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-1x text-white' />
+                        <p className=" text-white">Cargando información</p>
+                    </div>
+                }
+                {!loading && iconActive === 'Users'
                     ? <>
-                        <TurnsTable
-                            tursData={tableData}
-                            setTurnData={setTurnData}
-                            setIsModalVisible={setIsModalDeleteTurnVisible}
+                        <UsersTable
+                            tableData={tableData}
+                            activeUsers={activeUsers}
+                            currentPage={currentPage}
+                            setUserData={setUserData}
+                            setIsModalVisible={setIsModalDeleteVisible}
+                            setDataSize={setDataSize}
                         />
-                        <ModalDeleteTurn
-                            turn={turnData}
-                            isModalVisible={isModalDeleteTurnVisible}
-                            setIsModalVisible={setIsModalDeleteTurnVisible}
-                            setArrayMessage={setArrayMessageDeleteTurn}
-
+                        <ModalDeleteUser
+                            user={userData}
+                            isModalVisible={isModalDeleteVisible}
+                            setIsModalVisible={setIsModalDeleteVisible}
+                            setArrayMessage={setArrayMessageDeleteUser}
                         />
                     </>
 
-
-                    : !loading && iconActive === 'Courses'
+                    : !loading && iconActive === 'Turns'
                         ? <>
-                            <CoursesTable
-                                tableData={tableData}
-                                setCourseData={setCourseData}
-                                setIsModalEditVisible={setIsModalEditCourseVisible}
-                                setIsModalDeleteVisible={setIsModalDeleteCourseVisible}
+                            <TurnsTable
+                                turnsData={turnsArray}
+                                activeTurns={activeTurns}
+                                currentPage={currentPage}
+                                setTurnData={setTurnData}
+                                setIsModalVisible={setIsModalDeleteTurnVisible}
+                                setDataSize={setDataSize}
                             />
-                            <ModalDeleteCourse
-                                course={courseData}
-                                isModalVisible={isModalDeleteCourseVisible}
-                                setIsModalVisible={setIsModalDeleteCourseVisible}
-                                collection={iconActive}
-                                setArrayMessage={setArrayMessageDeleteCourse}
-                            />
-                            <ModalEditCourse
-                                course={courseData}
-                                isModalVisible={isModalEditCourseVisible}
-                                setIsModalVisible={setIsModalEditCourseVisible}
-                                setArrayMessage={setArrayMessageEditCourse}
+                            <ModalDeleteTurn
+                                turn={turnData}
+                                isModalVisible={isModalDeleteTurnVisible}
+                                setIsModalVisible={setIsModalDeleteTurnVisible}
+                                setArrayMessage={setArrayMessageDeleteTurn}
+
                             />
                         </>
 
-                        : !loading && iconActive === 'Comments'
-                            ? <table className='Comments animate__animated animate__fadeIn'>
-                                <thead></thead>
-                                <tbody>
-                                    {
-                                        tableData?.map( ( item ) => (
-                                            <tr key={`${item.id}`} className='table__comments--row'>
-                                                <td>
-                                                    <div className='table__comments--user-date'>
-                                                        <div className='table__comments--user'>{`${item.userName} ${item.userLastName} (Lote ${item.userLand})`}</div>
-                                                        <div className='table__comments--date'>{`${item.date}`}</div>
 
-                                                    </div>
-                                                </td>
-                                                <td className='table__comments--title'>{`${item.title}`}</td>
-                                                <td className='table__comments--desc'>{`${item.description}`}</td>
-                                            </tr>
-                                        ) )
-                                    }
-                                </tbody>
+                        : !loading && iconActive === 'Courses'
+                            ? <>
+                                <CoursesTable
+                                    tableData={tableData}
+                                    activeCourses={activeCourses}
+                                    currentPage={currentPage}
+                                    setCourseData={setCourseData}
+                                    setIsModalEditVisible={setIsModalEditCourseVisible}
+                                    setIsModalDeleteVisible={setIsModalDeleteCourseVisible}
+                                    setDataSize={setDataSize}
+                                />
+                                <ModalDeleteCourse
+                                    course={courseData}
+                                    isModalVisible={isModalDeleteCourseVisible}
+                                    setIsModalVisible={setIsModalDeleteCourseVisible}
+                                    collection={iconActive}
+                                    setArrayMessage={setArrayMessageDeleteCourse}
+                                />
+                                <ModalEditCourse
+                                    course={courseData}
+                                    isModalVisible={isModalEditCourseVisible}
+                                    setIsModalVisible={setIsModalEditCourseVisible}
+                                    setArrayMessage={setArrayMessageEditCourse}
+                                />
+                            </>
 
-                            </table>
-
-
-
-                            : !loading && iconActive === 'Notifications'
+                            : !loading && iconActive === 'Comments'
                                 ? <>
-                                    <table className='Notifications animate__animated animate__fadeIn'>
-                                        <thead></thead>
-                                        <tbody>
-                                            {
-                                                tableData?.map( ( item ) => (
-
-                                                    <tr key={`${item.id}`} className='table__notifications--row'>
-                                                        <td>
-                                                            <div className='table__notifications--title-date'>
-                                                                <div className='table__notifications--title'>{`${item.title}`}</div>
-                                                                <div className='table__notifications--date'>{`${item.date}`}</div>
-                                                            </div>
-                                                        </td>
-                                                        <td className='table__notifications--desc'>{`${item.description}`}</td>
-                                                    </tr>
-
-                                                ) )
-                                            }
-                                        </tbody>
-                                    </table>
+                                    <CommentsTable
+                                        tableData={tableData}
+                                        currentPage={currentPage}
+                                        setDataSize={setDataSize}
+                                    />
 
                                 </>
-                                : <></>
-            }
 
-        </div>
+                                : !loading && iconActive === 'Notifications'
+                                    ? <>
+                                        <NotificationsTable
+                                            tableData={tableData}
+                                            currentPage={currentPage}
+                                            setDataSize={setDataSize}
+                                        />
+
+                                    </>
+                                    : <></>
+                }
+            </div>
+            <ThemeProvider theme={theme}>
+                <Stack className='pagination'>
+                    <Pagination
+                        count={dataSize}
+                        shape='rounded'
+                        color='custom'
+                        disabled={dataSize === 1 ? true : false}
+                        onChange={( e, page ) => setCurrentPage( page - 1 )}
+                        page={currentPage + 1}
+                    />
+                </Stack>
+            </ThemeProvider>
+        </>
     );
 } );
 

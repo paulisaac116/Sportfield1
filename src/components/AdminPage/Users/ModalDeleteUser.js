@@ -12,19 +12,21 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setA
         setIsModalVisible( false );
     };
 
-    const handleDeleteUser = async ( id ) => {
+    const handleDeactivateUser = async ( id ) => {
 
         try {
-            await db.collection( 'Users' ).doc( id ).delete()
-                .then( () => console.log( 'User deleted' ) )
-                .catch( () => console.log( 'Error deleting the user' ) );
+            await db.collection( 'Users' ).doc( id ).update( {
+                active: false
+            } )
+                .then( () => console.log( 'User desactivated' ) )
+                .catch( () => console.log( 'Error when deactivating user' ) );
 
             setIsModalVisible( false );
             setArrayMessage( ( prevState ) => (
                 [
                     ...prevState,
                     <Message
-                        messageContent={'Usuario eliminado'}
+                        messageContent={'Morador desactivado'}
                     />
                 ]
             ) );
@@ -41,8 +43,8 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setA
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
-                <h1 className='modal__content--title'>Eliminar usuario</h1>
-                <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente usuario:</p>
+                <h1 className='modal__content--title'>Desactivar morador</h1>
+                <p className='modal__deleteUser--text'>Está a punto de desactivar al siguiente morador:</p>
 
                 <div className='modal__deleteUser--userData'>
                     <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{user.name}</p></div>
@@ -54,13 +56,13 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setA
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
 
                 <div className='modal__buttons'>
-                    <RedButton
-                        button_name='Eliminar'
-                        button_func={() => handleDeleteUser( user.id )}
-                    />
                     <PurpleButton
                         button_name='Cancelar'
                         button_func={hiddeModal}
+                    />
+                    <RedButton
+                        button_name='Desactivar'
+                        button_func={() => handleDeactivateUser( user.id )}
                     />
                 </div>
 

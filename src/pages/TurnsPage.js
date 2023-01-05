@@ -73,15 +73,7 @@ export const TurnsPage = React.memo( () => {
             <HeaderBack />
             <div className="turns__content">
                 <div className="turn__field">
-                    <div className="turn__field--instruction">
-                        <div className='number__circle'>
-                            1
-                        </div>
-                        <p>Selecciona el sector de ubicación, y el tipo de cancha</p>
-                    </div>
-
                     <div className="turn__field__fieldCards">
-                        <h2>CANCHAS</h2>
                         <FieldsTable
                             confirmField={setVerifySelectedField}
                             setFieldData={setFieldData}
@@ -98,7 +90,7 @@ export const TurnsPage = React.memo( () => {
                 <div className="turn__date">
                     <div className="turn__field--instruction">
                         <div className='number__circle'>
-                            2
+                            3
                         </div>
                         <p>Selecciona la fecha y hora</p>
                     </div>

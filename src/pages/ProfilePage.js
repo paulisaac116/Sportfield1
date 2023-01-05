@@ -8,7 +8,6 @@ import { FieldUser } from '../components/ProfilePage/FieldUser';
 import { HeaderComp } from '../components/HeaderComp';
 import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
 import { ModalComment } from '../components/ProfilePage/ModalComment';
-import { GreenButton } from '../components/Buttons/GreenButton';
 import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
 
 import '../styles/ProfilePage/ProfilePage.css';
@@ -87,11 +86,11 @@ export const ProfilePage = React.memo( () => {
                         <ProfileFrame
                             userData={userData}
                         />
-                        <GreenButton
+                        {/* <GreenButton
                             button_class='green-button'
                             button_name="Enviar comentario"
                             button_func={showModal}
-                        />
+                        /> */}
                         <ModalComment
                             userData={userData}
                             isModalVisible={isModalAddCommentVisible}

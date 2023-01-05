@@ -32,7 +32,12 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
             const { title, description } = formValues;
 
             try {
-                await db.collection( 'Courses' ).add( {
+
+                const course = db.collection( 'Courses' ).doc();
+
+                await course.set( {
+                    active: true,
+                    id: course.id,
                     title,
                     description,
                     registered: []

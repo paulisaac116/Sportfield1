@@ -11,7 +11,7 @@ import '../../styles/ProfilePage/ProfilePage.css';
 import { hours } from '../../data/CalendarHours';
 import { months } from '../../data/CalendarMonths';
 
-export const FieldUser = React.memo( ( { userData, setArrayMessage} ) => {
+export const FieldUser = React.memo( ( { userData, setArrayMessage } ) => {
 
     const navigate = useNavigate();
     const { data: turnsData, loading } = useFetchFirestore( 'Turns' );
@@ -26,7 +26,7 @@ export const FieldUser = React.memo( ( { userData, setArrayMessage} ) => {
     );
 
     const navigateTo = () => {
-        navigate( "/turns", { state: { id: userData.id} } );
+        navigate( "/turns", { state: { id: userData.id } } );
     };
 
     useEffect( () => {
@@ -38,7 +38,7 @@ export const FieldUser = React.memo( ( { userData, setArrayMessage} ) => {
 
     return (
         <div className="field__frame">
-            <div className="field__title">CANCHAS</div>
+            <div className="field__title">RESERVA DE CANCHAS</div>
             <div className="field__table">
                 {
                     loading
@@ -88,7 +88,7 @@ export const FieldUser = React.memo( ( { userData, setArrayMessage} ) => {
                 }
             </div>
             <div className="field__button">
-                <GreenButton button_name="Agendar turno" button_func={navigateTo} />
+                <GreenButton button_name="Agendar" button_func={navigateTo} />
             </div>
         </div>
     );

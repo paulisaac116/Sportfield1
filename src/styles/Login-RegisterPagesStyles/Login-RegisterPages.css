@@ -2,46 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-.LoginPage,
-.RegisterPage {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background-color: #4d59bb;
-}
-
 /**
-  LOGIN PAGE
-*/
-.login__content,
-.content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-/* .content h1 {
-  color: white;
-  /* font-size: 30px;
-  margin-top: 20px;
-} */
-
-
-.LoginPage .login__content p {
-  margin-top: 40px;
-  font-weight: 700;
-  color: white;
-  text-align: center;
-}
-
-/**
-  REGISTER PAGE
+REGISTER PAGE
 */
 
 @layer components {
+  
+  .LoginPage,
+  .RegisterPage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* height: 100vh; */
+    background-color: theme('colors.purple-mid');
+  }
 
+  .LoginPage {
+    height: 100vh;
+  }
+
+  .RegisterPage {
+    height: 100%;
+    padding: 4rem 1rem;
+    @apply lg:h-screen
+  }
+  
+  /**
+    LOGIN PAGE
+  */
+  .login__content,
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
   .form input {
     border: none;
     outline: none;
@@ -55,17 +51,21 @@
     background-color: theme('colors.purple-dark');
     padding: 1rem 1.5rem;
     border-radius: .75rem;
+
+    @apply sm:w-26rem
   }
 
   .register__form--row,
-  .register__form--row .register__form--column {
+  .register__form--column {
     margin-bottom: .5rem;
+    width: 100%;
   }
 
   
 
   .register__form input {
-    padding: .25rem .75rem;
+    font-size: .95rem;
+    padding: .15rem .75rem;
 
     @apply lg:text-base;
   }
@@ -109,46 +109,82 @@
     outline: 2px theme('colors.red') solid;
   }
 
+  /*
+    LOGIN PAGE
+  **/
+
   .LoginPage #title {
     @apply sm:my-2
   }
 
   .login__form {
     padding: 1rem 1.5rem;
-    /* width: 20rem; */
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    /* @apply sm:w-96 */
-
   }
 
-  .login__content .link__login-form {
+  .login__link {
+    text-align: center;
     margin-top: 1rem;
-    color: theme('colors.white');
-    font-size: .9rem;
+    color: white;
+    font-size: 1.125rem;
+
+    @apply md:text-xl
+  }
+
+  .login__link a {
     font-weight: 500;
 
-    @apply sm:text-lg
+    @apply md:flex md:items-center md:gap-2
   }
 
-  .login__content .link__login-form:hover {
-    /* color: theme('colors.purple-dark') */
-    color: #2D9AFF;
+  .login__link a p {
+    position: relative;
+    font-weight: 600;
+    margin-top: .15rem;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    /* line-height: 5px; */
+
+    @apply md:m-0
   }
 
-  .link__login-form:last-of-type {
-    font-size: 1.2rem;
-    text-align: center;
-    font-weight: 700;
+  .login__link a p::after {
+    content: '';
+    position: absolute;
+    left: 42px;
+    bottom: -2px;
+    width: 8rem;
+    height: 2px;
+    background-color: theme('colors.white');
 
-    @apply sm:text-2xl 
+    @apply md:h-3px md:-left-2
   }
 
-  .link__login-form:last-of-type:hover {
-    color: theme('colors.green')
+  .login__link a:hover p:after {
+    /* color: theme('colors.purple-gaudy'); */
+    background-color: theme('colors.green');
+  }
+
+  .login__link a:hover p::after {
+    /* background-color: theme('colors.purple-gaudy'); */
+  }
+
+  .login__link--register {
+    position: relative;
+    font-weight: 600;
+  }
+
+  .login__link--register::after {
+    content: '';
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    width: 7rem;
+    height: .1rem;
+    background-color: theme('colors.white');
   }
 
   .login__form input {
@@ -160,10 +196,10 @@
   }
   .login__form .input__error--group,
   .register__form .input__error--group {
-    margin-bottom: .8rem;
+    margin-bottom: .5rem;
     width: 100%;
 
-    @apply sm:w-64 lg:w-80
+    /* @apply lg:w-80 */
   }
 
   .LoginPage .login__content .form__errors,

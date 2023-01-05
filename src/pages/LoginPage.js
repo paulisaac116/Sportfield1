@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { GreenButton } from '../components/Buttons/GreenButton';
 import { PurpleButton } from '../components/Buttons/PurpleButton';
 import { auth } from '../firebase/index';
@@ -90,7 +90,7 @@ export const LoginPage = () => {
       } catch ( error ) {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log( 'errorMessage: ', errorMessage );
+        // console.log( 'errorMessage: ', errorMessage );
         if ( errorCode === 'auth/invalid-email' ) setFormErrors( { ...formErrors, email: 'Ingresa tu correo' } );
         if ( errorCode === 'auth/user-not-found' ) setFormErrors( { ...formErrors, email: 'Usuario no registrado' } );
         if ( errorMessage === 'The password is invalid or the user does not have a password.' && errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Ingresa tu contraseña' } );
@@ -99,8 +99,6 @@ export const LoginPage = () => {
       }
 
     } else setFormErrors( { ...formErrors, email: 'Usuario no registrado' } );
-
-
 
   };
 
@@ -122,7 +120,7 @@ export const LoginPage = () => {
       ? <div className="LoginPage">
         <div className="login__content">
           <img className="w-60 md:w-72 lg:w-80" src={sportfield_logo} alt="sportfield logo" />
-          <h1 className='text-2xl md:text-3xl' id="title">Inicio de sesión</h1>
+          <h1 id="title">Inicio de sesión</h1>
           <form className="login__form form" onSubmit={handleSubmit}>
             <div className='input__error--group'>
               <input
@@ -167,12 +165,9 @@ export const LoginPage = () => {
               button_func={handleSubmit}
             />
           </form>
-          <a
-            href='/register'
-            className='link__login-form'
-          >
-            ¿No tienes una cuenta? Regístrate
-          </a>
+          <div className='login__link'>
+            <Link to='/register'>¿No tienes una cuenta?<p>Regístrate</p></Link>
+          </div>
 
           <div className={`modal ${isModalChangePassVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
             <div className='modal__content'>
@@ -187,7 +182,6 @@ export const LoginPage = () => {
                   button_name='Cancelar'
                   button_func={hiddeModal}
                 />
-
               </div>
             </div>
 

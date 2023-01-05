@@ -1,30 +1,45 @@
 import React, { useEffect, useState } from 'react';
+import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 
-import { menuAdminData } from '../../data/menuAdminData';
 import { Table } from './Table';
 import { GreenButton } from '../Buttons/GreenButton';
 import { ModalAddUser } from './Users/ModalAddUser';
 import { ModalNotification } from './Notifications/ModalNotification';
 import { ModalAddCourse } from './Courses/ModalAddCourse';
 import { ModalAddTurn } from './Turns/ModalAddTurn';
+import { BlackButton } from '../Buttons/BlackButton';
+
+import { menuAdminData } from '../../data/menuAdminData';
 
 import '../../styles/AdminPage/AdminPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSmile } from '@fortawesome/free-solid-svg-icons';
 
 export const Menu = React.memo( () => {
 
     const [menuData, setMenuData] = useState( menuAdminData );
 
+    const { data: adminData, loading } = useFetchFirestore( 'Admin' );
+
     let activeIcon = menuData.find( item => item.active ).name;
     let typeIcon = menuData.find( item => item.active ).text;
+    let descriptionIcon = menuData.find( item => item.active ).description;
+
+
     const [iconActive, setIconActive] = useState( activeIcon );
     const [iconType, setIconType] = useState( typeIcon );
+    const [description, setDescription] = useState( descriptionIcon );
+
+    const [activeUsers, setActiveUsers] = useState( true );
+    const [activeTurns, setActiveTurns] = useState( true );
+    const [activeCourses, setActiveCourses] = useState( true );
+
+    const [currentPage, setCurrentPage] = useState( 0 );
 
     const [isModalAddUserVisible, setIsModalAddUserVisible] = useState( false );
     const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
     const [isModalAddCourseVisible, setIsModalAddCourseVisible] = useState( false );
     const [isModalAddNotificationVisible, setIsModalAddNotificationVisible] = useState( false );
-
 
     const [arrayMessageAddUser, setArrayMessageAddUser] = useState( [] );
     const [arrayMessageDeleteUser, setArrayMessageDeleteUser] = useState( [] );
@@ -55,15 +70,52 @@ export const Menu = React.memo( () => {
 
     const changeIconState = ( iconId ) => {
 
-        menuData.map( item => {
+        let menu = [...menuData];
+        let icon = '';
+        let type = '';
+        let description = '';
+
+        menu.forEach( item => {
             if ( item.id === iconId ) {
                 item.active = true;
-                setIconActive( item.name );
-                setIconType( item.text );
+                icon = item.name;
+                type = item.text;
+                description = item.description;
             }
             else item.active = false;
         } );
 
+        setIconActive( icon );
+        setIconType( type );
+        setDescription( description );
+        setMenuData( menu );
+    };
+
+    const changeUserStateToActive = () => {
+        setCurrentPage( 0 );
+        setActiveUsers( true );
+    };
+    const changeUserStateToInactive = () => {
+        setCurrentPage( 0 );
+        setActiveUsers( false );
+    };
+
+    const changeTurnsStateToActive = () => {
+        setCurrentPage( 0 );
+        setActiveTurns( true );
+    };
+    const changeTurnsStateToInactive = () => {
+        setCurrentPage( 0 );
+        setActiveTurns( false );
+    };
+
+    const changeCoursesStateToActive = () => {
+        setCurrentPage( 0 );
+        setActiveCourses( true );
+    };
+    const changeCoursesStateToInactive = () => {
+        setCurrentPage( 0 );
+        setActiveCourses( false );
     };
 
     useEffect( () => {
@@ -137,49 +189,108 @@ export const Menu = React.memo( () => {
 
     }, [arrayMessageDeleteCourse] );
 
-
     return (
         <div className='admin-page__content'>
-            <div className='menu__icon menu__style sm:hidden'>
-                {
-                    menuData.map( ( item, key ) => (
-                        <span key={key} className={`${item.active ? 'bg-black' : 'bg-purple-dark'} `} >
-                            <FontAwesomeIcon icon={item.icon} className='fa-2x' onClick={() => changeIconState( item.id )} />
-                        </span>
-                    ) )
-                }
-            </div>
-
-            <div className='menu__list menu__style'>
-                {
-                    menuData.map( ( item, key ) => (
-                        <div
-                            key={key}
-                            className={`menu__list--item ${item.active ? 'bg-black' : 'bg-purple-dark'}`}
-                            onClick={() => changeIconState( item.id )}
-                        >
-                            <span>
+            <div className='menu-admin'>
+                <div className='menu-admin__data'>
+                    <FontAwesomeIcon icon={faSmile} size='2x' />
+                    <div className='admin__data--info'>
+                        <p className='admin'>Administrador</p>
+                        <p className='email'>{adminData[0]?.email}</p>
+                    </div>
+                </div>
+                <div className='menu__icon menu__style sm:hidden'>
+                    {
+                        menuData.map( ( item ) => (
+                            <span key={item.id} className={`${item.active ? 'bg-black outline-1 outline-white outline' : 'bg-purple-dark'} `} onClick={() => changeIconState( item.id )} >
                                 <FontAwesomeIcon icon={item.icon} className='fa-2x' />
                             </span>
-                            <p>{item.text}</p>
-                        </div>
-                    ) )
-                }
+                        ) )
+                    }
+                </div>
+
+                <div className='menu__list menu__style'>
+                    {
+                        menuData.map( ( item ) => (
+                            <div
+                                key={item.id}
+                                className={`menu__list--item ${item.active ? 'bg-black' : 'bg-purple-dark'}`}
+                                onClick={() => changeIconState( item.id )}
+                            >
+                                <span>
+                                    <FontAwesomeIcon icon={item.icon} className='fa-2x' />
+                                </span>
+                                <p>{item.text}</p>
+                            </div>
+                        ) )
+                    }
+                </div>
+
             </div>
             <div className='menu__table'>
-                <p className='table__title'>{iconType}</p>
+                <div className='table__title'>
+                    <p className='table__title--title'>{iconType}</p>
+                    <p className='table__title--desc'>{description}</p>
+                </div>
+                {
+                    iconActive === 'Users'
+                        ? <div className='table__buttons'>
+                            <BlackButton
+                                button_name='Activos'
+                                button_func={changeUserStateToActive}
+                                extraClass={activeUsers ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+
+                            />
+                            <BlackButton
+                                button_name='Inactivos'
+                                button_func={changeUserStateToInactive}
+                                extraClass={activeUsers ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
+                            />
+                        </div>
+                        : iconActive === 'Turns'
+                            ? <div className='table__buttons'>
+                                <BlackButton
+                                    button_name='Reservados'
+                                    button_func={changeTurnsStateToActive}
+                                    extraClass={activeTurns ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+                                />
+                                <BlackButton
+                                    button_name='Finalizados'
+                                    button_func={changeTurnsStateToInactive}
+                                    extraClass={activeTurns ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
+                                />
+                            </div>
+                            : iconActive === 'Courses'
+                                ? <div className='table__buttons'>
+                                    <BlackButton
+                                        button_name='Activos'
+                                        button_func={changeCoursesStateToActive}
+                                        extraClass={activeCourses ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+                                    />
+                                    <BlackButton
+                                        button_name='Finalizados'
+                                        button_func={changeCoursesStateToInactive}
+                                        extraClass={activeCourses ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'} />
+                                </div>
+                                : <></>
+                }
                 <Table
                     iconActive={iconActive}
+                    activeUsers={activeUsers}
+                    activeTurns={activeTurns}
+                    activeCourses={activeCourses}
+                    currentPage={currentPage}
                     setArrayMessageDeleteUser={setArrayMessageDeleteUser}
                     setArrayMessageDeleteTurn={setArrayMessageDeleteTurn}
                     setArrayMessageEditCourse={setArrayMessageEditCourse}
                     setArrayMessageDeleteCourse={setArrayMessageDeleteCourse}
+                    setCurrentPage={setCurrentPage}
                 />
                 {
                     iconActive === 'Users'
                         ? <>
                             <GreenButton
-                                button_name='Agregar usuario'
+                                button_name='Registrar morador'
                                 button_func={showModalAddUser}
                                 extraClass='main-button'
                             />
@@ -203,7 +314,7 @@ export const Menu = React.memo( () => {
                         : iconActive === 'Turns'
                             ? <>
                                 <GreenButton
-                                    button_name='Agregar turno'
+                                    button_name='Agendar turno'
                                     button_func={showModalAddTurn}
                                     extraClass='main-button'
                                 />
@@ -257,7 +368,7 @@ export const Menu = React.memo( () => {
                                 : iconActive === 'Notifications'
                                     ? <>
                                         <GreenButton
-                                            button_name='Agregar notificación'
+                                            button_name='Enviar notificación'
                                             button_func={showModalAddNotification}
                                             extraClass='main-button'
                                         />
@@ -274,6 +385,7 @@ export const Menu = React.memo( () => {
                                     </>
                                     : <></>
                 }
+
 
             </div>
         </div>

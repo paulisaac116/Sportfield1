@@ -9,6 +9,9 @@ import '../styles/LandingPage/LandingPage.css';
 import field from '../images/field.jfif';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+import { faRegistered } from '@fortawesome/free-solid-svg-icons';
 
 export const LandingPage = () => {
 
@@ -26,15 +29,24 @@ export const LandingPage = () => {
     return (
         <div className='landing-page'>
             <HeaderLanding />
+            <div className='landing-page__presentation'>
+                <h1>Urbanización "Los Retoños"</h1>
+                <div className='landing-page__img'>
+                    {/* <img src={field} alt='field' /> */}
+                </div>
+            </div>
             <div className='landing-page__content'>
-                <div className='landing-page__presentation'>
-                    <h1>Urbanización "Los Retoños"</h1>
-                    <div className='landing-page__img'>
-                        <img src={field} alt='field' />
+                <div className='landing-page__about'>
+                    <h2 className='second-title'>Acerca de</h2>
+                    <div className='about__desc'>
+                        <p>La urbanización "Los Retoños" está ubicada cerca del Parque Metropolitano de la Armenia, vía el Puente 3 en el Valle de Los Chillos</p>
+                        <p>Cuenta con un total de 10 canchas deportivas ubicadas en sus dos parques de recreación.</p>
+                        <p>Las disciplinas de las canchas deportivas son: fútbol, basquetbol, voleibol y tennis</p>
                     </div>
+
                 </div>
                 <div className='landing-page__courses'>
-                    <h2>Cursos ofertados</h2>
+                    <h2 className='second-title'>Cursos ofertados</h2>
                     <div aria-labelledby='content' tabIndex='0' role='region' className='table__content overflow-y-auto'>
                         {loading &&
                             <div className='loading-info animate__animated animate__fadeOut'>
@@ -71,6 +83,25 @@ export const LandingPage = () => {
 
             </div>
 
+            <div className='landing-page__info'>
+                <h2>CONTACTO</h2>
+                <div className='page-info__phone'>
+                    <FontAwesomeIcon icon={faPhone} />
+                    <p>0983704993</p>
+                </div>
+                <div className='page-info__email'>
+                    <FontAwesomeIcon icon={faEnvelope} />
+                    <p>paulgualab@gmail.com</p>
+                </div>
+                <div className='page-info__rights'>
+                    <div className='page-info__rights--logo-brand'>
+                        <FontAwesomeIcon icon={faRegistered} />
+                        <p>Sportfield</p>
+                    </div>
+                    <p>Todos los derechos reservados</p>
+                </div>
+
+            </div>
         </div>
     );
 };

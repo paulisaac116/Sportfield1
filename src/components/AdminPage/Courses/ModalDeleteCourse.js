@@ -12,16 +12,18 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
         setIsModalVisible( false );
     };
 
-    const handleDeleteCourse = async ( id ) => {
+    const handleEndCourse = async ( id ) => {
 
         try {
-            await db.collection( collection ).doc( id ).delete();
+            await db.collection( collection ).doc( id ).update( {
+                active: false
+            } );
             setIsModalVisible( false );
             setArrayMessage( ( prevState ) => (
                 [
                     ...prevState,
                     <Message
-                        messageContent={'Curso eliminado'}
+                        messageContent={'Curso finalizado'}
                     />
                 ]
             ) );
@@ -39,8 +41,8 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
-                <h1 className='modal__content--title'>Eliminar curso</h1>
-                <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente curso:</p>
+                <h1 className='modal__content--title'>Finalizar curso</h1>
+                <p className='modal__deleteUser--text'>Está a punto de finalizar el siguiente curso:</p>
                 {
                     <div className='modal__deleteUser--userData'>
                         <div className='userData--row'><p className='userData__title'>Curso:</p><p>{course.title}</p></div>
@@ -49,13 +51,13 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
 
                 <div className='modal__buttons'>
-                    <RedButton
-                        button_name='Eliminar'
-                        button_func={() => handleDeleteCourse( course.id )}
-                    />
                     <PurpleButton
                         button_name='Cancelar'
                         button_func={hiddeModal}
+                    />
+                    <RedButton
+                        button_name='Finalizar'
+                        button_func={() => handleEndCourse( course.id )}
                     />
                 </div>
             </div>

@@ -81,19 +81,33 @@
   }
 
   .TurnsPage .menu-and-table {
-    margin-top: .5rem;
     width: 100%;
     height: 60%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     position: relative;
+  }
+
+  .TurnsPage .menu {
+    position: relative;
+  }
+  .TurnsPage .table {
+    margin-top: 3rem;
+  }
+
+  .TurnsPage .menu,
+  .TurnsPage .table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
   }
   
   .TurnsPage .menu-and-table .menu-container {
     position: absolute;
-    top: 0;
+    top: 95px;
     z-index: 600;
   }
   
@@ -247,7 +261,7 @@
     border-radius: 10px;
     background-color: theme('colors.black');
 
-    @apply sm:w-full sm:px-6
+    @apply sm:w-auto sm:px-6
   }
 
   .TurnsPage  .bar .bar__row {

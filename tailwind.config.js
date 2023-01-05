@@ -38,6 +38,7 @@ module.exports = {
         '15px': '15px'
       },
       height: {
+        '3px': '3px',
         '3.55': '3.55rem',
         '17rem': '17rem',
         '18rem': '18rem',
@@ -53,7 +54,11 @@ module.exports = {
         '11rem': '11rem'
       },
       flexBasis: {
+        '30%': '30%',
         '35%': '35%'
+      },
+      gridTemplateColumns: {
+        '30-60': '30% 60%'
       }
     },
     colors: {
@@ -62,6 +67,7 @@ module.exports = {
       'red-dark': '#81363E',
       'yellow': '#BBAF4D',
       'green': '#42A869',
+      'green-dark': '#25944f',
       'purple-gaudy': '#AF4DBB',
       'purple-light': '#784DBB',
       'purple-mid': '#4d59bb',

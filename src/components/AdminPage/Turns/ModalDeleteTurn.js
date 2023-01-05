@@ -15,16 +15,18 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
         setIsModalVisible( false );
     };
 
-    const handleDeleteTurn = async ( id ) => {
+    const handleEndTurn = async ( id ) => {
 
         try {
-            await db.collection( 'Turns' ).doc( id ).delete();
+            await db.collection( 'Turns' ).doc( id ).update( {
+                active: false
+            } );
             setIsModalVisible( false );
             setArrayMessage( ( prevState ) => (
                 [
                     ...prevState,
                     <Message
-                        messageContent={'Turno eliminado'}
+                        messageContent={'Turno finalizado'}
                     />
                 ]
             ) );
@@ -42,8 +44,8 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal-delete-turn'>
-                <h1 className='modal__content--title'>Eliminar turno</h1>
-                <p className='modal__deleteUser--text'>Está a punto de eliminar al siguiente turno:</p>
+                <h1 className='modal__content--title'>Finalizar turno</h1>
+                <p className='modal__deleteUser--text'>Está a punto de finalizar el agendamiento del siguiente turno:</p>
                 <div className='modal__deleteUser--userData'>
                     <div className='userData--row'>
                         <p className='userData__title'>Nombre: </p>
@@ -90,13 +92,13 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
                 <p className='modal__deleteUser--text'>¿Desea continuar?</p>
 
                 <div className='modal__buttons'>
-                    <RedButton
-                        button_name='Eliminar'
-                        button_func={() => handleDeleteTurn( turn.id )}
-                    />
                     <PurpleButton
                         button_name='Cancelar'
                         button_func={hiddeModal}
+                    />
+                    <RedButton
+                        button_name='Finalizar'
+                        button_func={() => handleEndTurn( turn.id )}
                     />
 
                 </div>
@@ -106,7 +108,7 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
 };
 
 ModalDeleteTurn.propTypes = {
-    turn: PropTypes.array,
+    turn: PropTypes.object,
     isModalVisible: PropTypes.bool,
     setIsModalVisible: PropTypes.func,
     setArrayMessage: PropTypes.func,

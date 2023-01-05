@@ -1,17 +1,91 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Turn } from './Turn';
 
-import { hours } from '../../../data/CalendarHours';
-import { months } from '../../../data/CalendarMonths';
-import { RedButton } from '../../Buttons/RedButton';
+import { splitData, splitSports } from '../../../helpers/splitData';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { sportsMenuAdmin } from '../../../data/sportsMenuAdmin';
 
-export const TurnsTable = ( { tursData, setTurnData, setIsModalVisible } ) => {
+import '../../../styles/AdminPage/AdminPage.css';
 
-    const handleDeleteTurn = ( turn ) => {
-        setTurnData( turn );
-        setIsModalVisible( true );
 
+export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, setTurnData, setIsModalVisible, setDataSize } ) => {
+
+    const [sportsMenu, setSportsMenu] = useState( sportsMenuAdmin );
+
+    const [activeSport, setActiveSport] = useState( 'soccer' );
+
+    const [soccerReservedTurnsArray, setSoccerReservedTurnsArray] = useState( [] );
+    const [soccerCompletedTurnsArray, setSoccerCompletedTurnsArray] = useState( [] );
+
+    const [basketballReservedTurnsArray, setBasketballReservedTurnsArray] = useState( [] );
+    const [basketballCompletedTurnsArray, setBasketballCompletedTurnsArray] = useState( [] );
+
+    const [volleyballReservedTurnsArray, setVolleyballReservedTurnsArray] = useState( [] );
+    const [volleyballCompletedTurnsArray, setVolleyballCompletedTurnsArray] = useState( [] );
+
+    const [tennisReservedTurnsArray, setTennisReservedTurnsArray] = useState( [] );
+    const [tennisCompletedTurnsArray, setTennisCompletedTurnsArray] = useState( [] );
+
+    const [turnArray, setTurnArray] = useState( [] );
+
+    const handleChangeSport = ( sportId ) => {
+
+        let sportData = [...sportsMenu];
+
+        sportData.forEach( sport => {
+            if ( sport.id === sportId ) {
+                sport.active = true;
+                setActiveSport( sport.id );
+            } else sport.active = false;
+        } );
+
+        setSportsMenu( sportData );
     };
+
+    useEffect( () => {
+
+        const { active, inactive } = splitData( turnsData );
+        const { soccer: soccerActive, basketball: basketballActive, volleyball: volleyballActive, tennis: tennisActive } = splitSports( active );
+
+        setSoccerReservedTurnsArray( soccerActive );
+        setBasketballReservedTurnsArray( basketballActive );
+        setVolleyballReservedTurnsArray( volleyballActive );
+        setTennisReservedTurnsArray( tennisActive );
+
+        const { soccer: soccerInactive, basketball: basketballInactive, volleyball: volleyballInactive, tennis: tennisInactive } = splitSports( inactive );
+
+        setSoccerCompletedTurnsArray( soccerInactive );
+        setBasketballCompletedTurnsArray( basketballInactive );
+        setVolleyballCompletedTurnsArray( volleyballInactive );
+        setTennisCompletedTurnsArray( tennisInactive );
+
+    }, [turnsData] );
+
+
+    useEffect( () => {
+
+        activeTurns === true && activeSport === 'soccer'
+            ? setTurnArray( soccerReservedTurnsArray )
+            : activeTurns === false && activeSport === 'soccer'
+                ? setTurnArray( soccerCompletedTurnsArray )
+                : activeTurns === true && activeSport === 'basketball'
+                    ? setTurnArray( basketballReservedTurnsArray )
+                    : activeTurns === false && activeSport === 'basketball'
+                        ? setTurnArray( basketballCompletedTurnsArray )
+                        : activeTurns === true && activeSport === 'volleyball'
+                            ? setTurnArray( volleyballReservedTurnsArray )
+                            : activeTurns === false && activeSport === 'volleyball'
+                                ? setTurnArray( volleyballCompletedTurnsArray )
+                                : activeTurns === true && activeSport === 'tennis'
+                                    ? setTurnArray( tennisReservedTurnsArray )
+                                    : setTurnArray( tennisCompletedTurnsArray );
+
+
+        setDataSize( turnArray.length );
+
+    }, [activeTurns, activeSport, turnArray, soccerReservedTurnsArray, soccerCompletedTurnsArray, basketballReservedTurnsArray, basketballCompletedTurnsArray, volleyballReservedTurnsArray, volleyballCompletedTurnsArray, tennisReservedTurnsArray, tennisCompletedTurnsArray] );
+
 
     return (
         <div className='Turns animate__animated animate__fadeIn'>
@@ -22,81 +96,33 @@ export const TurnsTable = ( { tursData, setTurnData, setIsModalVisible } ) => {
                 <p>Hora</p>
                 <p>Agendado</p>
             </div>
+            <div className='table-turns__body--sports'>
+                {
+                    sportsMenu.map( ( sport ) => (
+                        <span key={sport.id} className={`${sport.active ? sport.color : 'bg-black'}`} onClick={() => handleChangeSport( sport.id )}>
+                            <FontAwesomeIcon icon={sport.icon} className='fa-2x' />
+                        </span>
+                    ) )
+                }
+            </div>
             <div className='table-turns__body'>
                 {
-                    tursData?.map( ( turn, key ) => (
-                        <div className='table-turns__body--row' key={key}>
-                            <div className='body-row__data'>
-                                <p className='body-row__data-name'>{`${turn.name} ${turn.lastName}`}</p>
-                                <p className='body-row__data-field--row'>{`${turn.field?.fieldType} ${turn.field?.fieldId} - ${turn.field?.location}`}</p>
-                                <div className='body-row__data-field--col hidden'>
-                                    <p>{`${turn.field?.fieldType} ${turn.field?.fieldId}`}</p>
-                                    <p>{`${turn.field?.location}`}</p>
-                                </div>
-                                {
-                                    Array.isArray( turn.date )
-                                        ? turn.date.length === 1 || turn.date[0]?.date !== turn.date[1]?.date
-                                            ? <>
-                                                <div className='body-row__data--date-list'>
-                                                    {
-                                                        turn.date.map( ( date, key ) => (
-                                                            <>
-                                                                <p className={`date-list${turn.date.length === 2 ? key + 1 : ''}`}>{`${date.day} ${date.date} de ${months[date.month]} de ${date.year}`}</p>
-                                                                <p>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</p>
-                                                            </>
-                                                        ) )
-                                                    }
-                                                </div>
-                                                <div className='body-row__data--date-row hidden'>
-                                                    {
-                                                        turn.date.map( ( date, key ) => (
-                                                            <p key={key}>{`${date.day} ${date.date} de ${months[date.month]} de ${date.year}`}</p>
-
-                                                        ) )
-                                                    }
-                                                </div>
-                                                <div className={`body-row__data--hour-row hidden ${turn.date.length === 2 ? 'min-h-6rem' : 'g'}`}>
-                                                    {
-                                                        turn.date.map( ( date, key ) => (
-                                                            <p key={key}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</p>
-
-                                                        ) )
-                                                    }
-
-                                                </div>
-                                            </>
-                                            : <>
-                                                <p className='date-list'>{`${turn.date[0].day} ${turn.date[0].date} de ${months[turn.date[0].month]} de ${turn.date[0].year}`}</p>
-                                                <div className='body-row__data--hour-row'>
-                                                    {
-                                                        turn.date.map( ( date, key ) => (
-                                                            <p key={key}>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</p>
-
-                                                        ) )
-                                                    }
-
-                                                </div></>
-                                        : <p className='text-white'>ups</p>
-                                }
-
-                                <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} de ${turn.savedIn?.year} - ${turn.savedIn?.hour}:${turn.savedIn?.minute}`}</p>
-                            </div>
-                            <div className='body-row__buttons'>
-                                <RedButton
-                                    button_name={'Eliminar'}
-                                    button_func={() => handleDeleteTurn( turn )}
-                                />
-                            </div>
-                        </div>
-                    ) )
-
+                    turnArray.length !== 0
+                        ? turnArray[currentPage]?.map( turn => (
+                            <Turn
+                                key={turn.id}
+                                turn={turn}
+                                setTurnData={setTurnData}
+                                setIsModalVisible={setIsModalVisible}
+                            />
+                        ) )
+                        : <p>No data</p>
                 }
 
             </div>
-
         </div>
     );
-};
+} );
 
 TurnsTable.propTypes = {
     tursData: PropTypes.array,

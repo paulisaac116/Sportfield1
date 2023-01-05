@@ -10,10 +10,11 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 1.8rem;
-    box-shadow: 0 15px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 11px 5px rgba(0, 0, 0, 0.5);
     background-color: theme('colors.black');
-    position: relative;
-    z-index: 500;
+    position: sticky;
+    top: 0;
+    z-index: 50000;
 
     @apply sm:py-7 sm:px-10 lg:px-14 lg:py-8
   

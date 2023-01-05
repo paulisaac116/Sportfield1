@@ -133,7 +133,7 @@ export const ModalEditCourse = ( { isModalVisible, setIsModalVisible, course, se
 };
 
 ModalEditCourse.propTypes = {
-    course: PropTypes.array,
+    course: PropTypes.object,
     isModalVisible: PropTypes.bool,
     setIsModalVisible: PropTypes.func,
     setArrayMessage: PropTypes.func

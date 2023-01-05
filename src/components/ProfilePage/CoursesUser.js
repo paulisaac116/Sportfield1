@@ -10,7 +10,7 @@ import { ModalUnsubscribeCourse } from './ModalUnsubscribeCourse';
 
 import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
-export const CoursesUser = ( { userData, setIsModalRegisterVisible} ) => {
+export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
 
 
     const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
@@ -39,7 +39,7 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible} ) => {
 
     return (
         <div className="field__frame">
-            <div className="courses__title">CURSOS</div>
+            <div className="courses__title">RESERVA DE CURSOS</div>
             <div className="field__table courses__table">
                 {
                     loading
@@ -64,7 +64,7 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible} ) => {
             </div>
             <div className="field__button">
                 <GreenButton
-                    button_name="Inscripción en curso"
+                    button_name="Agendar"
                     button_func={showModalRegister}
                 />
             </div>
