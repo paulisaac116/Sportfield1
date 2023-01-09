@@ -214,7 +214,7 @@ export const Menu = React.memo( () => {
                         menuData.map( ( item ) => (
                             <div
                                 key={item.id}
-                                className={`menu__list--item ${item.active ? 'bg-black' : 'bg-purple-dark'}`}
+                                className={`menu__list--item ${item.active ? 'bg-black outline-1 outline-white outline' : 'bg-purple-dark'}`}
                                 onClick={() => changeIconState( item.id )}
                             >
                                 <span>

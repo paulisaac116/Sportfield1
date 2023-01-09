@@ -16,9 +16,9 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
         <div className='table-turns__body--row'>
             <div className='body-row__data'>
                 <p className='body-row__data-name'>{`${turn.name} ${turn.lastName}`}</p>
-                <p className='body-row__data-field--row'>{`${turn.field?.fieldType} ${turn.field?.fieldId} - ${turn.field?.location}`}</p>
+                <p className='body-row__data-field--row'>{`${turn.field?.fieldId} - ${turn.field?.location}`}</p>
                 <div className='body-row__data-field--col hidden'>
-                    <p>{`${turn.field?.fieldType} ${turn.field?.fieldId}`}</p>
+                    <p>{`${turn.field?.fieldId}`}</p>
                     <p>{`${turn.field?.location}`}</p>
                 </div>
                 {
@@ -29,7 +29,7 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
                                     {
                                         turn.date.map( ( date, key ) => (
                                             <>
-                                                <p className={`date-list${turn.date.length === 2 ? key + 1 : ''}`}>{`${date.day} ${date.date} de ${months[date.month]} de ${date.year}`}</p>
+                                                <p className={`date-list${turn.date.length === 2 ? key + 1 : ''}`}>{`${date.day} ${date.date} de ${months[date.month]}`}</p>
                                                 <p>{`${hours.find( item => item.start === date.timeStart ).timeRange}`}</p>
                                             </>
                                         ) )
@@ -38,7 +38,7 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
                                 <div className='body-row__data--date-row hidden'>
                                     {
                                         turn.date.map( ( date, key ) => (
-                                            <p key={key}>{`${date.day} ${date.date} de ${months[date.month]} de ${date.year}`}</p>
+                                            <p key={key}>{`${date.day} ${date.date} de ${months[date.month]}`}</p>
 
                                         ) )
                                     }
@@ -54,7 +54,7 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
                                 </div>
                             </>
                             : <>
-                                <p className='date-list'>{`${turn.date[0].day} ${turn.date[0].date} de ${months[turn.date[0].month]} de ${turn.date[0].year}`}</p>
+                                <p className='date-list'>{`${turn.date[0].day} ${turn.date[0].date} de ${months[turn.date[0].month]}`}</p>
                                 <div className='body-row__data--hour-row'>
                                     {
                                         turn.date.map( ( date, key ) => (
@@ -67,7 +67,7 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
                         : <p className='text-white'>ups</p>
                 }
 
-                <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} de ${turn.savedIn?.year} - ${turn.savedIn?.hour}:${turn.savedIn?.minute}`}</p>
+                <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} - ${turn.savedIn?.hour}:${turn.savedIn?.minute}`}</p>
             </div>
             {
                 turn.active === true

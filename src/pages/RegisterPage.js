@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GreenButton } from '../components/Buttons/GreenButton';
 
 import sportfield_logo from '../images/sportfield_log.png';
@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
+// import { RegisterForm } from '../components/RegisterForm';
 
 const RegisterPage = () => {
 
@@ -16,6 +17,12 @@ const RegisterPage = () => {
   const initialValues = { name: '', lastName: '', land: '', email: '', cellphone: '', password: '' };
   const [formValues, setFormValues] = useState( initialValues );
   const [formErrors, setFormErrors] = useState( {} );
+
+  const [buttonPushed, setButtonPushed] = useState( false );
+  // const [status, setStatus] = useState( false );
+  // const [userId, setUserId] = useState( '' );
+
+  // let initial = true
 
   const handleInputChange = ( e ) => {
     const { name, value } = e.target;
@@ -51,8 +58,7 @@ const RegisterPage = () => {
             lastName,
             land,
             cellphone,
-            email,
-            courses: []
+            email
           }
         );
         navigate( '/profile', { state: { userId: user.uid } } );
@@ -66,6 +72,10 @@ const RegisterPage = () => {
     } else setFormErrors( errorsObj );
 
   };
+
+  // const handleSubmit = () => {
+  //   setButtonPushed( !buttonPushed );
+  // };
 
   const validate = ( values ) => {
 
@@ -100,6 +110,12 @@ const RegisterPage = () => {
     return errors;
 
   };
+
+  // useEffect( () => {
+
+  //   if ( status ) navigate( '/profile', { state: { userId: userId } } );
+
+  // }, [status, userId] );
 
   return (
     <div className="RegisterPage">
@@ -239,6 +255,11 @@ const RegisterPage = () => {
 
           </div>
         </form>
+        {/* <RegisterForm
+          setStatus={setStatus}
+          buttonPushed={buttonPushed}
+          setUserId={setUserId}
+        /> */}
         <GreenButton
           button_class='green-button'
           button_name="Registrarse"

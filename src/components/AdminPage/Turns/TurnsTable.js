@@ -89,21 +89,23 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
 
     return (
         <div className='Turns animate__animated animate__fadeIn'>
-            <div className='table-turns__head'>
-                <p>Usuario</p>
-                <p>Cancha</p>
-                <p>Fecha</p>
-                <p>Hora</p>
-                <p>Agendado</p>
-            </div>
             <div className='table-turns__body--sports'>
+                <h2 className='hidden'>Deporte</h2>
                 {
                     sportsMenu.map( ( sport ) => (
                         <span key={sport.id} className={`${sport.active ? sport.color : 'bg-black'}`} onClick={() => handleChangeSport( sport.id )}>
                             <FontAwesomeIcon icon={sport.icon} className='fa-2x' />
+                            <p className='hidden'>{sport.text}</p>
                         </span>
                     ) )
                 }
+            </div>
+            <div className='table-turns__head'>
+                <p>Morador</p>
+                <p>Cancha</p>
+                <p>Fecha</p>
+                <p>Hora</p>
+                <p>Agendado</p>
             </div>
             <div className='table-turns__body'>
                 {
