@@ -4,7 +4,7 @@ import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 import { Table } from './Table';
 import { GreenButton } from '../Buttons/GreenButton';
 import { ModalAddUser } from './Users/ModalAddUser';
-import { ModalNotification } from './Notifications/ModalNotification';
+import { ModalAddNotification } from './Notifications/ModalAddNotification';
 import { ModalAddCourse } from './Courses/ModalAddCourse';
 import { ModalAddTurn } from './Turns/ModalAddTurn';
 import { BlackButton } from '../Buttons/BlackButton';
@@ -189,6 +189,16 @@ export const Menu = React.memo( () => {
 
     }, [arrayMessageDeleteCourse] );
 
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageAddNotification.length !== 0 ) {
+                arrayMessageAddNotification.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageAddNotification] );
+
     return (
         <div className='admin-page__content'>
             <div className='menu-admin'>
@@ -372,7 +382,7 @@ export const Menu = React.memo( () => {
                                             button_func={showModalAddNotification}
                                             extraClass='main-button'
                                         />
-                                        <ModalNotification
+                                        <ModalAddNotification
                                             isModalVisible={isModalAddNotificationVisible}
                                             setIsModalVisible={setIsModalAddNotificationVisible}
                                             setArrayMessage={setArrayMessageAddNotification}

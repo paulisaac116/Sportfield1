@@ -52,10 +52,11 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
     return ( <>
         <div className='Users animate__animated animate__fadeIn'>
             <div className='table-users__head'>
-                <p>Nombre</p>
-                <p>Apellido</p>
-                <p>Email</p>
+                <p>Morador</p>
                 <p>Lote</p>
+                <p>Email</p>
+                <p>Celular</p>
+                <p>Acción</p>
             </div>
             <div className='table-users__body'>
                 {
@@ -63,10 +64,10 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
                         ? activeUsersArray[currentPage]?.map( ( user ) => (
                             <div className='table-users__body--row' key={user.id}>
                                 <div className='body-row__data'>
-                                    <p>{user.name}</p>
-                                    <p>{user.lastName}</p>
-                                    <p>{user.email}</p>
+                                    <p>{user.name} {user.lastName}</p>
                                     <p>{user.land}</p>
+                                    <p>{user.email}</p>
+                                    <p>{user.cellphone}</p>
                                 </div>
                                 <div className='body-row__buttons'>
                                     <RedButton
@@ -79,10 +80,10 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
                         : inactiveUsersArray[currentPage]?.map( ( user ) => (
                             <div className='table-users__body--row' key={user.id}>
                                 <div className='body-row__data'>
-                                    <p>{user.name}</p>
-                                    <p>{user.lastName}</p>
-                                    <p>{user.email}</p>
+                                    <p>{user.name} {user.lastName}</p>
                                     <p>{user.land}</p>
+                                    <p>{user.email}</p>
+                                    <p>{user.cellphone}</p>
                                 </div>
                                 <div className='body-row__buttons'>
                                     <RedButton

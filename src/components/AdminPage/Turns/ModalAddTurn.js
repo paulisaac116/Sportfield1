@@ -56,30 +56,27 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__add-turn'>
                 <h1 className='modal__content--title'>Agendar turno</h1>
-                <p className='modal__deleteUser--text'>Seleccione un usuario para el agendamiento de turno</p>
+                <p className='modal__deleteUser--text'>Seleccione un morador para el agendamiento de turno</p>
                 <div aria-labelledby='content' tabIndex='0' role='region' className='table__content overflow-y-auto'>
                     <table>
                         <thead>
                             <tr>
-                                <th scope='col' className='thead__name'>Usuario</th>
-                                <th scope='col' className='thead__email'>Email</th>
+                                <th scope='col' className='thead__name'>Morador</th>
                                 <th scope='col' className='thead__land'>Lote</th>
                             </tr>
                         </thead>
-                        {tableData?.map( ( item, key ) => (
+                        {tableData?.map( ( user ) => (
                             <tbody
-                                key={key}
+                                key={user.id}
                                 className='modal__add-turn--body'
                             >
                                 <tr
-                                    key={`${item.id}`}
-                                    className={`${userSelectedId === item.id ? 'purple-light border-solid border-2 border-white' : ''}`}
-                                    id={item.id}
-                                    onClick={() => changeColor( item.id )}
+                                    className={`${userSelectedId === user.id ? 'purple-light border-solid border-2 border-white' : ''}`}
+                                    id={user.id}
+                                    onClick={() => changeColor( user.id )}
                                 >
-                                    <td><p>{`${item.name}`}</p> <p>{`${item.lastName}`}</p></td>
-                                    <td>{`${item.email}`}</td>
-                                    <td>{`${item.land}`}</td>
+                                    <td><p>{`${user.name}`}</p> <p>{`${user.lastName}`}</p></td>
+                                    <td>{`${user.land}`}</td>
                                 </tr>
                             </tbody>
                         ) )}

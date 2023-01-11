@@ -7,7 +7,7 @@ import { CoursesUser } from '../components/ProfilePage/CoursesUser';
 import { FieldUser } from '../components/ProfilePage/FieldUser';
 import { HeaderComp } from '../components/HeaderComp';
 import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
-import { ModalComment } from '../components/ProfilePage/ModalComment';
+// import { ModalSendComment } from '../components/ProfilePage/ModalSendComment';
 import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
 
 import '../styles/ProfilePage/ProfilePage.css';
@@ -91,12 +91,12 @@ export const ProfilePage = React.memo( () => {
                             button_name="Enviar comentario"
                             button_func={showModal}
                         /> */}
-                        <ModalComment
+                        {/* <ModalSendComment
                             userData={userData}
                             isModalVisible={isModalAddCommentVisible}
                             setIsModalVisible={setIsModalAddCommentVisible}
                             setArrayMessage={setArrayMessageAddComment}
-                        />
+                        /> */}
                     </div>
                     <div className='profile-content__bottom'>
                         <FieldUser

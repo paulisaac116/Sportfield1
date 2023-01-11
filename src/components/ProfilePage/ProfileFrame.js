@@ -7,6 +7,9 @@ import '../../styles/ProfilePage/ProfilePage.css';
 import { faBell } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import profile_photo from '../../images/dragonball.png';
+import { ModalSendComment } from './ModalSendComment';
+import { bodyOverflow } from '../../helpers/bodyOverflow';
+import { ModalUpdateInfo } from './ModalUpdateInfo';
 
 export const ProfileFrame = ( { userData } ) => {
 
@@ -18,6 +21,10 @@ export const ProfileFrame = ( { userData } ) => {
 
     const [notificationNumber, setNotificationNumber] = useState( notificationData.length );
 
+    const [isModalAddCommentVisible, setIsModalAddCommentVisible] = useState( false );
+    const [isModalUpdateInfoVisible, setIsModalUpdateInfoVisible] = useState( false );
+
+    const [arrayMessageSendComment, setArrayMessageSendComment] = useState( [] );
 
     const showNotifications = () => {
         setBellActive( true );
@@ -30,12 +37,31 @@ export const ProfileFrame = ( { userData } ) => {
 
     };
 
+    const showSendCommentModal = () => {
+        bodyOverflow( 'hidden' );
+        setIsModalAddCommentVisible( true );
+
+    };
+
     useEffect( () => {
 
         setNotificationNumber( notificationData.length - notificationNumber );
-        // console.log( 'notification number: ', notificationNumber );
 
     }, [notificationData, notificationNumber] );
+
+    useEffect( () => {
+
+        setTimeout( () => {
+            while ( arrayMessageSendComment.length !== 0 ) {
+                arrayMessageSendComment.pop();
+            }
+        }, 4000 );
+
+    }, [arrayMessageSendComment] );
+
+    function showUpdateInfoModal() {
+        setIsModalUpdateInfoVisible( true );
+    }
 
 
 
@@ -62,21 +88,37 @@ export const ProfileFrame = ( { userData } ) => {
             </div>
             <img src={profile_photo} alt="profile logo" className='profile-frame--photo' />
             <div className="profile-frame__data">
-                <p><strong>Nombre: </strong>{userData?.name}</p>
-                <p><strong>Apellido: </strong>{userData?.lastName}</p>
-                {/* <p><strong>Usuario: </strong>{userData.userName}</p> */}
-
+                <p><strong>Nombre: </strong>{userData?.name} {userData?.lastName}</p>
+                <p><strong>Celular: </strong>{userData?.cellphone}</p>
                 <p><strong>Correo: </strong>{userData?.email}</p>
                 <p><strong>Lote: </strong>{userData?.land}</p>
             </div>
             <div className='profile-frame__buttons'>
                 <GreenButton
                     button_name='Actualizar información'
+                    button_func={showUpdateInfoModal}
                 />
                 <GreenButton
                     button_name='Enviar comentario'
+                    button_func={showSendCommentModal}
                 />
             </div>
+            <ModalSendComment
+                userData={userData}
+                isModalVisible={isModalAddCommentVisible}
+                setIsModalVisible={setIsModalAddCommentVisible}
+                setArrayMessage={setArrayMessageSendComment}
+            />
+            <ModalUpdateInfo
+                userData={userData}
+                isModalVisible={isModalUpdateInfoVisible}
+                setIsModalVisible={setIsModalUpdateInfoVisible}
+            />
+            {
+                arrayMessageSendComment.map( message => (
+                    message
+                ) )
+            }
         </div>
     );
 };

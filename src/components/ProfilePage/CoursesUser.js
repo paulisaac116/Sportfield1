@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
 
@@ -12,9 +12,9 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons';
 
 export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
 
-
     const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
-    const [courseData, setCourseData] = useState( [] );
+    const [userCourses, setUserCourses] = useState( [] );
+    const [courseToUnsuscribe, setCourseToUnsuscribe] = useState( [] );
     const [isModalUnsubscribeVisible, setIsModalUnsubscribeVisible] = useState( false );
 
     const emptyCourses = () => (
@@ -27,7 +27,7 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
 
     const showModalUnsubscribe = ( course ) => {
         bodyOverflow( 'hidden' );
-        setCourseData( course );
+        setCourseToUnsuscribe( course );
         setIsModalUnsubscribeVisible( true );
 
     };
@@ -37,6 +37,19 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
         setIsModalRegisterVisible( true );
     };
 
+    useEffect( () => {
+
+        let userCourses = [];
+
+        userData?.courses.forEach( courseUser => {
+
+            userCourses.push( coursesData.find( course => courseUser.id === course.id ) );
+        } );
+
+        setUserCourses( userCourses );
+
+    }, [coursesData, userData?.courses] );
+
     return (
         <div className="field__frame">
             <div className="courses__title">RESERVA DE CURSOS</div>
@@ -44,21 +57,23 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
                 {
                     loading
                         ? <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-2x text-white' />
-                        : userData?.courses.length === 0
+                        : userCourses.length === 0
                             ? ( emptyCourses() )
-                            : userData?.courses.map( ( course, key ) => (
-                                <div className='field__table--row' key={key}>
-                                    <div className='courses__table--data'>
-                                        <h3 className='courses__table--title'>{course.title}</h3>
-                                        <p className='courses__table--desc'>{course.description}</p>
+                            : userCourses.map( ( course ) => (
+                                course?.active
+                                    ? <div className='field__table--row' key={course.id}>
+                                        <div className='courses__table--data'>
+                                            <h3 className='courses__table--title'>{course.title}</h3>
+                                            <p className='courses__table--desc'>{course.description}</p>
+                                        </div>
+                                        <div className='courses__table--button'>
+                                            <RedButton
+                                                button_name={'Anular'}
+                                                button_func={() => showModalUnsubscribe( course )}
+                                            />
+                                        </div>
                                     </div>
-                                    <div className='courses__table--button'>
-                                        <RedButton
-                                            button_name={'Anular'}
-                                            button_func={() => showModalUnsubscribe( course )}
-                                        />
-                                    </div>
-                                </div>
+                                    : <></>
                             ) )
                 }
             </div>
@@ -71,7 +86,7 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
             <ModalUnsubscribeCourse
                 isModalVisible={isModalUnsubscribeVisible}
                 setIsModalVisible={setIsModalUnsubscribeVisible}
-                course={courseData}
+                course={courseToUnsuscribe}
                 userData={userData}
             />
         </div>

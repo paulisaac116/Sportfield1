@@ -11,7 +11,7 @@ import { Message } from '../../Message';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 
-export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
+export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const initialValue = { title: '', description: '' };
 
@@ -98,7 +98,7 @@ export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArray
                         formErrors.description
                             ? <div className='form__errors'>
                                 <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                <p className='form__errors--text'>{formErrors.title}</p>
+                                <p className='form__errors--text'>{formErrors.description}</p>
                             </div>
                             : <></>
                     }
@@ -120,7 +120,7 @@ export const ModalNotification = ( { isModalVisible, setIsModalVisible, setArray
 };
 
 
-ModalNotification.propTypes = {
+ModalAddNotification.propTypes = {
     isModalVisible: PropTypes.bool,
     setIsModalVisible: PropTypes.func,
     setArrayMessage: PropTypes.func

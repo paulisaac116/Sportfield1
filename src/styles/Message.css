@@ -14,7 +14,7 @@
         justify-content: center;
         align-items: center;
         top: 3rem;
-        z-index: 200000;
+        z-index: 500000;
 
         @apply sm:top-12 sm:top-16 sm:left-60 md:left-17rem lg:left-26rem xl:left-40rem
     }
@@ -44,7 +44,7 @@
         border-radius: 10px;
         position: fixed;
         top: 3rem;
-        z-index: 8000;
+        z-index: 500000;
         border: 2px solid theme('colors.black');
     }
 

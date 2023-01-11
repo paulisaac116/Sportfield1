@@ -12,7 +12,6 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
     };
 
     return (
-
         <div className='table-turns__body--row'>
             <div className='body-row__data'>
                 <p className='body-row__data-name'>{`${turn.name} ${turn.lastName}`}</p>

@@ -9,8 +9,6 @@ export const NotificationsTable = ( { tableData, currentPage, setDataSize } ) =>
     useEffect( () => {
 
         setNotificationsArray( matrix( tableData ) );
-        // setDataSize( notificationsArray.length );
-
 
     }, [tableData] );
 
@@ -22,24 +20,19 @@ export const NotificationsTable = ( { tableData, currentPage, setDataSize } ) =>
     return (
 
         <div className='Notifications animate__animated animate__fadeIn'>
-            <div className='table-notifications__body'>
-                {
-                    notificationsArray[currentPage]?.map( ( item ) => (
+            {
+                notificationsArray[currentPage]?.map( ( notification ) => (
 
-                        <div key={item.id} className='table-notifications__body--row'>
-                            <div className='body-row__data'>
-                                <div className='body-row__data--title-date'>
-                                    <div className='title-date__title'>{item.title}</div>
-                                    <div className='title-date__date'>{item.date}</div>
-                                </div>
-                                <p className='body-row__data--desc'>{item.description}</p>
-                            </div>
+                    <div key={notification.id} className='table-notifications__row'>
+                        <div className='row__title-and-date'>
+                            <p className='row__title'>{notification.title}</p>
+                            <p className='row__date'>{notification.date}</p>
                         </div>
+                        <p className='row__desc'>{notification.description}</p>
+                    </div>
 
-                    ) )
-                }
-
-            </div>
+                ) )
+            }
         </div>
     );
 };

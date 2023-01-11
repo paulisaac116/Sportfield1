@@ -18,24 +18,23 @@ export const CommentsTable = ( { tableData, currentPage, setDataSize } ) => {
 
     return (
         <div className='Comments animate__animated animate__fadeIn'>
-            <div className='table-comments__body'>
-                {
-                    commentsDataArray[currentPage]?.map( ( item ) => (
+            {
+                commentsDataArray[currentPage]?.map( ( comment ) => (
 
-                        <div key={item.id} className='table-comments__body--row'>
-                            <div className='body-row__data'>
-                                <div className='body-row__data--title-date'>
-                                    <div className='title-date__title'>{item.title}</div>
-                                    <div className='title-date__date'>{item.date}</div>
-                                </div>
-                                <p className='body-row__data--desc'>{item.description}</p>
-                            </div>
+                    <div key={comment.id} className='table-comments__row'>
+                        <div className='row__user-and-date'>
+                            <p className='row__user'>{comment.userName} {comment.userLastName} - {comment.userLand}</p>
+                            <p className='row__date'>{comment.date}</p>
                         </div>
+                        <div className='row__title-and-desc'>
+                            <h3 className='row__title'>{comment.title}</h3>
+                            <p className='row__desc'>{comment.description}</p>
+                        </div>
+                    </div>
 
-                    ) )
-                }
+                ) )
+            }
 
-            </div>
         </div>
     );
 };

@@ -10,11 +10,13 @@ import { bodyOverflow } from '../../helpers/bodyOverflow';
 import { ErrorMessage } from '../ErrorMessage';
 import { Message } from '../Message';
 
-export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, courses, userData, setArrayMessage} ) => {
+export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, courses, userData, setArrayMessage } ) => {
 
     const [courseIdSelected, setCourseIdSelected] = useState( '' );
 
     const [arrayMessageCourseError, setArrayMessageCourseError] = useState( [] );
+
+    const [activeCourses, setActiveCourses] = useState( [] );
 
     const scrollTop = () => {
         document.getElementById( 'table-scoll' ).scrollTop = 0;
@@ -51,8 +53,8 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                     db.collection( 'Users' ).doc( userData?.id ).update( {
                         courses: firebase.firestore.FieldValue.arrayUnion( {
                             id: course.id,
-                            title: course.title,
-                            description: course.description
+                            // title: course.title,
+                            // description: course.description
                         } )
                     } );
 
@@ -70,12 +72,12 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                     setIsModalVisible( false );
                     setCourseIdSelected( '' );
                     scrollTop();
-                    setArrayMessage([
+                    setArrayMessage( [
                         <Message
                             messageContent={'Inscrito'}
                         />
-                    ])
-                    
+                    ] );
+
 
                 } catch ( error ) {
                     const errorCode = error.code;
@@ -116,6 +118,13 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
 
     }, [arrayMessageCourseError] );
 
+    useEffect( () => {
+
+        const active = courses.filter( course => course.active === true );
+        setActiveCourses( active );
+
+    }, [courses] );
+
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__registered-course'>
@@ -125,14 +134,14 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                     <table className='Courses animate__animated animate__fadeIn'>
                         <thead>
                         </thead>
-                        {courses?.map( ( item, key ) => (
-                            <tbody key={key}>
+                        {activeCourses?.map( ( course ) => (
+                            <tbody key={course.id}>
                                 <tr
-                                    className={`table-courses__data ${courseIdSelected === item.id ? 'purple-light border-solid border-2 border-white' : ''}`}
-                                    onClick={() => changeColor( item.id )}
+                                    className={`table-courses__data ${courseIdSelected === course.id ? 'purple-light border-solid border-2 border-white' : ''}`}
+                                    onClick={() => changeColor( course.id )}
                                 >
-                                    <td className='td__title'>{`${item.title}`}</td>
-                                    <td className='td__description'>{`${item.description}`}</td>
+                                    <td className='td__title'>{`${course.title}`}</td>
+                                    <td className='td__description'>{`${course.description}`}</td>
                                 </tr>
                             </tbody>
                         ) )}

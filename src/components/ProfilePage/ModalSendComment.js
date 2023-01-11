@@ -11,7 +11,7 @@ import { getDate } from '../../helpers/getDate';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
 import { Message } from '../Message';
 
-export const ModalComment = React.memo( ( { userData, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
+export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const initialValues = { title: '', description: '' };
     const [commentData, setCommentData] = useState( initialValues );

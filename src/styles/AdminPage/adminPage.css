@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 
@@ -193,7 +193,9 @@
 
     .menu__table .table__title--desc {
         font-weight: 400;
-        font-size: .9rem;
+        font-size: .85rem;
+
+        @apply lg:text-1rem
     }
 
     .menu__table .table__buttons {
@@ -369,7 +371,7 @@
         height: 100%;
         top: 0;
         left: 0;
-        z-index: 100000;
+        z-index: 1000;
         justify-content: center;
         align-items: center;
         flex-direction: column;
@@ -386,6 +388,13 @@
         border-radius: 20px;
         width: 90%;
         max-width: 30rem;
+    }
+
+    .modal__content input {
+        background-color: theme('colors.white');
+        color: theme('colors.black');
+        width: 100%;
+        font-family: 'Montserrat';
     }
 
     .modal__content--title {
@@ -477,10 +486,13 @@
         padding: .5rem .8rem;
     }
 
-
     /*
         MODAL TURNS TABLE
     */
+
+    .modal .modal__add-turn .purple-light {
+        background-color: theme('colors.purple-light');
+    }
 
     .modal .modal__add-turn thead {
         display: none;
@@ -495,9 +507,8 @@
         margin-bottom: 1rem;
     }
 
-    .modal .modal__add-turn--body tr td:nth-child(1)::before { content: "Usuario: "; font-weight: 600;}
-    .modal .modal__add-turn--body tr td:nth-child(2)::before { content: "Email: "; font-weight: 600;}
-    .modal .modal__add-turn--body tr td:nth-child(3)::before { content: "Lote: "; font-weight: 600;}
+    .modal .modal__add-turn--body tr td:nth-child(1)::before { content: "Morador: "; font-weight: 600;}
+    .modal .modal__add-turn--body tr td:nth-child(2)::before { content: "Lote: "; font-weight: 600;}
 
     .modal .modal__add-turn--body tr td:first-of-type {
         display: flex;
@@ -506,6 +517,10 @@
     .modal .modal__add-turn--body tr td:first-of-type p:first-of-type {
         margin-left: .3rem;
         margin-right: .3rem;
+    }
+
+    .modal__add-turn .modal__buttons {
+        margin-top: 1rem;
     }
 
     /*
@@ -595,16 +610,24 @@
         color: theme('colors.white');
         font-size: 1.15rem;
         font-weight: 600;
-        column-gap: .5rem;
-
 
         @apply lg:flex lg:mb-2 xl:text-xl
     }
 
-    .Users .table-users__head p:nth-child(1){ flex-basis: 20%; margin-left: .5rem;}
-    .Users .table-users__head p:nth-child(2){ flex-basis: 20%}
-    .Users .table-users__head p:nth-child(3){ flex-basis: 30%}
-    .Users .table-users__head p:nth-child(4){ flex-basis: 15%}
+    .Users .table-users__head {
+        padding-left: .5rem;
+        grid-template-columns: 3fr 1fr 3fr 2fr 2fr;
+        column-gap: 2rem;
+        position: sticky;
+        top: 0;
+        background-color: theme('colors.purple-dark');
+
+        @apply lg:grid
+    }
+
+    .Users .table-users__head p:nth-child(5){
+        text-align: center;
+    }
 
     .Users .table-users__body,
     .Turns .table-turns__body,
@@ -617,8 +640,8 @@
     .Users .table-users__body--row, 
     .Turns .table-turns__body--row,
     .Courses .table-courses__body--row,
-    .Comments .table-comments__body--row,
-    .Notifications .table-notifications__body--row {
+    .Comments .table-comments__row,
+    .Notifications .table-notifications__row {
         width: 100%;
         padding: .5rem .75rem;
         margin-bottom: .75rem;
@@ -631,24 +654,34 @@
     .Users .body-row__data, 
     .Turns .body-row__data,
     .Courses .body-row__data,
-    .Comments .body-row__data,
-    .Notifications .body-row__data {
+    .Comments .table-comments__row,
+    .Notifications .table-notifications__row {
         width: 100%;
         color: theme('colors.white');
         overflow: auto;
 
-        @apply sm:text-sm lg:flex lg:gap-x-4 lg:items-center xl:text-xl
+        @apply sm:text-sm lg:text-lg
     }
 
-    .Users .body-row__data p:nth-child(1) {flex-basis: 23%;}
-    .Users .body-row__data p:nth-child(2) {flex-basis: 23%;}
-    .Users .body-row__data p:nth-child(3) {flex-basis: 40%; @apply xl:basis-35%}
-    .Users .body-row__data p:nth-child(4) {flex-basis: 5%;}
+    .Users .body-row__data {
+        grid-template-columns: 3fr 1fr 3fr 2fr;
+        column-gap: 1rem;
+        align-content: center;
+        @apply lg:grid;
+    }
 
-    .Users .body-row__data p:nth-child(1)::before { content: 'Nombre: '; font-weight: 600; @apply lg:content-none}
-    .Users .body-row__data p:nth-child(2)::before { content: 'Apellido: '; font-weight: 600; @apply lg:content-none}
+    /*
+        Prevent text overflow
+    */
+    
+    .Users .body-row__data p {
+        word-break: break-all;
+    }
+
+    .Users .body-row__data p:nth-child(1)::before { content: 'Morador: '; font-weight: 600; @apply lg:content-none}
+    .Users .body-row__data p:nth-child(2)::before { content: 'Lote: '; font-weight: 600; @apply lg:content-none}
     .Users .body-row__data p:nth-child(3)::before { content: 'Email: '; font-weight: 600; @apply lg:content-none}
-    .Users .body-row__data p:nth-child(4)::before { content: 'Lote: '; font-weight: 600; @apply lg:content-none}
+    .Users .body-row__data p:nth-child(4)::before { content: 'Celular: '; font-weight: 600; @apply lg:content-none}
 
     .Users .body-row__buttons,
     .Turns .body-row__buttons,
@@ -672,33 +705,33 @@
     }
 
     .Turns .table-turns__head {
-
-        /* display: grid; */
-        /* grid-template-columns: repeat(6, 1fr); */
-
         position: sticky;
         top: 56px;
         z-index: 1;
         padding: .25rem 0 0 .75rem;
-
         background-color: theme('colors.purple-dark');
 
-
-        @apply lg:grid lg:grid-cols-6
+        @apply lg:grid
         
-        /* @apply lg:ml-2 lg:col-start-1 lg:col-end-5 lg:row-start-1 lg:row-end-2 */
-
     }
 
-    .Turns .table-turns__body {
+    .Turns .table-turns__head.columns-5 {
+        grid-template-columns: repeat(5, 1fr);
+        column-gap: .5rem;
     }
 
-    /* .Turns .table-turns__head p:nth-child(1) { flex-basis: 20%; }
-    .Turns .table-turns__head p:nth-child(2) { flex-basis: 20%; }
-    .Turns .table-turns__head p:nth-child(3) { flex-basis: 20%; }
-    .Turns .table-turns__head p:nth-child(4) { flex-basis: 20%;  }
-    .Turns .table-turns__head p:nth-child(5) { flex-basis: 20%; } */
+    .Turns .table-turns__head.columns-6 {
+        grid-template-columns: repeat(6, 1fr);
+        column-gap: 2rem;
+    }
 
+
+    .Turns .table-turns__head p:nth-child(1) {grid-column-start: 1; grid-column-end: 2;}
+    .Turns .table-turns__head p:nth-child(2) {grid-column-start: 2; grid-column-end: 3;}
+    .Turns .table-turns__head p:nth-child(3) {grid-column-start: 3; grid-column-end: 4;}
+    .Turns .table-turns__head p:nth-child(4) {grid-column-start: 4; grid-column-end: 5;}
+    .Turns .table-turns__head p:nth-child(5) {grid-column-start: 5; grid-column-end: 6;}
+    .Turns .table-turns__head p:nth-child(6) {grid-column-start: 6; grid-column-end: 7; position: relative; left: 18px; width: fit-content;}
     /*
         SPORT BUTTONS - TURNS TABLE
     */
@@ -747,6 +780,7 @@
         border-top-left-radius: 15px;
         border-bottom-left-radius: 15px;
         border: 1px solid theme('colors.white');
+        border-right: none;
         
 
         @apply lg:block
@@ -801,20 +835,8 @@
 
      .Turns .body-row__data {
 
-
-
-        @apply lg:text-base lg:grid lg:grid-cols-6
+        @apply lg:text-base lg:grid lg:grid-cols-5
      }
-
-    /* .Turns .body-row__data .body-row__data-name { flex-basis: 15%;}
-    .Turns .body-row__data-field--col { flex-basis: 20%; }
-
-    .Turns .body-row__data--date-row  {flex-basis: 25%; }
-    .Turns .date-list { flex-basis: 25%; }
-
-    .Turns .body-row__data--hour-row { flex-basis: 20%; }
-    .Turns .body-row__data-saved { flex-basis: 20%; } */
-
 
 
     .Turns .body-row__data .body-row__data-name::before { content: 'Morador: '; font-weight: 600; @apply lg:content-none}
@@ -845,7 +867,12 @@
 
     .Turns .body-row__data-field--col {
 
-        @apply lg:flex lg:flex-col lg:text-center
+        @apply lg:flex lg:flex-col lg:text-left
+    }
+    
+    .Turns .body-row__data-field--col p:first-of-type {
+
+        @apply lg:relative lg:left-12
     }
 
     .Turns .body-row__data--date-row {
@@ -855,15 +882,6 @@
     .Turns .body-row__data--hour-row {
 
         @apply lg:flex lg:flex-col lg:justify-around lg:h-full
-    }
-
-    .Turns .table-turns__body--row {
-
-        @apply md:flex-col
-    }
-
-    .Turns .body-row__data {
-        @apply lg:my-2
     }
 
     .Turns .body-row__data--date-row p:first-of-type {
@@ -940,6 +958,10 @@
         cursor: pointer;
     }
 
+    .Courses .body-row__registered--head.bg-black {
+        background-color: theme('colors.black');
+    }
+
     .Courses .body-row__registered--head:hover {
         background-color: theme('colors.black');
     }
@@ -983,12 +1005,19 @@
 
     .Courses .body-user__data {
 
-        @apply lg:flex
+        @apply lg:w-full lg:grid lg:grid-cols-3 lg:gap-x-4
     }
 
-    .Courses .body-user__data p:last-of-type {
-        
-        @apply lg:ml-8
+    .Courses .body-user__data--name {
+        @apply lg:col-start-1 lg:col-end-2
+    }
+
+    .Courses .body-user__data--email {
+        @apply lg:col-start-2 lg:col-end-3
+    }
+
+    .Courses .body-user__data--phone {
+        @apply lg:col-start-3 lg:col-end-4
     }
 
     .Courses .radius-none {
@@ -1001,33 +1030,40 @@
         COMMENTS TABLE
     */
 
-    .table__comments--user,
-    .table__notifications--title {
+    .Comments .table-comments__row,
+    .Notifications .table-notifications__row {
+        
+        @apply lg:flex-col lg:items-start
+    }
+
+    .Comments .row__user,
+    .Notifications .row__title {
         font-weight: 600;
     }
-    .table__comments--title {
+    .Comments .row__title {
         font-style: italic;
     }
 
-    .table__content .Comments tbody tr,
-    .table__content .Notifications tbody tr
-     {
-        margin-bottom: 1rem;
-        border-radius: 20px;
-        @apply md:pr-4
-    }
-
-    .table__comments--date,
-    .table__notifications--date
+    .Comments .row__date,
+    .Notifications .row__date
      {
         font-size: .75rem;
         @apply lg:text-sm
     }
 
-    .table__comments--user-date,
-    .table__notifications--title-date
+    .Comments .row__user-and-date,
+    .Notifications .row__title-and-date
      {
+        width: 100%;
         @apply md:flex md:justify-between md:items-center
+    }
+
+    .Comments .row__user,
+    .Comments .row__title,
+    .Comments .row__desc,
+    .Notifications .row__title,
+    .Notifications .row__desc {
+        @apply lg:text-base
     }
 
 
@@ -1036,7 +1072,7 @@
     */
 
 
-    .table__notifications-title {
+    .Notifications .table__notifications-title {
         font-weight: 600;
     }
 

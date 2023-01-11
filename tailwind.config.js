@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontSize: {
+        '1rem': '1rem'
+      },
       minWidth: {
         '20rem': '20rem'
       },
@@ -58,7 +61,9 @@ module.exports = {
         '35%': '35%'
       },
       gridTemplateColumns: {
-        '30-60': '30% 60%'
+        '30-60': '30% 60%',
+        '5-1fr': 'repeat(5, 1fr)',
+        '6-1fr': 'repeat(6, 1fr)'
       }
     },
     colors: {

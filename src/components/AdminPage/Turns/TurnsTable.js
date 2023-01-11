@@ -100,12 +100,13 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
                     ) )
                 }
             </div>
-            <div className='table-turns__head'>
+            <div className={`table-turns__head ${!activeTurns ? 'columns-5' : 'columns-6'}`}>
                 <p>Morador</p>
                 <p>Cancha</p>
                 <p>Fecha</p>
                 <p>Hora</p>
                 <p>Agendado</p>
+                <p className={`${!activeTurns ? 'hidden' : ''}`}>Acción</p>
             </div>
             <div className='table-turns__body'>
                 {

@@ -12,19 +12,21 @@ import { splitData } from '../../../helpers/splitData';
 
 export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourseData, setIsModalEditVisible, setIsModalDeleteVisible, setDataSize } ) => {
 
-    const [tableCourse, setTableCourse] = useState( [] );
     const [activeCoursesArray, setActiveCoursesArray] = useState( [] );
     const [finishedCoursesArray, setFinishedCoursesArray] = useState( [] );
 
     const showRegisteredUsers = ( id ) => {
 
-        let newArray = tableCourse.map( ( course ) => {
+        let newArray = activeCourses ? [...activeCoursesArray] : [...finishedCoursesArray];
 
-            if ( course.id === id ) course.registerActive = !course.registerActive;
-            return course;
-        } );
+        newArray.forEach( row => {
+            row.forEach( course => {
+                if ( course.registered.length && course.id === id ) course.showRegisteredUsersList = !course.showRegisteredUsersList;
+            } );
+        }
+        );
 
-        setTableCourse( newArray );
+        activeCourses ? setActiveCoursesArray( newArray ) : setFinishedCoursesArray( newArray );
     };
 
     const handleEditCourse = ( course ) => {
@@ -49,7 +51,20 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
 
     useEffect( () => {
 
-        const { active, inactive } = splitData( tableData );
+        let { active, inactive } = splitData( tableData );
+
+        active.forEach( row => {
+            row.forEach( course => {
+                course.showRegisteredUsersList = false;
+            } );
+        } );
+
+        inactive.forEach( row => {
+            row.forEach( course => {
+                course.showRegisteredUsersList = false;
+            } );
+        } );
+
         setActiveCoursesArray( active );
         setFinishedCoursesArray( inactive );
 
@@ -79,19 +94,19 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
                                     </div>
                                 </div>
                                 <div className='body-row__registered'>
-                                    <div className={`body-row__registered--head ${course.registerActive ? 'radius-none' : ''}`} onClick={() => showRegisteredUsers( course.id )}>
+                                    <div className={`body-row__registered--head ${course.showRegisteredUsersList ? 'radius-none bg-black' : ''}`} onClick={() => showRegisteredUsers( course.id )}>
                                         <h3>Registrados</h3>
                                         <div className='registered-head__usersNumber'>
                                             <p>{`${Array.isArray( course.registered ) ? course.registered.length : ''}`}</p>
                                             {
-                                                course.registerActive
+                                                course.showRegisteredUsersList
                                                     ? <FontAwesomeIcon icon={faAngleUp} className='fa-1x' />
                                                     : <FontAwesomeIcon icon={faAngleDown} className='fa-1x' />
                                             }
 
                                         </div>
                                     </div>
-                                    <div className={`body-row__registered--body ${course.registerActive ? 'flex' : 'hidden'}`}>
+                                    <div className={`body-row__registered--body ${course.showRegisteredUsersList ? 'flex' : 'hidden'}`}>
                                         {
                                             Array.isArray( course.registered )
                                                 ? course.registered.map( ( user ) => (
@@ -104,7 +119,7 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
                                                     </div>
 
                                                 ) )
-                                                : <div className='bg-purple-mid h-full'></div>
+                                                : <p>No hay datos</p>
                                         }
                                     </div>
                                 </div>
@@ -120,32 +135,33 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
                                     </div>
                                 </div>
                                 <div className='body-row__registered'>
-                                    <div className={`body-row__registered--head ${course.registerActive ? 'radius-none' : ''}`} onClick={() => showRegisteredUsers( course.id )}>
+                                    <div className={`body-row__registered--head ${course.showRegisteredUsersList ? 'radius-none bg-black' : ''}`} onClick={() => showRegisteredUsers( course.id )}>
                                         <h3>Registrados</h3>
                                         <div className='registered-head__usersNumber'>
                                             <p>{`${Array.isArray( course.registered ) ? course.registered.length : ''}`}</p>
                                             {
-                                                course.registerActive
+                                                course.showRegisteredUsersList
                                                     ? <FontAwesomeIcon icon={faAngleUp} className='fa-1x' />
                                                     : <FontAwesomeIcon icon={faAngleDown} className='fa-1x' />
                                             }
 
                                         </div>
                                     </div>
-                                    <div className={`body-row__registered--body ${course.registerActive ? 'flex' : 'hidden'}`}>
+                                    <div className={`body-row__registered--body ${course.showRegisteredUsersList ? 'flex' : 'hidden'}`}>
                                         {
                                             Array.isArray( course.registered )
                                                 ? course.registered.map( ( user ) => (
                                                     <div className={`registered-body__user`} key={user.id}>
                                                         <FontAwesomeIcon icon={faAngleRight} className='fa-1x' />
                                                         <div className='body-user__data'>
-                                                            <p>{user.name} {user.lastName}</p>
-                                                            <p>{user.email}</p>
+                                                            <p className='body-user__data--name'>{user.name} {user.lastName}</p>
+                                                            <p className='body-user__data--email'>{user.email}</p>
+                                                            <p className='body-user__data--phone'>{user.cellphone}</p>
                                                         </div>
                                                     </div>
 
                                                 ) )
-                                                : <div className='bg-purple-mid h-full'></div>
+                                                : <p>No hay datos</p>
                                         }
                                     </div>
                                 </div>

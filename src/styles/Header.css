@@ -14,7 +14,7 @@
     background-color: theme('colors.black');
     position: sticky;
     top: 0;
-    z-index: 50000;
+    z-index: 500;
 
     @apply sm:py-7 sm:px-10 lg:px-14 lg:py-8
   

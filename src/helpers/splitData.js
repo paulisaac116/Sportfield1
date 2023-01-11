@@ -1,7 +1,5 @@
 export const splitData = ( data ) => {
 
-    console.log( 'data: ', data );
-
     let active = [];
     let inactive = [];
 
@@ -10,7 +8,6 @@ export const splitData = ( data ) => {
     inactive = matrix( inactive );
 
     return { active, inactive };
-
 };
 
 export function matrix( array ) {
@@ -20,7 +17,7 @@ export function matrix( array ) {
     let counter = 0;
 
     while ( array.length !== 0 ) {
-        if ( counter === 4 ) {
+        if ( counter === 5 ) {
             matrix.push( row );
             row = [];
             counter = 0;
