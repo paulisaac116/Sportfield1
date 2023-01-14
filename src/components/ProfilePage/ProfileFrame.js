@@ -25,6 +25,7 @@ export const ProfileFrame = ( { userData } ) => {
     const [isModalUpdateInfoVisible, setIsModalUpdateInfoVisible] = useState( false );
 
     const [arrayMessageSendComment, setArrayMessageSendComment] = useState( [] );
+    const [arrayMessageUpdateInfo, setArrayMessageUpdateInfo] = useState( [] );
 
     const showNotifications = () => {
         setBellActive( true );
@@ -113,11 +114,15 @@ export const ProfileFrame = ( { userData } ) => {
                 userData={userData}
                 isModalVisible={isModalUpdateInfoVisible}
                 setIsModalVisible={setIsModalUpdateInfoVisible}
+                setArrayMessage={setArrayMessageUpdateInfo}
             />
             {
                 arrayMessageSendComment.map( message => (
                     message
                 ) )
+            }
+            {
+                arrayMessageUpdateInfo.map( message => ( message ) )
             }
         </div>
     );

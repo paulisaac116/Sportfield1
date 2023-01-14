@@ -44,7 +44,7 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
             const course = courses.find( item => item.id === courseIdSelected );
             delete course.registered;
 
-            const courseUser = userData.courses.find( item => item.id === course.id );
+            const courseUser = userData.courses?.find( item => item.id === course.id );
 
             if ( courseUser === undefined ) {
 

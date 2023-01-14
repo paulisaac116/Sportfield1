@@ -107,8 +107,10 @@
   
   .TurnsPage .menu-and-table .menu-container {
     position: absolute;
-    top: 95px;
-    z-index: 600;
+    top: 109px;
+    z-index: 400;
+
+    @apply lg:top-24
   }
   
   .TurnsPage .field-menu {
@@ -127,7 +129,7 @@
     background-color: #4d59bb;
     box-shadow: 0 10px 0 rgba(0, 0, 0, 0.6);
     position: relative;
-    z-index: 500;
+    z-index: 400;
     display: block;
 
     @apply lg:w-80 lg:h-56

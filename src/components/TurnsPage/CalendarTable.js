@@ -17,6 +17,11 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
     const today = getDate();
     const weekDays = weekArray.map( item => item.day );
 
+    /**
+     * An array of arrays
+     * contains the rows of each our of the week
+     */
+
     const fullTable = hours.map( ( hour, row ) => ( [
         days.map( ( day, column ) => ( {
             id: `${row}${column}`,
@@ -160,7 +165,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
                                         <div
                                             key={day.id}
                                             id={day.id}
-                                            className={`body-row__day ${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
+                                            className={`${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
                                             onClick={() => selectedCell( day )}
                                         >
                                             {day.id}

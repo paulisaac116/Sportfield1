@@ -18,12 +18,6 @@ const RegisterPage = () => {
   const [formValues, setFormValues] = useState( initialValues );
   const [formErrors, setFormErrors] = useState( {} );
 
-  const [buttonPushed, setButtonPushed] = useState( false );
-  // const [status, setStatus] = useState( false );
-  // const [userId, setUserId] = useState( '' );
-
-  // let initial = true
-
   const handleInputChange = ( e ) => {
     const { name, value } = e.target;
     setFormValues( { ...formValues, [name]: value } );

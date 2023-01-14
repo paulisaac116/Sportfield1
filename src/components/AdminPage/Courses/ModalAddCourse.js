@@ -21,7 +21,7 @@ import { months } from '../../../data/CalendarMonths';
 
 export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
-    const initialValues = { title: '', description: '', price: '' };
+    const initialValues = { title: '', dateStart: '', dateEnd: '', timeStart: '', timeEnd: '', price: '', description: '' };
 
     const [formValues, setFormValues] = useState( initialValues );
     const [formErrors, setFormErrors] = useState( {} );
@@ -29,18 +29,13 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
     const [dateStart, setDateStart] = useState( '' );
     const [dateEnd, setDateEnd] = useState( '' );
 
-    const [timeStart, setTimeStart] = useState( moment().format( 'LT' ) );
-    const [timeEnd, setTimeEnd] = useState( moment().format( 'LT' ) );
+    const [timeStart, setTimeStart] = useState( '' );
+    const [timeEnd, setTimeEnd] = useState( '' );
 
     const hiddeModal = () => {
-        setFormValues( initialValues );
+        // setFormValues( initialValues );
         setFormErrors( {} );
         setIsModalVisible( false );
-        setDateStart( '' );
-        setDateEnd( '' );
-        setTimeStart( moment().format( 'LT' ) );
-        setTimeEnd( moment().format( 'LT' ) );
-
     };
 
     const darkTheme = createTheme( {
@@ -51,23 +46,31 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
 
     const handleChangeDateStart = ( newValue ) => {
-        setDateStart( newValue );
+        // setDateStart( newValue );
+        setFormValues( { ...formValues, dateStart: newValue } );
     };
 
     const handleChangeDateEnd = ( newValue ) => {
-        setDateEnd( newValue );
+        // setDateEnd( newValue );
+        setFormValues( { ...formValues, dateEnd: newValue } );
+
     };
 
     const handleChangeTimeStart = ( newValue ) => {
-        setTimeStart( newValue );
+        // setTimeStart( newValue );
+        setFormValues( { ...formValues, timeStart: newValue } );
+
     };
 
     const handleChangeTimeEnd = ( newValue ) => {
-        setTimeEnd( newValue );
+        // setTimeEnd( newValue );
+        setFormValues( { ...formValues, timeEnd: newValue } );
+
     };
 
 
     const handleInputChange = ( { target } ) => {
+        console.log( target );
         const { name, value } = target;
         setFormValues( { ...formValues, [name]: value } );
         setFormErrors( { ...formErrors, [name]: '' } );
@@ -194,10 +197,15 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
         if ( !values.title ) errors.title = 'Ingrese un título';
         else if ( !regexText.test( values.title ) ) errors.title = 'Ingrese texto entre 5 y 50 caracteres';
 
-        if ( dateStart === '' ) errors.dateStart = 'Seleccione una fecha de inicio';
-        if ( dateEnd === '' ) errors.dateEnd = 'Seleccione una fecha de finalización';
-        if ( typeof timeStart === 'string' ) errors.timeStart = 'Seleccione una hora de inicio';
-        if ( typeof timeEnd === 'string' ) errors.timeEnd = 'Seleccione una hora de finalización';
+        // if ( dateStart === '' ) errors.dateStart = 'Seleccione una fecha de inicio';
+        // if ( dateEnd === '' ) errors.dateEnd = 'Seleccione una fecha de finalización';
+        // if ( typeof timeStart === 'string' ) errors.timeStart = 'Seleccione una hora de inicio';
+        // if ( typeof timeEnd === 'string' ) errors.timeEnd = 'Seleccione una hora de finalización';
+
+        if ( !values.dateStart ) errors.dateStart = 'Seleccione una fecha de inicio';
+        if ( !values.dateEnd ) errors.dateEnd = 'Seleccione una fecha de finalización';
+        if ( !values.timeStart ) errors.timeStart = 'Seleccione una hora de inicio';
+        if ( !values.timeEnd ) errors.timeEnd = 'Seleccione una fecha de finalización';
 
         if ( !values.price ) errors.price = 'Ingese un valor';
         else if ( !regexPrice.test( values.price ) ) errors.price = 'Ingrese un precio con el formato $99:99';
@@ -206,6 +214,11 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
         return errors;
     };
+
+    useEffect( () => {
+        console.log( formValues );
+        setFormValues( initialValues );
+    }, [isModalVisible] );
 
     useEffect( () => {
 
@@ -246,8 +259,9 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                                 <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
                                     <DesktopDatePicker
                                         inputFormat='DD/MM/YYYY'
-                                        value={dateStart}
+                                        value={formValues.dateStart}
                                         onChange={handleChangeDateStart}
+                                        // onChange={handleInputChange}
                                         renderInput={( params ) => <TextField {...params} />}
                                         className='inputDate'
                                         name='dateStart'
@@ -259,8 +273,9 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                                 <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
                                     <DesktopDatePicker
                                         inputFormat='DD/MM/YYYY'
-                                        value={dateEnd}
+                                        value={formValues.dateEnd}
                                         onChange={handleChangeDateEnd}
+                                        // onChange={handleInputChange}
                                         renderInput={( params ) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>
@@ -286,8 +301,9 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                                 <LocalizationProvider dateAdapter={AdapterMoment}>
                                     <DesktopTimePicker
                                         inputFormat='hh:mm A'
-                                        value={timeStart}
+                                        value={formValues.timeStart}
                                         onChange={handleChangeTimeStart}
+                                        // onChange={handleInputChange}
                                         renderInput={( params ) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>
@@ -296,8 +312,9 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                                 <LocalizationProvider dateAdapter={AdapterMoment}>
                                     <DesktopTimePicker
                                         inputFormat='hh:mm A'
-                                        value={timeEnd}
+                                        value={formValues.timeEnd}
                                         onChange={handleChangeTimeEnd}
+                                        // onChange={handleInputChange}
                                         renderInput={( params ) => <TextField {...params} />}
                                     />
                                 </LocalizationProvider>

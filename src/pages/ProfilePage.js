@@ -86,17 +86,6 @@ export const ProfilePage = React.memo( () => {
                         <ProfileFrame
                             userData={userData}
                         />
-                        {/* <GreenButton
-                            button_class='green-button'
-                            button_name="Enviar comentario"
-                            button_func={showModal}
-                        /> */}
-                        {/* <ModalSendComment
-                            userData={userData}
-                            isModalVisible={isModalAddCommentVisible}
-                            setIsModalVisible={setIsModalAddCommentVisible}
-                            setArrayMessage={setArrayMessageAddComment}
-                        /> */}
                     </div>
                     <div className='profile-content__bottom'>
                         <FieldUser

@@ -15,8 +15,8 @@ export const Calendar = React.memo( ( { setDateData, confirmField, fieldData } )
 
     return (
         <div className='calendar'>
-            {/* <CalendarBar />
-            <table className='table__calendar'>
+            <CalendarBar />
+            {/*<table className='table__calendar'>
                 <thead>
                     <tr>
                         {

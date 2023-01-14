@@ -86,6 +86,10 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
 
     }, [activeTurns, activeSport, turnArray, soccerReservedTurnsArray, soccerCompletedTurnsArray, basketballReservedTurnsArray, basketballCompletedTurnsArray, volleyballReservedTurnsArray, volleyballCompletedTurnsArray, tennisReservedTurnsArray, tennisCompletedTurnsArray] );
 
+    useEffect( () => {
+        console.log( turnArray );
+    }, [turnArray] );
+
 
     return (
         <div className='Turns animate__animated animate__fadeIn'>
@@ -121,7 +125,7 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
                         ) )
                         : <p>No data</p>
                 }
-
+                {turnArray[0]?.length === 0 && <p className='no-turns'>Sin turnos agendados</p>}
             </div>
         </div>
     );

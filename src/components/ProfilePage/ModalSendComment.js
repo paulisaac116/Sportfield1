@@ -76,7 +76,7 @@ export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsM
     return (
 
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
-            <div className='modal__content'>
+            <div className='modal__content modal__send-comment'>
                 <h1 className='modal__content--title'>Enviar comentario</h1>
                 <p className='modal__content--info'>Envía tus comentarios al administrador sobre el estado de las canchas,
                     la agenda de un turno o el funcionamiento de la aplicación</p>

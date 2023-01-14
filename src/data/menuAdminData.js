@@ -14,7 +14,7 @@ export const menuAdminData = [
         id: "turn",
         name: "Turns",
         text: "Turnos",
-        description: "Este módulo te permite visualizar los turnos agendados",
+        description: "Este módulo te permite visualizar los turnos agendados por los moradores",
         icon: faTicketAlt,
         active: false
     },

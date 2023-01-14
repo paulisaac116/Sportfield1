@@ -375,19 +375,19 @@
         justify-content: center;
         align-items: center;
         flex-direction: column;
-    
     }
     
     .modal__content {
+        width: 90%;
+        max-width: 30rem;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         background-color: theme('colors.purple-dark');
+        box-shadow: 0 8px 0 rgba(0, 0, 0, 0.6);
         color: theme('colors.white');
         border-radius: 20px;
-        width: 90%;
-        max-width: 30rem;
     }
 
     .modal__content input {
@@ -891,6 +891,13 @@
     .Turns .body-row__data--hour-row  p:first-of-type {
         
         @apply lg:mb-4
+    }
+
+    .Turns .no-turns {
+        color: theme('colors.white');
+        font-size: 1.25rem;
+        position: relative;
+        top: 50px;
     }
 
     /*

@@ -104,8 +104,10 @@ REGISTER PAGE
   .input:focus {
     outline: 3px theme('colors.purple-dark') solid;
   }
-
-  .login__form .input__error {
+  
+  .input__error,
+  .login__form .input__error,
+  .register__form .input__error {
     outline: 2px theme('colors.red') solid;
   }
 

@@ -124,7 +124,7 @@
         box-shadow: 0 5px 0 rgba(0, 0, 0, 0.6);
     }
 
-    .landing-page .table__content {
+    .landing-page .table__content{
         margin-top: 1rem;
         padding: .5rem;
         background-color: theme('colors.purple-dark');
@@ -132,8 +132,16 @@
         overflow: auto;
         border-radius: 20px;
         font-size: .95rem;
-    
+        /* width: 15rem; */
     }
+
+    .landing-page .table__content .Courses {
+        display: flex;
+        flex-wrap: wrap;
+        overflow: auto;
+    }
+
+
     .landing-page .table__content .table-users__buttons {
         padding-left: 0;
     }

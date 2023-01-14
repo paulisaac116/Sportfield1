@@ -41,7 +41,7 @@ export const CoursesUser = ( { userData, setIsModalRegisterVisible } ) => {
 
         let userCourses = [];
 
-        userData?.courses.forEach( courseUser => {
+        userData?.courses?.forEach( courseUser => {
 
             userCourses.push( coursesData.find( course => courseUser.id === course.id ) );
         } );
