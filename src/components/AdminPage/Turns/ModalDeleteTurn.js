@@ -64,7 +64,7 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
                                         <p>{`${date.day} ${date.date} de ${months[date.month]}`}</p>
                                     </div>
                                     <div className='userData--row'>
-                                        <p className='userData__title'>Hora:</p>
+                                        <p className='userData__title'>Hora: </p>
                                         <p>{`${hours.find( turn => turn.start === date.timeStart ).timeRange}`}</p>
                                     </div>
 

@@ -199,9 +199,11 @@
     }
 
     .menu__table .table__buttons {
-        right: 0;
+        /* right: 0; */
 
-        @apply sm:row-start-2 sm:row-end-3 sm:col-start-1 sm:col-end-3 lg:col-start-2 lg:col-end-3
+        @apply lg:justify-self-end
+
+        /* @apply sm:row-start-2 sm:row-end-3 sm:col-start-1 sm:col-end-3 lg:col-start-2 lg:col-end-3 */
     }
 
     .menu__table .table__buttons .black-button {
@@ -229,8 +231,19 @@
 
     .menu__table .pagination {
 
-        @apply sm:col-start-1 sm:col-end-3 sm:row-start-4 sm:row-end-5 lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3 lg:justify-self-start
+        /* @apply sm:col-start-1 sm:col-end-3 sm:row-start-4 sm:row-end-5 lg:col-start-1 lg:col-end-2 lg:row-start-2 lg:row-end-3 lg:justify-self-start */
+        @apply lg:justify-self-start
 
+    }
+
+    .menu__table .table__navigation {
+        width: 100%;
+        /* display: flex; */
+        /* justify-content: space-between; */
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+
+        @apply lg:col-start-1 lg:col-end-3 lg:row-start-2 lg:row-end-3
     }
     
     /*
@@ -893,6 +906,8 @@
         @apply lg:mb-4
     }
 
+
+    .Users .no-users,
     .Turns .no-turns {
         color: theme('colors.white');
         font-size: 1.25rem;

@@ -163,13 +163,14 @@ export const LoginPage = () => {
               button_class='green-button '
               button_name="Aceptar"
               button_func={handleSubmit}
+              name='Aceptar'
             />
           </form>
           <div className='login__link'>
             <Link to='/register'>¿No tienes una cuenta?<p>Regístrate</p></Link>
           </div>
 
-          <div className={`modal ${isModalChangePassVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
+          {/* <div className={`modal ${isModalChangePassVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
             <div className='modal__content'>
               <h1 className='modal__content--title'>Agregar nuevo usuario</h1>
 
@@ -185,7 +186,7 @@ export const LoginPage = () => {
               </div>
             </div>
 
-          </div>
+          </div> */}
         </div>
       </div>
       : <div className='bg-purple-mid h-screen'></div>

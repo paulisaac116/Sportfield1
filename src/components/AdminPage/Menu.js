@@ -242,7 +242,7 @@ export const Menu = React.memo( () => {
                     <p className='table__title--title'>{iconType}</p>
                     <p className='table__title--desc'>{description}</p>
                 </div>
-                {
+                {/* {
                     iconActive === 'Users'
                         ? <div className='table__buttons'>
                             <BlackButton
@@ -283,7 +283,7 @@ export const Menu = React.memo( () => {
                                         extraClass={activeCourses ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'} />
                                 </div>
                                 : <></>
-                }
+                } */}
                 <Table
                     iconActive={iconActive}
                     activeUsers={activeUsers}

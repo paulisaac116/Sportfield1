@@ -19,16 +19,27 @@ import { Stack } from '@mui/system';
 import { Pagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { CommentsTable } from './Comments/CommentsTable';
+import { BlackButton } from '../Buttons/BlackButton';
+import { SearchBar } from '../SearchBar';
 
-export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activeCourses, currentPage, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse, setCurrentPage } ) => {
+export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setArrayMessageDeleteTurn, setArrayMessageEditCourse, setArrayMessageDeleteCourse } ) => {
 
     const { data: tableData, loading } = useFetchFirestore( iconActive );
 
     const [usersArray, setUsersArray] = useState( [] );
     const [turnsArray, setTurnsArray] = useState( [] );
     const [coursesArray, setCoursesArray] = useState( [] );
-    const [notificationsArray, setNotificationsArray] = useState( [] );
     const [commentsArray, setCommentsArray] = useState( [] );
+    const [notificationsArray, setNotificationsArray] = useState( [] );
+
+    const [activeUsers, setActiveUsers] = useState( true );
+    const [activeTurns, setActiveTurns] = useState( true );
+    const [activeCourses, setActiveCourses] = useState( true );
+
+    const [currentPage, setCurrentPage] = useState( 0 );
+
+    const [filterUsers, setFilterUsers] = useState( '' );
+
 
     const [isModalDeleteVisible, setIsModalDeleteVisible] = useState( false );
     const [userData, setUserData] = useState( {} );
@@ -52,9 +63,22 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
         }
     } );
 
-    useEffect( () => {
-        console.log( 'data size: ', dataSize );
-    }, [dataSize] );
+    const changeUserTableState = ( state ) => {
+        setCurrentPage( 0 );
+        setActiveUsers( !state );
+    };
+    const changeTurnsTableState = ( state ) => {
+        setCurrentPage( 0 );
+        setActiveTurns( !state );
+    };
+    const changeCourseTableState = ( state ) => {
+        setCurrentPage( 0 );
+        setActiveCourses( !state );
+    };
+
+    // useEffect( () => {
+    //     console.log( 'data size: ', dataSize );
+    // }, [dataSize] );
 
     useEffect( () => {
 
@@ -73,6 +97,17 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
 
     }, [iconActive, tableData] );
 
+    // useEffect( () => {
+    //     console.log( 'filter: ', filterUsers );
+
+    //     let users = [...usersArray];
+    //     let newUsers = [];
+    //     newUsers = users.filter( user => filterUsers.toLocaleLowerCase() === user.name.toLowerCase().slice( 0, filterUsers.length ) || filterUsers.toLowerCase() === user.lastName.toLowerCase().slice( 0, filterUsers.length ) );
+
+    //     setUsersArray( newUsers );
+
+    // }, [filterUsers] );
+
     return (
         <>
             <div className='table__content'>
@@ -85,12 +120,13 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
                 {!loading && iconActive === 'Users'
                     ? <>
                         <UsersTable
-                            tableData={tableData}
+                            tableData={usersArray}
                             activeUsers={activeUsers}
                             currentPage={currentPage}
                             setUserData={setUserData}
                             setIsModalVisible={setIsModalDeleteVisible}
                             setDataSize={setDataSize}
+                            filter={filterUsers}
                         />
                         <ModalDeleteUser
                             user={userData}
@@ -123,7 +159,7 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
                         : !loading && iconActive === 'Courses'
                             ? <>
                                 <CoursesTable
-                                    tableData={tableData}
+                                    tableData={coursesArray}
                                     activeCourses={activeCourses}
                                     currentPage={currentPage}
                                     setCourseData={setCourseData}
@@ -149,7 +185,7 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
                             : !loading && iconActive === 'Comments'
                                 ? <>
                                     <CommentsTable
-                                        tableData={tableData}
+                                        tableData={commentsArray}
                                         currentPage={currentPage}
                                         setDataSize={setDataSize}
                                     />
@@ -159,7 +195,7 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
                                 : !loading && iconActive === 'Notifications'
                                     ? <>
                                         <NotificationsTable
-                                            tableData={tableData}
+                                            tableData={notificationsArray}
                                             currentPage={currentPage}
                                             setDataSize={setDataSize}
                                         />
@@ -168,18 +204,66 @@ export const Table = React.memo( ( { iconActive, activeUsers, activeTurns, activ
                                     : <></>
                 }
             </div>
-            <ThemeProvider theme={theme}>
-                <Stack className='pagination'>
-                    <Pagination
-                        count={dataSize}
-                        shape='rounded'
-                        color='custom'
-                        disabled={dataSize === 1 ? true : false}
-                        onChange={( e, page ) => setCurrentPage( page - 1 )}
-                        page={currentPage + 1}
-                    />
-                </Stack>
-            </ThemeProvider>
+            <div className='table__navigation'>
+                <ThemeProvider theme={theme}>
+                    <Stack className='pagination'>
+                        <Pagination
+                            count={dataSize}
+                            shape='rounded'
+                            color='custom'
+                            disabled={dataSize === 1 ? true : false}
+                            onChange={( e, page ) => setCurrentPage( page - 1 )}
+                            page={currentPage + 1}
+                        />
+                    </Stack>
+                </ThemeProvider>
+                <SearchBar
+                    setFilterUsers={setFilterUsers}
+                />
+                {
+                    iconActive === 'Users'
+                        ? <div className='table__buttons'>
+                            <BlackButton
+                                button_name='Activos'
+                                button_func={() => changeUserTableState( activeUsers )}
+                                extraClass={activeUsers ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+
+                            />
+                            <BlackButton
+                                button_name='Inactivos'
+                                button_func={() => changeUserTableState( activeUsers )}
+                                extraClass={activeUsers ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
+                            />
+                        </div>
+                        : iconActive === 'Turns'
+                            ? <div className='table__buttons'>
+                                <BlackButton
+                                    button_name='Reservados'
+                                    button_func={() => changeTurnsTableState( activeTurns )}
+                                    extraClass={activeTurns ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+                                />
+                                <BlackButton
+                                    button_name='Finalizados'
+                                    button_func={() => changeTurnsTableState( activeTurns )}
+                                    extraClass={activeTurns ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
+                                />
+                            </div>
+                            : iconActive === 'Courses'
+                                ? <div className='table__buttons'>
+                                    <BlackButton
+                                        button_name='Activos'
+                                        button_func={() => changeCourseTableState( activeCourses )}
+                                        extraClass={activeCourses ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
+                                    />
+                                    <BlackButton
+                                        button_name='Finalizados'
+                                        button_func={() => changeCourseTableState( activeCourses )}
+                                        extraClass={activeCourses ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'} />
+                                </div>
+                                : <></>
+                }
+
+            </div>
         </>
     );
 } );

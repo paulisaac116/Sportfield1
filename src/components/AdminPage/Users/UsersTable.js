@@ -1,37 +1,40 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-
-import '../../../styles/AdminPage/AdminPage.css';
-import { RedButton } from '../../Buttons/RedButton';
-import { db } from '../../../firebase';
 import { splitData } from '../../../helpers/splitData';
 
-export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, setUserData, setIsModalVisible, setDataSize } ) => {
+import PropTypes from 'prop-types';
+import { User } from './User';
+
+import '../../../styles/AdminPage/AdminPage.css';
+
+export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, setUserData, setIsModalVisible, setDataSize, filter } ) => {
 
     const [activeUsersArray, setActiveUsersArray] = useState( [] );
     const [inactiveUsersArray, setInactiveUsersArray] = useState( [] );
+    const [usersArray, setUsersArray] = useState( [] );
 
-    const handleDeactivateUser = ( item ) => {
-        setUserData( item );
-        setIsModalVisible( true );
-    };
+    // const handleDeactivateUser = ( item ) => {
+    //     setUserData( item );
+    //     setIsModalVisible( true );
+    // };
 
-    const handleActivateUser = async ( item ) => {
-        try {
-            await db.collection( 'Users' ).doc( item.id ).update( {
-                active: true
-            } )
-                .then( () => console.log( 'User activated' ) );
-        } catch ( error ) {
-            const errorCode = error.code;
-            const errorMesage = error.message;
-            console.log( 'errorCode: ', errorCode );
-            console.log( 'errorMesagge: ', errorMesage );
-        }
+    // const handleActivateUser = async ( item ) => {
+    //     try {
+    //         await db.collection( 'Users' ).doc( item.id ).update( {
+    //             active: true
+    //         } )
+    //             .then( () => console.log( 'User activated' ) );
+    //     } catch ( error ) {
+    //         const errorCode = error.code;
+    //         const errorMesage = error.message;
+    //         console.log( 'errorCode: ', errorCode );
+    //         console.log( 'errorMesagge: ', errorMesage );
+    //     }
 
-    };
+    // };
 
     useEffect( () => {
+
+        console.log( 'table data: ', tableData );
 
         const { active, inactive } = splitData( tableData );
         setActiveUsersArray( active );
@@ -43,10 +46,13 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
     useEffect( () => {
 
         activeUsers === true
-            ? setDataSize( activeUsersArray.length )
-            : setDataSize( inactiveUsersArray.length );
+            ? setUsersArray( activeUsersArray )
+            : setUsersArray( inactiveUsersArray );
 
-    }, [tableData, activeUsers, activeUsersArray, inactiveUsersArray] );
+        setDataSize( usersArray.length );
+
+    }, [activeUsers, activeUsersArray, inactiveUsersArray, usersArray] );
+
 
 
     return ( <>
@@ -59,7 +65,7 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
                 <p>Acción</p>
             </div>
             <div className='table-users__body'>
-                {
+                {/* {
                     activeUsers === true
                         ? activeUsersArray[currentPage]?.map( ( user ) => (
                             <div className='table-users__body--row' key={user.id}>
@@ -93,7 +99,34 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
                                 </div>
                             </div>
                         ) )
+                } */}
+                {
+
+                    filter.length === 0
+                        ? usersArray[currentPage]?.map( user => (
+                            <User
+                                key={user.id}
+                                user={user}
+                                setIsModalVisible={setIsModalVisible}
+                                setUserData={setUserData}
+                                filter={filter}
+                            />
+                        ) )
+                        : tableData?.map( user => (
+                            filter.toLowerCase() === user.name.toLowerCase().slice( 0, filter.length ) || filter.toLowerCase() === user.lastName.toLowerCase().slice( 0, filter.length )
+                                ? <User
+                                    key={user.id}
+                                    user={user}
+                                    setIsModalVisible={setIsModalVisible}
+                                    setUserData={setUserData}
+
+                                />
+                                : <></>
+
+                        ) )
+
                 }
+                {usersArray[0]?.length === 0 && <p className='no-users'>Sin usuarios</p>}
             </div>
 
         </div>
