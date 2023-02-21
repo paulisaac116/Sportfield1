@@ -51,6 +51,8 @@
     .landing-page__content {
         width: 100%;
         padding: 0 1.5rem;
+
+        @apply xl:px-28
     }
 
     .landing-page__presentation {
@@ -125,30 +127,74 @@
     }
 
     .landing-page .table__content{
+        height: 20rem;
+        width: 100%;
         margin-top: 1rem;
         padding: .5rem;
         background-color: theme('colors.purple-dark');
-        height: 20rem;
         overflow: auto;
         border-radius: 20px;
         font-size: .95rem;
-        /* width: 15rem; */
+        /* width: 15rem;*/
     }
 
-    .landing-page .table__content .Courses {
+    .landing-page .Courses {
         display: flex;
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
         overflow: auto;
+        flex-direction: column;
+    }
+
+    .landing-page .table-courses__body--row {
+        display: grid;
+        grid-template-columns: 2fr 2fr 1fr;
+        column-gap: 1rem;
+        padding: .5rem 1rem;
+    }
+
+    .landing-page .table-courses__body--row .body-row__data {
+        padding: 0;
+    }
+    
+    .landing-page .table-courses__body--row .body-row__info{
+        color: theme('colors.white');
+        text-align: center;
+    }
+
+    .landing-page .body-row__info h3 {
+        text-decoration: underline;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: .5rem;
+    }
+
+    .body-row__info .dateStart,
+    .body-row__info .dateEnd,
+    .body-row__info .schedule,
+    .body-row__info .cost {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+        padding: 0 2rem;
+        font-size: 1rem;
+    }
+
+    .body-row__info .dateStart p:first-of-type,
+    .body-row__info .dateEnd p:first-of-type,
+    .body-row__info .schedule p:first-of-type,
+    .body-row__info .cost p:first-of-type {
+        font-weight: 600;
     }
 
 
-    .landing-page .table__content .table-users__buttons {
+
+    /* .landing-page .table__content .table-users__buttons {
         padding-left: 0;
     }
 
     .landing-page .table__content .table-users__buttons .rounded-button {
         margin: 0;
-    }
+    } */
 
     .landing-page__content .landing-page__content--courses .rounded-button.green-button {
         margin: 0;
@@ -156,10 +202,10 @@
 
     }
 
-    .landing-page .table__content table {
+    /* .landing-page .table__content table {
 
         @apply md:flex
-    }
+    } */
 
     .landing-page__about {
         margin-top: 2rem;

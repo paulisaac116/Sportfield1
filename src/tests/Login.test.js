@@ -1,19 +1,21 @@
 import { render, screen } from '@testing-library/react';
-import { Router } from 'express';
-import { Route, Routes } from 'react-router-dom';
+import '@testing-library/jest-dom';
+import { MemoryRouter } from 'react-router-dom';
+import userEvent from '@testing-library/user-event';
 import { LoginPage } from '../pages/LoginPage';
-// import TestRenderer from 'react-test'
-
 
 describe( 'Login Test', () => {
 
-    test( 'Input password in Login Page', () => {
+    test( 'Display a warning when the user does not enter their email', () => {
+
         render(
-            // <FieldUser />
+            <MemoryRouter>
+                <LoginPage />
+            </MemoryRouter>
         );
-        const input = screen.getByRole( 'textbox', { name: 'email', hidden: true } );
-        expect( input ).toBeInTheDocument();
+
+        userEvent.click( screen.getByRole( 'button', { name: /Aceptar/i } ) );
+        expect( screen.getByText( 'Usuario no registrado' ) ).toBeInTheDocument();
+
     } );
-
-
 } );

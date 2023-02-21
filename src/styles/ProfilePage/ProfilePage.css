@@ -6,6 +6,15 @@
 @layer components {
 
   /*
+    COLORS
+  */
+
+  .table-courses__data.purple-light {
+    background-color: theme('colors.purple-light');
+  }
+
+
+  /*
     PROFILE PAGE - GENERAL
   */
 
@@ -16,7 +25,7 @@
     padding: 2rem 1.25rem;
     gap: 2rem;
 
-    @apply lg:flex-row lg:px-12 lg:gap-x-12
+    @apply lg:py-10 lg:flex-row lg:justify-evenly lg:px-12 lg:gap-x-4
   }
 
   .profile-content__top {
@@ -24,7 +33,7 @@
     flex-direction: column;
     align-items: center;
 
-    @apply lg:basis-2/5 lg:mt-4
+    @apply lg:basis-35%;
   }
 
   .profile-content__top .rounded-button.green-button {
@@ -48,7 +57,7 @@
     PROFILE GENERAL
   */
   .profile-frame {
-    padding: 1.5rem 0 2rem;
+    padding: 1.5rem 1rem 2rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -60,8 +69,9 @@
     /* margin-bottom: 1rem; */
     width: 100%;
     max-width: 20rem;
+    /* height: 100%; */
 
-    @apply lg:h-34rem lg:justify-start lg:pt-8 lg:max-w-sm
+    @apply lg:justify-start lg:pt-8 lg:max-w-md
     
   }
 
@@ -130,8 +140,8 @@
     width: 100%;
     flex-direction: column;
     position: absolute;
-    top: 10px;
-    right: -58px;
+    top: 8px;
+    right: -45px;
     color: theme('colors.white');
     background-color: theme('colors.black');
     border: 1.5px solid theme('colors.purple-mid')
@@ -140,9 +150,11 @@
   .notifications-frame__head {
     padding: .5rem 0;
     font-weight: 700;
-    position: relative;
+    position: sticky;
     background-color: theme('colors.purple-mid');
     border-bottom: 1.5px solid theme('colors.gray');
+    top: 0;
+    z-index: 50;
 
     @apply md:px-4
   }
@@ -151,6 +163,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
+    cursor: pointer;
   }
 
   .notifications-frame__row {
@@ -195,13 +208,12 @@
   }
 
   /*
-    FIELD USER PAGE (TABLE)
+    BOTTOM SECTION - TURNS And COURSES
   */
 
-  .field__frame {
-    /* margin-top: 2rem; */
+  .bottom__frame {
     width: 100%;
-    padding: 1rem 0;
+    padding: 0 0 1rem;
     border-radius: 30px;
     display: flex;
     flex-direction: column;
@@ -210,38 +222,46 @@
     background-color: #3a438b;
     box-shadow: 0 10px 0 rgba(0, 0, 0, 0.6);
 
-    @apply sm:max-w-xs lg:max-w-full lg:h-96 lg:mt-4
+    @apply sm:max-w-xs lg:max-w-full
   }
 
-  .field__title,
+  .turn__title,
   .courses__title {
-    width: fit-content;
+    text-align: center;
+    width: 100%;
     margin-bottom: 1rem;
-    padding: 10px 30px;
-    font-size: 1.25rem;
+    padding: .5rem 1rem;
+    font-size: 1.125rem;
     font-weight: 700;
     color: white;
     background-color: theme('colors.purple-light');
     border-radius: 20px;
+    /* outline: 2px solid theme('colors.purple-dark'); */
+    /* border: 2px solid theme('colors.black'); */
+    box-shadow: 0 3px 0 rgba(0, 0, 0, 0.6);
+
+    @apply xl:text-xl xl:w-80;
   }
 
 
-  .field__table {
+  .bottom__frame--table {
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 20rem;
+    /* justify-content: center; */
+    /* height: 15rem; */
     overflow: auto;
     margin-bottom: 1rem;
-    min-width: 15rem;
+    /* min-width: 15rem; */
     border-radius: 10px;
-    padding-right: 5px;
+    /* padding-right: 5px; */
+    padding: 0 .75rem;
 
-    @apply xl:flex-row xl:flex-wrap xl:justify-center xl:w-44rem xl:h-52 xl:gap-x-4
+    /* @apply xl:flex-row xl:flex-wrap xl:justify-center xl:w-44rem xl:h-52 xl:gap-x-4 */
 
   }
 
-  .field__table::-webkit-scrollbar {
+  .bottom__frame--table::-webkit-scrollbar {
     width: 3px;
     height: 5px;
     background-color: theme('colors.purple-mid');
@@ -249,23 +269,23 @@
     border-radius: 10px;
   }
   
-  .field__table::-webkit-scrollbar-thumb {
+  .bottom__frame--table::-webkit-scrollbar-thumb {
     background-color: theme('colors.purple-light');
   }
 
-  .field__table .spinner {
+  .bottom__frame--table .spinner {
     margin-top: 1.5rem;
   }
 
-  .field__table--row {
+  .table__row {
     background-color: theme('colors.purple-mid');
     margin-bottom: 1rem;
     color: theme('colors.white');
     border-radius: 20px;
     padding: .6rem .75rem;
-    font-size: .85rem;
+    font-size: .95rem;
 
-    @apply xl:w-80 xl:h-32 
+    /* @apply xl:w-80 xl:h-32  */
   }
 
   .turnData--row {
@@ -286,7 +306,7 @@
   }
   
   .empty-turn-bar {
-    margin-top: 3rem;
+    /* margin-top: 3rem; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -295,6 +315,18 @@
     font-size: 1.2rem;
     font-weight: 700;
     text-align: center;
+  }
+
+  .empty-turn-bar.empty-turn-bar__turns {
+    
+
+    @apply xl:mt-4
+  }
+
+  .empty-turn-bar.empty-turn-bar__courses {
+    
+
+    @apply xl:mt-16
   }
 
   .empty-turn-bar--icon {
@@ -308,6 +340,7 @@
   .empty-turn-bar p:first-of-type {
     margin-top: 10px;
   }
+  
 
   /*
     MODAL ADD COMMENT
@@ -337,34 +370,101 @@
   /*
     COURSES TABLE
   */
-  
-  .courses__table {
-    width: 90%;
-    border-radius: 20px;
 
-    @apply lg:flex-row lg:flex-wrap lg:min-h-11rem lg:overflow-x-auto lg:gap-x-3 lg:max-w-3xl lg:scroll-smooth
+  .bottom__frame.courses__frame {
+    overflow: auto;
+
+    @apply xl:h-26rem;
   }
 
-  .courses__table .field__table--row {
+  .bottom__frame--table.courses__table {
+    
+    /* width: 100%; */
+    align-items: center;
+    overflow: auto;
+    
+    @apply xl:w-full xl:px-4 xl:h-26rem 
+
+  }
+
+  .courses__table--row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+
+    @apply xl:px-8  xl:pb-3;
+
+  }
+  /* .courses__table .field__table--row {
     display: flex;
     flex-direction: column;
     align-items: center;
     scroll-snap-align: center;
-
-    @apply lg:w-80
-  }
+  } */
 
   .courses__table .courses__table--title {
     font-weight: 600;
+
+     @apply xl:text-lg
   }
 
   .courses__table .courses__table--data {
     margin-bottom: .5rem;
+    width: 100%;
+
+    @apply xl:grid xl:grid-cols-2 xl:text-base xl:gap-4
   }
   .courses__table .courses__table--button .red-button {
     padding: .25rem .85rem;
     font-size: .85rem;
-    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.6)
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.6);
+
+    @apply xl:text-base xl:py-2 xl:px-4;
+  }
+
+  .courses__table--data .course-info h3{
+    text-decoration: underline;
+
+    @apply xl:text-base xl:font-semibold 
+  }
+
+
+  .courses__table--data .dateStart,
+  .courses__table--data .dateEnd,
+  .courses__table--data .schedule,
+  .courses__table--data .cost {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: .5rem;
+        /* padding: 0 2rem; */
+        font-size: 1rem;
+  }
+
+  .courses__table--data .dateStart p:first-of-type,
+  .courses__table--data .dateEnd p:first-of-type,
+  .courses__table--data .schedule p:first-of-type,
+  .courses__table--data .cost p:first-of-type {
+        font-weight: 600;
+  }
+
+  /*
+    TURNS TABLE
+  */
+
+  .bottom__frame.turns__frame {
+
+    @apply xl:h-80;
+  }
+
+  /* .bottom__frame--table.turns__frame {
+
+    @apply xl:h-80
+  } */
+
+  .turns__table {
+
+    @apply xl:flex-wrap xl:flex-row xl:overflow-auto xl:gap-x-4 xl:h-40 xl:justify-center
   }
 
   /*
@@ -428,5 +528,7 @@
   .modal__send-comment .rounded-button.green-button {
     width: 6rem;
   }
+
+
 
 }

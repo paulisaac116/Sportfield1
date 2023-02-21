@@ -16,8 +16,13 @@ export const TurnsPage = React.memo( () => {
 
     const location = useLocation();
 
+    /** To verify if a certain field was selected */
     const [verifySelectedField, setVerifySelectedField] = useState( false );
+
+    /** Data of the selected field  */
     const [fieldData, setFieldData] = useState( [] );
+
+    /** The date picked in the calendar table */
     const [dateData, setDateData] = useState( [] );
     const cellRef = useRef();
 
@@ -112,6 +117,7 @@ export const TurnsPage = React.memo( () => {
                 dateData={dateData}
                 fieldData={fieldData}
                 userId={location.state.id}
+            // userId='1234567'
             />
             {
                 messageFieldError.map( message => (

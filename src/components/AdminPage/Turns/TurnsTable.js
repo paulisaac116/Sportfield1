@@ -13,7 +13,7 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
 
     const [sportsMenu, setSportsMenu] = useState( sportsMenuAdmin );
 
-    const [activeSport, setActiveSport] = useState( 'soccer' );
+    const [activeSport, setActiveSport] = useState( sportsMenu.find( sport => sport.active === true ).id );
 
     const [soccerReservedTurnsArray, setSoccerReservedTurnsArray] = useState( [] );
     const [soccerCompletedTurnsArray, setSoccerCompletedTurnsArray] = useState( [] );
@@ -43,10 +43,20 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
         setSportsMenu( sportData );
     };
 
+    const orderByDate = ( array ) => {
+
+        array.sort( ( a, b ) => new Date( b.savedIn?.year, b.savedIn?.month, b.savedIn?.date, b.savedIn?.hour, b.savedIn?.minutes, b.savedIn?.seconds ) - new Date( a.savedIn?.year, a.savedIn?.month, a.savedIn?.date, a.savedIn?.hour, a.savedIn?.minutes, a.savedIn?.seconds ) );
+    };
+
     useEffect( () => {
 
         const { active, inactive } = splitData( turnsData );
         const { soccer: soccerActive, basketball: basketballActive, volleyball: volleyballActive, tennis: tennisActive } = splitSports( active );
+
+        orderByDate( soccerActive );
+        orderByDate( basketballActive );
+        orderByDate( volleyballActive );
+        orderByDate( tennisActive );
 
         setSoccerReservedTurnsArray( soccerActive );
         setBasketballReservedTurnsArray( basketballActive );
@@ -55,13 +65,17 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
 
         const { soccer: soccerInactive, basketball: basketballInactive, volleyball: volleyballInactive, tennis: tennisInactive } = splitSports( inactive );
 
+        orderByDate( soccerInactive );
+        orderByDate( basketballInactive );
+        orderByDate( volleyballInactive );
+        orderByDate( tennisInactive );
+
         setSoccerCompletedTurnsArray( soccerInactive );
         setBasketballCompletedTurnsArray( basketballInactive );
         setVolleyballCompletedTurnsArray( volleyballInactive );
         setTennisCompletedTurnsArray( tennisInactive );
 
     }, [turnsData] );
-
 
     useEffect( () => {
 
@@ -85,10 +99,6 @@ export const TurnsTable = React.memo( ( { turnsData, activeTurns, currentPage, s
         setDataSize( turnArray.length );
 
     }, [activeTurns, activeSport, turnArray, soccerReservedTurnsArray, soccerCompletedTurnsArray, basketballReservedTurnsArray, basketballCompletedTurnsArray, volleyballReservedTurnsArray, volleyballCompletedTurnsArray, tennisReservedTurnsArray, tennisCompletedTurnsArray] );
-
-    useEffect( () => {
-        console.log( turnArray );
-    }, [turnArray] );
 
 
     return (

@@ -66,7 +66,7 @@ export const Turn = ( { turn, setTurnData, setIsModalVisible } ) => {
                         : <p className='text-white'>ups</p>
                 }
 
-                <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} - ${turn.savedIn?.hour}:${turn.savedIn?.minute}`}</p>
+                <p className='body-row__data-saved'>{`${turn.savedIn?.day} de ${months[turn.savedIn?.month]} - ${turn.savedIn?.hour}:${turn.savedIn?.minutes}`}</p>
             </div>
             {
                 turn.active === true

@@ -12,6 +12,7 @@ import { ErrorMessage } from '../../ErrorMessage';
 export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const { data: tableData, loading } = useFetchFirestore( 'Users' );
+    const [activeUsers, setActiveUsers] = useState( [] );
     const [userSelectedId, setUserSelectedId] = useState( '' );
 
     const [arrayUserSelectedError, setArrayUserSelectedError] = useState( [] );
@@ -52,6 +53,15 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
 
     }, [arrayUserSelectedError] );
 
+    useEffect( () => {
+
+        let active = [];
+        active = tableData.filter( user => user.active === true );
+        setActiveUsers( active );
+
+    }, [tableData] );
+
+
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content modal__add-turn'>
@@ -65,17 +75,17 @@ export const ModalAddTurn = ( { isModalVisible, setIsModalVisible, setArrayMessa
                                 <th scope='col' className='thead__land'>Lote</th>
                             </tr>
                         </thead>
-                        {tableData?.map( ( user ) => (
+                        {activeUsers?.map( ( user ) => (
                             <tbody
                                 key={user.id}
                                 className='modal__add-turn--body'
                             >
                                 <tr
-                                    className={`${userSelectedId === user.id ? 'purple-light border-solid border-2 border-white' : ''}`}
+                                    className={`${userSelectedId === user.id ? 'purple-light outline outline-2 outline-white' : ''}`}
                                     id={user.id}
                                     onClick={() => changeColor( user.id )}
                                 >
-                                    <td><p>{`${user.name}`}</p> <p>{`${user.lastName}`}</p></td>
+                                    <td><p className='user_addTurn_name'>{`${user.name}`}</p> <p>{`${user.lastName}`}</p></td>
                                     <td>{`${user.land}`}</td>
                                 </tr>
                             </tbody>

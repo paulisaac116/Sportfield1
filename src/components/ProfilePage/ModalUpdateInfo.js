@@ -8,6 +8,7 @@ import { useFetchFirestore } from '../../hooks/useFetchFirestore';
 import firebase from 'firebase';
 import { db } from '../../firebase';
 import { Message } from '../Message';
+import { InputPassword } from '../InputPassword';
 
 export const ModalUpdateInfo = ( { userData, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
@@ -193,14 +194,10 @@ export const ModalUpdateInfo = ( { userData, isModalVisible, setIsModalVisible, 
 
                         <div className="register__form--column input__error--group">
                             <label htmlFor="password">Contraseña</label>
-                            <input
-                                type="password"
-                                className={`input ${formErrors.password ? 'input__error' : ''}`}
-                                id="password"
-                                name="password"
-                                value={formValues?.password}
-                                onChange={handleInputChange}
-                                required
+                            <InputPassword
+                                extraClass={`${formErrors.password ? 'input__error' : ''} w-full`}
+                                inputValue={formValues.password}
+                                onChangeInput={handleInputChange}
                             />
                             {formErrors.password
                                 ? <div className='form__errors'>
@@ -215,7 +212,7 @@ export const ModalUpdateInfo = ( { userData, isModalVisible, setIsModalVisible, 
                 </form>
                 <div className='modal__buttons'>
                     <GreenButton
-                        button_name='Enviar'
+                        button_name='Aceptar'
                         button_func={handleUpdateInfo}
                     />
                     <PurpleButton

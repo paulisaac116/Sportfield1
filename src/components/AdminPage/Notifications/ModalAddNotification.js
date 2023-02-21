@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-
-import { months } from '../../../data/CalendarMonths';
 import { db } from '../../../firebase';
 import { getDate } from '../../../helpers/getDate';
-import { GreenButton } from '../../Buttons/GreenButton';
+
 import { PurpleButton } from '../../Buttons/PurpleButton';
+import { GreenButton } from '../../Buttons/GreenButton';
 import { Message } from '../../Message';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +20,7 @@ export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setAr
     const handleInputChange = ( { target } ) => {
         const { name, value } = target;
         setFormValues( { ...formValues, [name]: value } );
+        setFormErrors( { ...formErrors, [name]: '' } );
     };
 
     const hiddeModal = () => {
@@ -31,18 +31,28 @@ export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setAr
 
     const handleAddNotification = async () => {
 
+        let errorObj = validate( formValues );
 
-        if ( !formValues.title ) setFormErrors( { title: 'Ingresa un título' } );
-        else if ( !formValues.description ) setFormErrors( { description: 'Ingresa una descripción' } );
-        else {
+        if ( Object.keys( errorObj ).length === 0 ) {
 
             const today = getDate();
             const { title, description } = formValues;
             try {
-                await db.collection( 'Notifications' ).add( {
+
+                const notification = db.collection( 'Notifications' ).doc();
+
+                await notification.set( {
+                    id: notification.id,
                     title: title,
                     description: description,
-                    date: `${today.day} de ${months[today.month]} de ${today.year} - ${today.hour}:${today.minutes <= 9 ? `0${today.minutes}` : today.minutes}`
+                    savedIn: {
+                        date: today.day,
+                        month: today.month,
+                        year: today.year,
+                        hour: today.hour,
+                        minutes: today.minutes,
+                        seconds: today.seconds
+                    }
                 } );
                 setFormValues( initialValue );
                 setFormErrors( {} );
@@ -62,8 +72,24 @@ export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setAr
                 console.log( 'errorCode: ', errorCode );
                 console.log( 'errorMesagge: ', errorMesage );
             }
-
         }
+
+        else setFormErrors( errorObj );
+    };
+
+    const validate = ( values ) => {
+
+        const errors = {};
+        const regexTitle = /^(?=.{5,50}$)[\w\s.,:!!¿?()'"ÁÉÍÓÚáéíóúÜüñ-]+$/m;
+        const regexDescription = /^(?=.{5,400}$)[\w\s.,:!¿?()'"ÁÉÍÓÚáéíóúÜüñ-]+$/m;
+
+        if ( !values.title ) errors.title = 'Ingrese un título';
+        else if ( !regexTitle.test( values.title ) ) errors.title = 'Ingrese texto entre 5 y 45 caracteres';
+
+        if ( !values.description ) errors.description = 'Ingese una descripción';
+        else if ( !regexDescription.test( values.description ) ) errors.description = 'Ingrese una descripción entre 5 y 400 caracteres';
+
+        return errors;
     };
 
     return (
@@ -73,7 +99,7 @@ export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setAr
                 <form className='register__form form' onSubmit={handleAddNotification}>
                     <input
                         name='title'
-                        className='input'
+                        className={`input ${formErrors.title ? 'input__error' : ''}`}
                         type='text'
                         placeholder='Titulo'
                         value={formValues.title}
@@ -93,6 +119,7 @@ export const ModalAddNotification = ( { isModalVisible, setIsModalVisible, setAr
                         placeholder='Descripción...'
                         value={formValues.description}
                         onChange={handleInputChange}
+                        className={formErrors.title ? 'input__error' : ''}
                     />
                     {
                         formErrors.description

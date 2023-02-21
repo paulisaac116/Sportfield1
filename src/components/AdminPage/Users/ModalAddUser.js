@@ -11,6 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import { Message } from '../../Message';
 import { useFetchFirestore } from '../../../hooks/useFetchFirestore';
+import { InputPassword } from '../../InputPassword';
 
 export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible, setArrayMessage } ) => {
 
@@ -57,15 +58,16 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                         land,
                         cellphone,
                         email,
+                        courses: []
                     }
                 );
 
                 setFormValues( initialValues );
                 setFormErrors( {} );
                 setIsModalAddUserVisible( false );
-                setArrayMessage( ( previusState ) => (
+                setArrayMessage( ( previousState ) => (
                     [
-                        ...previusState,
+                        ...previousState,
                         <Message
                             messageContent={'Usuario registrado'}
                         />
@@ -86,32 +88,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
         const { name, value } = e.target;
         setFormValues( { ...formValues, [name]: value } );
     };
-
-    // const validate = ( values ) => {
-
-    //     const errors = {};
-    //     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    //     if ( !values.name ) {
-    //         errors.name = 'Ingresa tu nombre';
-    //     }
-    //     if ( !values.lastName ) {
-    //         errors.lastName = 'Ingresa tu apellido';
-    //     }
-    //     if ( !values.land ) {
-    //         errors.land = 'Ingresa tu número de lote';
-    //     }
-    //     if ( !values.email ) {
-    //         errors.email = 'Ingresa tu correo electrónico';
-    //     } else if ( !regex.test( values.email ) ) {
-    //         errors.email = 'No es un formato de correo válido';
-    //     }
-    //     if ( !values.password ) {
-    //         errors.password = 'Ingresa tu contraseña';
-    //     } else if ( values.password.length <= 5 ) errors.password = 'La contraseña debe tener mínino 6 caracteres';
-    //     return errors;
-
-    // };
-
 
     const validate = ( values ) => {
 
@@ -151,103 +127,6 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
         <div className={`modal animate__animated ${isModalAddUserVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
             <div className='modal__content'>
                 <h1 className='modal__content--title'>Agregar nuevo morador</h1>
-                {/* <form className="register__form form" onSubmit={handleSubmit}>
-                    <div className="register__form--row">
-                        <div className='register__form--column input__error--group'>
-                            <label htmlFor="name">Nombre</label>
-                            <input
-                                type="text"
-                                className={`input ${formErrors.name ? 'input__error' : ''}`}
-                                name="name"
-                                value={formValues.name}
-                                placeholder="Paul"
-                                onChange={handleInputChange}
-                            />
-                            {formErrors.name
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.name}</p>
-                                </div>
-                                : <></>
-                            }
-                        </div>
-                        <div className="register__form--column input__error--group">
-                            <label htmlFor="lastName">Apellido</label>
-                            <input
-                                type="text"
-                                className={`input ${formErrors.lastName ? 'input__error' : ''}`}
-                                name="lastName"
-                                value={formValues.lastName}
-                                placeholder="Guala"
-                                onChange={handleInputChange}
-                            />
-                            {formErrors.lastName
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.lastName}</p>
-                                </div>
-                                : <></>
-                            }
-                        </div>
-                    </div>
-
-                    <div className="register__form--row input__error--group">
-                        <label htmlFor="land">Número de lote</label>
-                        <input
-                            type="number"
-                            className={`input ${formErrors.land ? 'input__error' : ''}`}
-                            name="land"
-                            value={formValues.land}
-                            placeholder='100'
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.land
-                            ? <div className='form__errors'>
-                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                <p className='form__errors--text'>{formErrors.land}</p>
-                            </div>
-                            : <></>
-                        }
-                    </div>
-
-                    <div className="register__form--row input__error--group">
-                        <label htmlFor="email">Correo electrónico</label>
-                        <input
-                            type="email"
-                            className={`input ${formErrors.email ? 'input__error' : ''}`}
-                            name="email"
-                            value={formValues.email}
-                            placeholder='paulguala@gmail.com'
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.email
-                            ? <div className='form__errors'>
-                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                <p className='form__errors--text'>{formErrors.email}</p>
-                            </div>
-                            : <></>
-                        }
-                    </div>
-
-                    <div className="register__form--row input__error--group">
-                        <label htmlFor="password">Contraseña</label>
-                        <input
-                            type="password"
-                            className={`input ${formErrors.password ? 'input__error' : ''}`}
-                            name="password"
-                            value={formValues.password}
-                            onChange={handleInputChange}
-                        />
-                        {formErrors.password
-                            ? <div className='form__errors'>
-                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                <p className='form__errors--text'>{formErrors.password}</p>
-                            </div>
-                            : <></>
-                        }
-                    </div>
-
-                </form> */}
                 <form className="register__form form" onSubmit={handleSubmit}>
                     <div className="register__form--row">
                         <div className='register__form--column input__error--group'>
@@ -362,7 +241,7 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
 
                     <div className="register__form--row input__error--group">
                         <label htmlFor="password">Contraseña</label>
-                        <input
+                        {/* <input
                             type="password"
                             className={`input ${formErrors.password ? 'input__error' : ''}`}
                             id="password"
@@ -370,6 +249,11 @@ export const ModalAddUser = ( { isModalAddUserVisible, setIsModalAddUserVisible,
                             value={formValues.password}
                             onChange={handleInputChange}
                             required
+                        /> */}
+                        <InputPassword
+                            extraClass={`${formErrors.password ? 'input__error' : ''} w-full`}
+                            inputValue={formValues.password}
+                            onChangeInput={handleInputChange}
                         />
                         {formErrors.password
                             ? <div className='form__errors'>

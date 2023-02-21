@@ -6,7 +6,7 @@ import { PurpleButton } from '../../Buttons/PurpleButton';
 import { RedButton } from '../../Buttons/RedButton';
 import { Message } from '../../Message';
 
-export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, collection, setArrayMessage } ) => {
+export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, setArrayMessage } ) => {
 
     const hiddeModal = () => {
         setIsModalVisible( false );
@@ -15,7 +15,7 @@ export const ModalDeleteCourse = ( { course, isModalVisible, setIsModalVisible, 
     const handleEndCourse = async ( id ) => {
 
         try {
-            await db.collection( collection ).doc( id ).update( {
+            await db.collection( 'Courses' ).doc( id ).update( {
                 active: false
             } );
             setIsModalVisible( false );

@@ -10,7 +10,7 @@ import { FailedPage } from './pages/FailedPage';
 import { LandingPage } from './pages/LandingPage';
 import { LoginPage } from './pages/LoginPage';
 import { ProfilePage } from './pages/ProfilePage';
-import RegisterPage from './pages/RegisterPage';
+import { RegisterPage } from './pages/RegisterPage';
 import { TurnsPage } from './pages/TurnsPage';
 
 import './styles/App.css';

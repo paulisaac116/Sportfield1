@@ -27,6 +27,10 @@ export const ProfileFrame = ( { userData } ) => {
     const [arrayMessageSendComment, setArrayMessageSendComment] = useState( [] );
     const [arrayMessageUpdateInfo, setArrayMessageUpdateInfo] = useState( [] );
 
+    function showUpdateInfoModal() {
+        setIsModalUpdateInfoVisible( true );
+    }
+
     const showNotifications = () => {
         setBellActive( true );
         setIsModalNotificationUserVisible( true );
@@ -50,21 +54,15 @@ export const ProfileFrame = ( { userData } ) => {
 
     }, [notificationData, notificationNumber] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageSendComment.length !== 0 ) {
-                arrayMessageSendComment.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageSendComment.length !== 0 ) {
+    //             arrayMessageSendComment.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageSendComment] );
-
-    function showUpdateInfoModal() {
-        setIsModalUpdateInfoVisible( true );
-    }
-
-
+    // }, [arrayMessageSendComment] );
 
     return (
         <div className="profile-frame">

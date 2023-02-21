@@ -18,23 +18,15 @@ import { faSmile } from '@fortawesome/free-solid-svg-icons';
 export const Menu = React.memo( () => {
 
     const [menuData, setMenuData] = useState( menuAdminData );
-
     const { data: adminData, loading } = useFetchFirestore( 'Admin' );
 
     let activeIcon = menuData.find( item => item.active ).name;
     let typeIcon = menuData.find( item => item.active ).text;
     let descriptionIcon = menuData.find( item => item.active ).description;
 
-
     const [iconActive, setIconActive] = useState( activeIcon );
     const [iconType, setIconType] = useState( typeIcon );
     const [description, setDescription] = useState( descriptionIcon );
-
-    const [activeUsers, setActiveUsers] = useState( true );
-    const [activeTurns, setActiveTurns] = useState( true );
-    const [activeCourses, setActiveCourses] = useState( true );
-
-    const [currentPage, setCurrentPage] = useState( 0 );
 
     const [isModalAddUserVisible, setIsModalAddUserVisible] = useState( false );
     const [isModalAddTurnVisible, setIsModalAddTurnVisible] = useState( false );
@@ -91,113 +83,100 @@ export const Menu = React.memo( () => {
         setMenuData( menu );
     };
 
-    const changeUserStateToActive = () => {
-        setCurrentPage( 0 );
-        setActiveUsers( true );
-    };
-    const changeUserStateToInactive = () => {
-        setCurrentPage( 0 );
-        setActiveUsers( false );
-    };
+    // useEffect( () => {
 
-    const changeTurnsStateToActive = () => {
-        setCurrentPage( 0 );
-        setActiveTurns( true );
-    };
-    const changeTurnsStateToInactive = () => {
-        setCurrentPage( 0 );
-        setActiveTurns( false );
-    };
+    //     setTimeout( () => {
+    //         while ( arrayMessageAddUser.length !== 0 ) {
+    //             arrayMessageAddUser.pop();
+    //         }
+    //     }, 4000 );
 
-    const changeCoursesStateToActive = () => {
-        setCurrentPage( 0 );
-        setActiveCourses( true );
-    };
-    const changeCoursesStateToInactive = () => {
-        setCurrentPage( 0 );
-        setActiveCourses( false );
-    };
+    // }, [arrayMessageAddUser] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageAddUser.length !== 0 ) {
-                arrayMessageAddUser.pop();
-            }
-        }, 4000 );
+    //     // setTimeout( () => {
+    //     //     while ( arrayMessageDeleteUser.length !== 0 ) {
+    //     //         arrayMessageDeleteUser.pop();
+    //     //     }
+    //     // }, 4000 );
+    //     // setTimeout( () => {
+    //     //     arrayMessageDeleteUser.pop();
+    //     // }, 4000 );
+    //     // console.log( 'deactivate user array: ', arrayMessageDeleteUser );
+    //     setTimeout( () => {
 
-    }, [arrayMessageAddUser] );
+    //         // let message = [...arrayMessageDeleteTurn];
+    //         arrayMessageDeleteUser.pop();
 
-    useEffect( () => {
-
-        setTimeout( () => {
-            while ( arrayMessageDeleteUser.length !== 0 ) {
-                arrayMessageDeleteUser.pop();
-            }
-        }, 4000 );
-
-    }, [arrayMessageDeleteUser] );
+    //         // setArrayMessageDeleteUser( message );
+    //         console.log( 'deactivate user array: ', arrayMessageDeleteUser );
+    //     }, 4000 );
 
 
-    useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageAddTurn.length !== 0 ) {
-                arrayMessageAddTurn.pop();
-            }
-        }, 4000 );
+    // }, [arrayMessageDeleteUser] );
 
-    }, [arrayMessageAddTurn] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageDeleteTurn.length !== 0 ) {
-                arrayMessageDeleteTurn.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageAddTurn.length !== 0 ) {
+    //             arrayMessageAddTurn.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageDeleteTurn] );
+    // }, [arrayMessageAddTurn] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageAddCourse.length !== 0 ) {
-                arrayMessageAddCourse.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageDeleteTurn.length !== 0 ) {
+    //             arrayMessageDeleteTurn.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageAddCourse] );
+    // }, [arrayMessageDeleteTurn] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageEditCourse.length !== 0 ) {
-                arrayMessageEditCourse.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageAddCourse.length !== 0 ) {
+    //             arrayMessageAddCourse.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageEditCourse] );
+    // }, [arrayMessageAddCourse] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageDeleteCourse.length !== 0 ) {
-                arrayMessageDeleteCourse.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageEditCourse.length !== 0 ) {
+    //             arrayMessageEditCourse.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageDeleteCourse] );
+    // }, [arrayMessageEditCourse] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageAddNotification.length !== 0 ) {
-                arrayMessageAddNotification.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageDeleteCourse.length !== 0 ) {
+    //             arrayMessageDeleteCourse.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageAddNotification] );
+    // }, [arrayMessageDeleteCourse] );
+
+    // useEffect( () => {
+
+    //     setTimeout( () => {
+    //         while ( arrayMessageAddNotification.length !== 0 ) {
+    //             arrayMessageAddNotification.pop();
+    //         }
+    //     }, 4000 );
+
+    // }, [arrayMessageAddNotification] );
 
     return (
         <div className='admin-page__content'>
@@ -242,59 +221,12 @@ export const Menu = React.memo( () => {
                     <p className='table__title--title'>{iconType}</p>
                     <p className='table__title--desc'>{description}</p>
                 </div>
-                {/* {
-                    iconActive === 'Users'
-                        ? <div className='table__buttons'>
-                            <BlackButton
-                                button_name='Activos'
-                                button_func={changeUserStateToActive}
-                                extraClass={activeUsers ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
-
-                            />
-                            <BlackButton
-                                button_name='Inactivos'
-                                button_func={changeUserStateToInactive}
-                                extraClass={activeUsers ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
-                            />
-                        </div>
-                        : iconActive === 'Turns'
-                            ? <div className='table__buttons'>
-                                <BlackButton
-                                    button_name='Reservados'
-                                    button_func={changeTurnsStateToActive}
-                                    extraClass={activeTurns ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
-                                />
-                                <BlackButton
-                                    button_name='Finalizados'
-                                    button_func={changeTurnsStateToInactive}
-                                    extraClass={activeTurns ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'}
-                                />
-                            </div>
-                            : iconActive === 'Courses'
-                                ? <div className='table__buttons'>
-                                    <BlackButton
-                                        button_name='Activos'
-                                        button_func={changeCoursesStateToActive}
-                                        extraClass={activeCourses ? 'bg-green-dark hover:bg-green-dark' : 'bg-gray hover:bg-gray'}
-                                    />
-                                    <BlackButton
-                                        button_name='Finalizados'
-                                        button_func={changeCoursesStateToInactive}
-                                        extraClass={activeCourses ? 'bg-gray hover:bg-gray' : 'bg-green-dark hover:bg-green-dark'} />
-                                </div>
-                                : <></>
-                } */}
                 <Table
                     iconActive={iconActive}
-                    activeUsers={activeUsers}
-                    activeTurns={activeTurns}
-                    activeCourses={activeCourses}
-                    currentPage={currentPage}
                     setArrayMessageDeleteUser={setArrayMessageDeleteUser}
                     setArrayMessageDeleteTurn={setArrayMessageDeleteTurn}
                     setArrayMessageEditCourse={setArrayMessageEditCourse}
                     setArrayMessageDeleteCourse={setArrayMessageDeleteCourse}
-                    setCurrentPage={setCurrentPage}
                 />
                 {
                     iconActive === 'Users'

@@ -29,19 +29,19 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
         setIsModalVisible( false );
         scrollTop();
     };
-    const handleRegisterCourse = () => {
+    const handleRegisterCourse = async () => {
+
         if ( courseIdSelected === '' ) setArrayMessageCourseError(
             [
                 ...arrayMessageCourseError,
                 <ErrorMessage
-                    messageContent={'Selecciona un curso'}
+                    messageContent={'Seleccione un curso'}
                 />
             ]
         );
         else {
 
-
-            const course = courses.find( item => item.id === courseIdSelected );
+            const course = courses?.find( item => item.id === courseIdSelected );
             delete course.registered;
 
             const courseUser = userData.courses?.find( item => item.id === course.id );
@@ -50,15 +50,13 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
 
                 try {
 
-                    db.collection( 'Users' ).doc( userData?.id ).update( {
+                    await db.collection( 'Users' ).doc( userData?.id ).update( {
                         courses: firebase.firestore.FieldValue.arrayUnion( {
                             id: course.id,
-                            // title: course.title,
-                            // description: course.description
                         } )
                     } );
 
-                    db.collection( 'Courses' ).doc( courseIdSelected ).update( {
+                    await db.collection( 'Courses' ).doc( courseIdSelected ).update( {
                         registered: firebase.firestore.FieldValue.arrayUnion( {
                             id: userData.id,
                             name: userData.name,
@@ -72,11 +70,12 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                     setIsModalVisible( false );
                     setCourseIdSelected( '' );
                     scrollTop();
-                    setArrayMessage( [
+                    setArrayMessage( prevState => ( [
+                        ...prevState,
                         <Message
                             messageContent={'Inscrito'}
                         />
-                    ] );
+                    ] ) );
 
 
                 } catch ( error ) {
@@ -107,23 +106,22 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
         if ( courseIdSelected !== id ) setCourseIdSelected( id );
     };
 
-
     useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageCourseError.length !== 0 ) {
-                arrayMessageCourseError.pop();
-            }
-        }, 4000 );
-
-    }, [arrayMessageCourseError] );
-
-    useEffect( () => {
-
-        const active = courses.filter( course => course.active === true );
+        const active = courses?.filter( course => course.active === true );
         setActiveCourses( active );
 
     }, [courses] );
+
+    // useEffect( () => {
+
+    //     setTimeout( () => {
+    //         while ( arrayMessageCourseError.length !== 0 ) {
+    //             arrayMessageCourseError.pop();
+    //         }
+    //     }, 4000 );
+
+    // }, [arrayMessageCourseError] );
 
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
@@ -137,7 +135,7 @@ export const ModalRegisterCourse = ( { isModalVisible, setIsModalVisible, course
                         {activeCourses?.map( ( course ) => (
                             <tbody key={course.id}>
                                 <tr
-                                    className={`table-courses__data ${courseIdSelected === course.id ? 'purple-light border-solid border-2 border-white' : ''}`}
+                                    className={`table-courses__data ${courseIdSelected === course.id ? 'purple-light  outline outline-2 outline-white' : ''}`}
                                     onClick={() => changeColor( course.id )}
                                 >
                                     <td className='td__title'>{`${course.title}`}</td>

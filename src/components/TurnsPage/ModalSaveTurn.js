@@ -9,7 +9,7 @@ import { PurpleButton } from '../Buttons/PurpleButton';
 import { getDate } from '../../helpers/getDate';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
 
-export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, dateData, fieldData, userId } ) => {
+export const ModalSaveTurn = React.memo( ( { history, isModalVisible, setIsModalVisible, dateData, fieldData, userId } ) => {
 
 
     const [userData, setUserData] = useState( [] );
@@ -54,7 +54,8 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
                     month: today.month,
                     day: today.day,
                     hour: today.hour,
-                    minute: today.minutes
+                    minutes: today.minutes,
+                    seconds: today.seconds
                 }
 
             } );
@@ -62,11 +63,10 @@ export const ModalSaveTurn = React.memo( ( { isModalVisible, setIsModalVisible, 
             bodyOverflow( 'auto' );
             setIsModalVisible( false );
             navigate( -1 );
+            // history.goBack();
 
         } catch ( error ) {
             const message = error.message;
-            console.log( message );
-
         }
     };
 

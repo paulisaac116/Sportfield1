@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import sportfield_logo from '../images/sportfield_log.png';
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
+import { InputPassword } from '../components/InputPassword';
+import { ErrorMessage } from '../components/ErrorMessage';
 
 export const LoginPage = () => {
 
@@ -25,16 +27,16 @@ export const LoginPage = () => {
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState( initialValues );
   const [formErrors, setFormErrors] = useState( {} );
-  const [isModalChangePassVisible, setIsModalChangePassVisible] = useState( false );
+
+  const [messageInactiveUser, setMessageInactiveUser] = useState( [] );
+
+  const [messages, setMessages] = useState( 0 );
+
 
   const handleInputChange = ( e ) => {
     const { name, value } = e.target;
     setFormValues( { ...formValues, [name]: value } );
     setFormErrors( { ...formErrors, [name]: '' } );
-  };
-
-  const hiddeModal = () => {
-    setIsModalChangePassVisible( 'hidden' );
   };
 
   const { data, loading } = useFetchFirestore( 'Users' );
@@ -45,62 +47,67 @@ export const LoginPage = () => {
 
     e.preventDefault();
     const { email, password } = formValues;
+    const errorsObj = validate( formValues );
 
-    if ( admin.find( item => item.email === email ) ) {
 
-      try {
-        const userCredential = await auth.signInWithEmailAndPassword(
-          email,
-          password
-        );
+    if ( Object.keys( errorsObj ).length === 0 ) {
 
-        const user = userCredential.user;
-        setAdminLogged( true );
-        setLoginSession( true );
-        setAdminId( user.uid );
-        navigate( "/admin", { state: { adminData: user.uid } } );
+      if ( admin.find( admin => admin.email === email ) ) {
 
-      } catch ( error ) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log( 'errorMessage: ', errorMessage );
-        if ( errorCode === 'auth/invalid-email' ) setFormErrors( { ...formErrors, email: 'Ingresa tu correo' } );
-        if ( errorCode === 'auth/user-not-found' ) setFormErrors( { ...formErrors, email: 'Usuario no registrado' } );
-        if ( errorMessage === 'The password is invalid or the user does not have a password.' && errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Ingresa tu contraseña' } );
-        if ( errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } );
-        if ( errorCode === 'auth/too-many-requests' ) navigate( '/404' );
-      }
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(
+            email,
+            password
+          );
 
-    } else if ( data.find( item => item.email === email ) ) {
+          const user = userCredential.user;
+          setAdminLogged( true );
+          setLoginSession( true );
+          setAdminId( user.uid );
+          navigate( "/admin", { state: { adminData: user.uid } } );
 
-      try {
-        const userCredential = await auth.signInWithEmailAndPassword(
-          email,
-          password
-        );
+        } catch ( error ) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log( error );
+          if ( errorCode === 'auth/user-not-found' ) setFormErrors( { ...formErrors, email: 'Email no registrado' } );
+          // if ( errorCode === 'auth/wrong-password' && errorMessage === 'The password is invalid or the user does not have a password.' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } );
+          if ( errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } );
+          if ( errorCode === 'auth/too-many-requests' ) navigate( '/404' );
+        }
 
-        // Signed in
-        const user = userCredential.user;
+      } else if ( data.find( user => user.email === email && user.active === true ) ) {
 
-        setUserLogged( true );
-        setLoginSession( true );
-        setUserId( user.uid );
-        navigate( "/profile", { state: { userId: user.uid } } );
+        try {
+          const userCredential = await auth.signInWithEmailAndPassword(
+            email,
+            password
+          );
 
-      } catch ( error ) {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // console.log( 'errorMessage: ', errorMessage );
-        if ( errorCode === 'auth/invalid-email' ) setFormErrors( { ...formErrors, email: 'Ingresa tu correo' } );
-        if ( errorCode === 'auth/user-not-found' ) setFormErrors( { ...formErrors, email: 'Usuario no registrado' } );
-        if ( errorMessage === 'The password is invalid or the user does not have a password.' && errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Ingresa tu contraseña' } );
-        if ( errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } );
-        if ( errorCode === 'auth/too-many-requests' ) navigate( '/404' );
-      }
+          // Signed in
+          const user = userCredential.user;
 
-    } else setFormErrors( { ...formErrors, email: 'Usuario no registrado' } );
+          setUserLogged( true );
+          setLoginSession( true );
+          setUserId( user.uid );
+          navigate( "/profile", { state: { userId: user.uid } } );
+
+        } catch ( error ) {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          // console.log( 'errorMessage: ', error );
+          if ( errorCode === 'auth/user-not-found' ) setFormErrors( { ...formErrors, email: 'Email no registrado' } );
+          // if ( errorCode === 'auth/wrong-password' && errorMessage === 'The password is invalid or the user does not have a password.' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } );
+          if ( errorCode === 'auth/wrong-password' ) setFormErrors( { ...formErrors, password: 'Contraseña errónea' } ); if ( errorCode === 'auth/too-many-requests' ) navigate( '/404' );
+        }
+      } else if ( data.find( user => user.email === email && user.active === false ) ) setMessageInactiveUser( [...messageInactiveUser, <ErrorMessage messageContent='Usuario inactivo. Contáctese con el administrador' />] );
+
+      else setFormErrors( { ...formErrors, email: 'Email no registrado' } );
+    } else setFormErrors( errorsObj );
+
 
   };
+
 
   useEffect( () => {
 
@@ -113,6 +120,31 @@ export const LoginPage = () => {
     if ( userLogged && loginSession ) navigate( '/profile', { state: { userId: userId } } );
 
   }, [userLogged, userId] );
+
+
+  useEffect( () => {
+
+    setTimeout( () => {
+      while ( messageInactiveUser.length !== 0 ) {
+        messageInactiveUser.pop();
+      }
+    }, 4000 );
+
+  }, [messageInactiveUser] );
+
+  const validate = ( values ) => {
+
+    const errors = {};
+
+    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+
+    if ( !values.email ) errors.email = 'Ingrese su correo';
+    else if ( !regexEmail.test( values.email ) ) errors.email = 'Ingrese un correo de la forma: ejemplo@correo.com';
+    if ( !values.password ) errors.password = 'Ingrese su contraseña';
+
+    return errors;
+
+  };
 
 
   return (
@@ -141,15 +173,11 @@ export const LoginPage = () => {
               }
             </div>
             <div className='input__error--group'>
-              <input
-                type="password"
-                className={`input ${formErrors.password ? 'input__error' : ''}`}
-                id="password"
-                name="password"
-                value={formValues.password}
-                onChange={handleInputChange}
-                placeholder="Contraseña"
-                required
+              <InputPassword
+                extraClass={`${formErrors.password ? 'input__error' : ''}`}
+                inputValue={formValues.password}
+                onChangeInput={handleInputChange}
+
               />
               {formErrors.password
                 ? <div className='form__errors'>
@@ -159,6 +187,7 @@ export const LoginPage = () => {
                 : <></>
               }
             </div>
+
             <GreenButton
               button_class='green-button '
               button_name="Aceptar"
@@ -169,25 +198,10 @@ export const LoginPage = () => {
           <div className='login__link'>
             <Link to='/register'>¿No tienes una cuenta?<p>Regístrate</p></Link>
           </div>
-
-          {/* <div className={`modal ${isModalChangePassVisible ? 'flex slide-in-fwd-center' : 'hidden slide-out-bck-center'}`}>
-            <div className='modal__content'>
-              <h1 className='modal__content--title'>Agregar nuevo usuario</h1>
-
-              <div className='modal__buttons'>
-                <GreenButton
-                  button_name='Aceptar'
-                  button_func={handleSubmit}
-                />
-                <PurpleButton
-                  button_name='Cancelar'
-                  button_func={hiddeModal}
-                />
-              </div>
-            </div>
-
-          </div> */}
         </div>
+        {
+          messageInactiveUser.map( message => message )
+        }
       </div>
       : <div className='bg-purple-mid h-screen'></div>
   );

@@ -481,6 +481,18 @@
         MODAL COURSE TABLE
     */
 
+    .modal .modal__addCourse .date-column,
+    .modal .modal__addCourse .register__form--column.time-column {
+        display: flex;
+        flex-direction: row;
+        gap: .5rem;
+    }
+
+    .modal__addCourse .date-column .date-column__label-input {
+
+    }
+
+
     .modal .modal__addCourse label {
         font-size: 1rem;
     }
@@ -838,9 +850,9 @@
     .Turns .red {
         background-color: theme('colors.red');
     }
-     .Turns .purple-light {
+    .Turns .purple-light {
         background-color: theme('colors.purple-light');
-     }
+    }
 
     /*
         TURNS DATA
@@ -941,7 +953,32 @@
         @apply lg:flex-col lg:items-start lg:pl-4 xl:text-lg
     }
 
-    .Courses .body-row__buttons {
+    /* Additional course information */
+
+    .Courses .body-row__data .dateStart {
+        margin-top: 1rem;
+
+    }
+
+    .Courses .body-row__data .dateStart,
+    .Courses .body-row__data .dateEnd,
+    .Courses .body-row__data .schedule,
+    .Courses .body-row__data .cost {
+        display: flex;
+        gap: .5rem;
+        font-size: 1rem;
+    }
+
+    .Courses .body-row__data .dateStart p:first-of-type,
+    .Courses .body-row__data .dateEnd p:first-of-type, 
+    .Courses .body-row__data .schedule p:first-of-type,
+    .Courses .body-row__data .cost p:first-of-type {
+        font-weight: 600;
+    }
+
+
+
+     .Courses .body-row__buttons {
 
         @apply lg:flex-col lg:items-stretch lg:pr-4 lg:mt-4
     }

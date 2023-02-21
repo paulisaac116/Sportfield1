@@ -46,31 +46,30 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
 
     const handleChangeDateStart = ( newValue ) => {
-        // setDateStart( newValue );
+        setDateStart( newValue );
         setFormValues( { ...formValues, dateStart: newValue } );
     };
 
     const handleChangeDateEnd = ( newValue ) => {
-        // setDateEnd( newValue );
+        setDateEnd( newValue );
         setFormValues( { ...formValues, dateEnd: newValue } );
 
     };
 
     const handleChangeTimeStart = ( newValue ) => {
-        // setTimeStart( newValue );
+        setTimeStart( newValue );
         setFormValues( { ...formValues, timeStart: newValue } );
 
     };
 
     const handleChangeTimeEnd = ( newValue ) => {
-        // setTimeEnd( newValue );
+        setTimeEnd( newValue );
         setFormValues( { ...formValues, timeEnd: newValue } );
 
     };
 
 
     const handleInputChange = ( { target } ) => {
-        console.log( target );
         const { name, value } = target;
         setFormValues( { ...formValues, [name]: value } );
         setFormErrors( { ...formErrors, [name]: '' } );
@@ -78,12 +77,12 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
     const handleAddCourse = async () => {
 
-        const { title, price, description } = formValues;
 
         let errorsObj = validate( formValues, dateStart, dateEnd, timeStart, timeEnd );
 
         if ( Object.keys( errorsObj ).length === 0 ) {
 
+            const { title, price, description } = formValues;
             try {
 
                 const course = db.collection( 'Courses' ).doc();
@@ -94,12 +93,12 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                     title,
                     dateStart: {
                         day: dateStart.date(),
-                        month: months[dateStart.month()],
+                        month: dateStart.month(),
                         year: dateStart.year()
                     },
                     dateEnd: {
                         day: dateEnd.date(),
-                        month: months[dateEnd.month()],
+                        month: dateEnd.month(),
                         year: dateEnd.year()
 
                     },
@@ -145,62 +144,17 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
         } else setFormErrors( errorsObj );
 
-        // if ( !formValues.title ) setFormErrors( { title: 'Ingresa un título' } );
-        // else if ( !formValues.description ) setFormErrors( { description: 'Ingresa una descripción' } );
-        // else {
-
-        //     const { title, description } = formValues;
-
-        //     try {
-
-        //         const course = db.collection( 'Courses' ).doc();
-
-        //         await course.set( {
-        //             active: true,
-        //             id: course.id,
-        //             title,
-        //             description,
-        //             registered: []
-        //         } );
-
-        //         setFormErrors( {} );
-        //         setFormValues( initialValues );
-        //         setIsModalVisible( false );
-        //         setArrayMessage( ( prevState ) => (
-        //             [
-        //                 ...prevState,
-        //                 <Message
-        //                     messageContent={'Curso registrado'}
-        //                 />
-        //             ]
-        //         ) );
-
-        //     } catch ( error ) {
-        //         const errorCode = error.code;
-        //         const errorMesage = error.message;
-        //         console.log( 'contact with the provider' );
-        //         // console.log( 'errorCode: ', errorCode );
-        //         // console.log( 'errorMesagge: ', errorMesage );
-
-        //     }
-        // }
-
     };
 
     const validate = ( values, dateStart, dateEnd, timeStart, timeEnd ) => {
 
         const errors = {};
 
-        const regexText = /^(?=.{5,50}$)[\w\s.:!¿?'"ÁÉÍÓÚáéíóúÜü-]+$/m;
+        const regexText = /^(?=.{5,50}$)[\w\s.:!¿?'"ÁÉÍÓÚáéíóúÜüñ-]+$/m;
         const regexPrice = /^\d{1,2}(\.\d{1,2})?$/m;
 
         if ( !values.title ) errors.title = 'Ingrese un título';
         else if ( !regexText.test( values.title ) ) errors.title = 'Ingrese texto entre 5 y 50 caracteres';
-
-        // if ( dateStart === '' ) errors.dateStart = 'Seleccione una fecha de inicio';
-        // if ( dateEnd === '' ) errors.dateEnd = 'Seleccione una fecha de finalización';
-        // if ( typeof timeStart === 'string' ) errors.timeStart = 'Seleccione una hora de inicio';
-        // if ( typeof timeEnd === 'string' ) errors.timeEnd = 'Seleccione una hora de finalización';
 
         if ( !values.dateStart ) errors.dateStart = 'Seleccione una fecha de inicio';
         if ( !values.dateEnd ) errors.dateEnd = 'Seleccione una fecha de finalización';
@@ -216,7 +170,6 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
     };
 
     useEffect( () => {
-        console.log( formValues );
         setFormValues( initialValues );
     }, [isModalVisible] );
 
@@ -224,8 +177,6 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
 
         // console.log( 'date start: ', dateStart.getYear() );
         if ( typeof timeStart !== 'string' ) console.log( timeStart.hour() );
-        console.log( 'time start: ', timeStart );
-        console.log( 'type: ', typeof timeStart );
     }, [timeStart] );
 
 
@@ -253,87 +204,95 @@ export const ModalAddCourse = ( { isModalVisible, setIsModalVisible, setArrayMes
                                 : <></>
                             }
                         </div>
-                        <div className='register__form--column input__error--group'>
-                            <label htmlFor="dateStart">Fecha inicio</label>
-                            <ThemeProvider theme={darkTheme}>
-                                <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
-                                    <DesktopDatePicker
-                                        inputFormat='DD/MM/YYYY'
-                                        value={formValues.dateStart}
-                                        onChange={handleChangeDateStart}
-                                        // onChange={handleInputChange}
-                                        renderInput={( params ) => <TextField {...params} />}
-                                        className='inputDate'
-                                        name='dateStart'
-                                    />
-                                </LocalizationProvider>
+                        <div className='register__form--column date-column input__error--group'>
+                            <div className='date-colum__label-input'>
+                                <label htmlFor="dateStart">Fecha inicio</label>
+                                <ThemeProvider theme={darkTheme}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
+                                        <DesktopDatePicker
+                                            inputFormat='DD/MM/YYYY'
+                                            value={formValues.dateStart}
+                                            onChange={handleChangeDateStart}
+                                            renderInput={( params ) => <TextField {...params} />}
+                                            className='inputDate'
+                                            name='dateStart'
+                                        />
+                                    </LocalizationProvider>
+                                </ThemeProvider>
 
-
+                            </div>
+                            <div className='date-colum__label-input'>
                                 <label htmlFor="dateEnd">Fecha fin</label>
-                                <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
-                                    <DesktopDatePicker
-                                        inputFormat='DD/MM/YYYY'
-                                        value={formValues.dateEnd}
-                                        onChange={handleChangeDateEnd}
-                                        // onChange={handleInputChange}
-                                        renderInput={( params ) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </ThemeProvider>
-                            {formErrors.dateStart
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.dateStart}</p>
-                                </div>
-                                : <></>
-                            }
-                            {formErrors.dateEnd
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.dateEnd}</p>
-                                </div>
-                                : <></>
-                            }
+                                <ThemeProvider theme={darkTheme}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment} adapterLocale='es'>
+                                        <DesktopDatePicker
+                                            inputFormat='DD/MM/YYYY'
+                                            value={formValues.dateEnd}
+                                            onChange={handleChangeDateEnd}
+                                            renderInput={( params ) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </ThemeProvider>
+
+                            </div>
                         </div>
-                        <div className='register__form--column input__error--group'>
-                            <label htmlFor="timeStart">Hora inicio</label>
-                            <ThemeProvider theme={darkTheme}>
-                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                    <DesktopTimePicker
-                                        inputFormat='hh:mm A'
-                                        value={formValues.timeStart}
-                                        onChange={handleChangeTimeStart}
-                                        // onChange={handleInputChange}
-                                        renderInput={( params ) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                                <br></br>
+                        {formErrors.dateStart
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.dateStart}</p>
+                            </div>
+                            : <></>
+                        }
+                        {formErrors.dateEnd
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.dateEnd}</p>
+                            </div>
+                            : <></>
+                        }
+                        <div className='register__form--column time-column input__error--group'>
+                            <div>
+                                <label htmlFor="timeStart">Hora inicio</label>
+                                <ThemeProvider theme={darkTheme}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                                        <DesktopTimePicker
+                                            inputFormat='hh:mm A'
+                                            value={formValues.timeStart}
+                                            onChange={handleChangeTimeStart}
+                                            renderInput={( params ) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </ThemeProvider>
+                            </div>
+                            <div>
                                 <label htmlFor="timeEnd">Hora fin</label>
-                                <LocalizationProvider dateAdapter={AdapterMoment}>
-                                    <DesktopTimePicker
-                                        inputFormat='hh:mm A'
-                                        value={formValues.timeEnd}
-                                        onChange={handleChangeTimeEnd}
-                                        // onChange={handleInputChange}
-                                        renderInput={( params ) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-                            </ThemeProvider>
-                            {formErrors.timeStart
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.timeStart}</p>
-                                </div>
-                                : <></>
-                            }
-                            {formErrors.timeEnd
-                                ? <div className='form__errors'>
-                                    <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
-                                    <p className='form__errors--text'>{formErrors.timeEnd}</p>
-                                </div>
-                                : <></>
-                            }
+                                <ThemeProvider theme={darkTheme}>
+                                    <LocalizationProvider dateAdapter={AdapterMoment}>
+                                        <DesktopTimePicker
+                                            inputFormat='hh:mm A'
+                                            value={formValues.timeEnd}
+                                            onChange={handleChangeTimeEnd}
+                                            // onChange={handleInputChange}
+                                            renderInput={( params ) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                </ThemeProvider>
+                            </div>
                         </div>
+                        {formErrors.timeStart
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.timeStart}</p>
+                            </div>
+                            : <></>
+                        }
+                        {formErrors.timeEnd
+                            ? <div className='form__errors'>
+                                <FontAwesomeIcon icon={faExclamationCircle} className='form__errors--icon' />
+                                <p className='form__errors--text'>{formErrors.timeEnd}</p>
+                            </div>
+                            : <></>
+                        }
                         <div className="register__form--column input__error--group">
                             <label htmlFor="lastName">Costo</label>
                             <input

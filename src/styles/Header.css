@@ -9,14 +9,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem 1.8rem;
+    padding: 1.25rem 1.8rem;
     box-shadow: 0 11px 5px rgba(0, 0, 0, 0.5);
     background-color: theme('colors.black');
     position: sticky;
     top: 0;
     z-index: 500;
 
-    @apply sm:py-7 sm:px-10 lg:px-14 lg:py-8 xl:px-24
+    @apply sm:py-7 sm:px-10 lg:px-14 lg:py-6 xl:px-24
   
   }
 
@@ -56,17 +56,58 @@
     @apply md:flex
   }
 
+  .header-profile__nav--notif::after {
+    
+    /* display: none;
+    cursor: pointer;
+
+    @apply md:flex */
+  }
+
   /*
     NOTIFICATIONS HEADER
   */
 
   header .notifications-frame {
     width: 25rem;
-    top: 62px;
-    right: 115px;
+    top: 63px;
+    right: 213px;
+    height: 30rem;
+    overflow: auto;
   }
 
+  .number {
+    position: absolute;
+    /* right: 0; */
+    left: 180px;
+    top: -10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: theme('colors.green');
+    color: white;
+    /* height: fit-content; */
+    /* padding: .5rem; */
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 50%;
+    border: 2px solid theme('colors.green-dark');
+    
+  }
   
+  .number span {
+    /* width: fit-content;
+    height: fit-content; */
+    font-weight: 500;
+  }
+
+  /* .header-profile__nav--notif {
+    color: aqua;
+  } */
+  
+  .header-profile__nav {
+    position: relative;
+  }
 
 }
 

@@ -1,26 +1,25 @@
-import React from 'react';
+import React, { useState } from 'react';
 import firebase from 'firebase';
 
 import { RedButton } from '../Buttons/RedButton';
 import { PurpleButton } from '../Buttons/PurpleButton';
 import { db } from '../../firebase';
 import { bodyOverflow } from '../../helpers/bodyOverflow';
+import { Message } from '../Message';
 
-export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, course, userData } ) => {
+export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, course, userData, setArrayMessage } ) => {
 
-    const handleDeleteCourse = () => {
+    const handleDeleteCourse = async () => {
 
         try {
 
-            db.collection( 'Users' ).doc( userData?.id ).update( {
+            await db.collection( 'Users' ).doc( userData?.id ).update( {
                 courses: firebase.firestore.FieldValue.arrayRemove( {
-                    id: course?.id,
-                    title: course?.title,
-                    description: course?.description
+                    id: course?.id
                 } )
             } );
 
-            db.collection( 'Courses' ).doc( course?.id ).update( {
+            await db.collection( 'Courses' ).doc( course?.id ).update( {
                 registered: firebase.firestore.FieldValue.arrayRemove( {
                     id: userData.id,
                     name: userData.name,
@@ -32,9 +31,13 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
             } );
 
             setIsModalVisible( false );
+            setArrayMessage( prevState => ( [
+                ...prevState,
+                <Message
+                    messageContent='Inscripción anulada'
+                />
+            ] ) );
             bodyOverflow( 'auto' );
-            console.log( 'curso borrado' );
-
 
         } catch ( error ) {
 
@@ -44,7 +47,6 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
             console.log( errorMessage );
         }
 
-
     };
 
     const hiddeModal = () => {
@@ -52,7 +54,6 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
         setIsModalVisible( false );
 
     };
-
 
     return (
         <div className={`modal animate__animated ${isModalVisible ? 'flex animate__fadeIn' : 'hidden'}`}>
@@ -74,9 +75,7 @@ export const ModalUnsubscribeCourse = ( { isModalVisible, setIsModalVisible, cou
                         button_name='Cancelar'
                         button_func={hiddeModal}
                     />
-
                 </div>
-
             </div>
         </div>
     );

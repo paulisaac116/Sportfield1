@@ -23,7 +23,6 @@ export const RegisterForm = ( { setStatus, buttonPushed, setUserId } ) => {
 
     const handleSubmit = async ( e ) => {
         e.preventDefault();
-        console.log( 'submit form' );
 
         const { name, lastName, land, email, cellphone, password } = formValues;
         let errorsObj = validate( formValues );

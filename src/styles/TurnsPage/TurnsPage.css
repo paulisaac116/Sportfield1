@@ -531,7 +531,8 @@
   }
   
   .TurnsPage .calendar__body--row::before,
-  .TurnsPage .table__calendar tbody tr::after {
+  /* .TurnsPage .table__calendar tbody tr::after { */
+  .TurnsPage .calendar__body--row::after {
     font-weight: 500;
     font-size: .75rem;
     text-align: right;
@@ -550,7 +551,7 @@
   .TurnsPage .calendar__body--row:nth-child(7)::before { content: "15PM"; }
   .TurnsPage .calendar__body--row:nth-child(8)::before { content: "16PM"; }
   .TurnsPage .calendar__body--row:nth-child(9)::before { content: "17PM"; }
-  .TurnsPage .table__calendar tbody tr:nth-of-type(9)::after { content: "18PM"; }
+  .TurnsPage .calendar__body--row:nth-child(9)::after { content: "18PM"; top: 16px; }
   
   .TurnsPage .info--row__square {
     width: .75rem;

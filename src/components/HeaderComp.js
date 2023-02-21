@@ -12,9 +12,14 @@ export const HeaderComp = () => {
 
     const [isModalNotificationUserVisible, setIsModalNotificationUserVisible] = useState( false );
 
+    const [newNotificationsNumber, setNewNotificationsNumber] = useState( 0 );
+    const [isNewNotificationsNumberVisible, setIsNewNotificationsNumberVisible] = useState( false );
+
 
     const showNotifications = () => {
-        setIsModalNotificationUserVisible( true );
+        setIsNewNotificationsNumberVisible( false );
+        setIsModalNotificationUserVisible( !isModalNotificationUserVisible );
+        setNewNotificationsNumber( 1 );
     };
 
     const handleSignOut = () => {
@@ -29,15 +34,21 @@ export const HeaderComp = () => {
             <nav className='header-profile__nav'>
                 <p
                     onClick={showNotifications}
-                    className={`header-profile__nav--notif`}
+                    className='header-profile__nav--notif'
                 >
                     Notificaciones
                 </p>
+                <div className={`number ${newNotificationsNumber <= 1 || !isNewNotificationsNumberVisible || isModalNotificationUserVisible ? 'hidden' : 'flex'}`}>
+                    <span>{newNotificationsNumber - 1}</span>
+                </div>
                 <a onClick={handleSignOut} href="/login">Salir</a>
             </nav>
             <ModalNotificationsUser
                 isModalVisible={isModalNotificationUserVisible}
                 setIsModalVisible={setIsModalNotificationUserVisible}
+                setNumber={setNewNotificationsNumber}
+                number={newNotificationsNumber}
+                setNotificationNumber={setIsNewNotificationsNumberVisible}
             />
         </header>
     );

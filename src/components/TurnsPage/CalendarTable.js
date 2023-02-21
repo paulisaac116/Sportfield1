@@ -19,7 +19,7 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
 
     /**
      * An array of arrays
-     * contains the rows of each our of the week
+     * contains the rows of each hour of the week
      */
 
     const fullTable = hours.map( ( hour, row ) => ( [
@@ -84,10 +84,9 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
 
     useEffect( () => {
 
-        const busyTurns = turnsData.filter( item => ( item.field?.fieldId === fieldData?.id ) );
+        const busyTurns = turnsData.filter( item => ( item.field?.fieldId === fieldData?.id && item.active === true ) );
 
         let busyDates = [];
-
         busyTurns.forEach( item => {
             item.date.map( date => busyDates.push( date ) );
         } );
@@ -126,34 +125,6 @@ export const CalendarTable = React.memo( ( { setWeekArray, setDateData, confirmF
 
     return (
         <>
-            {/* <tbody>
-                {
-                    tableDays.map( ( row, rowKey ) => (
-                        <tr key={rowKey}>
-                            {
-                                row.map( ( column ) => (
-                                    column.map( ( day, columnKey ) => (
-                                        <td
-                                            key={day.id}
-                                            id={day.id}
-                                            className={`${!day.available ? 'gray' : confirmField && day.busy ? 'red' : ''}`}
-                                            onClick={() => selectedCell( day )}
-                                        >
-                                            {day.id}
-                                        </td>
-                                    ) )
-                                ) )
-                            }
-                        </tr>
-
-                    ) )
-                }
-                {
-                    arrayMessageDateError.map( message => (
-                        message
-                    ) )
-                }
-            </tbody> */}
             <div className='calendar__body'>
                 {
                     tableDays.map( ( row, rowKey ) => (

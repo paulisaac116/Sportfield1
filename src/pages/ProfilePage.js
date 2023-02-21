@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
-import { bodyOverflow } from '../helpers/bodyOverflow';
 
 import { CoursesUser } from '../components/ProfilePage/CoursesUser';
-import { FieldUser } from '../components/ProfilePage/FieldUser';
+import { TurnsUser } from '../components/ProfilePage/TurnsUser';
 import { HeaderComp } from '../components/HeaderComp';
 import { ProfileFrame } from '../components/ProfilePage/ProfileFrame';
-// import { ModalSendComment } from '../components/ProfilePage/ModalSendComment';
 import { ModalRegisterCourse } from '../components/ProfilePage/ModalRegisterCourse';
 
 import '../styles/ProfilePage/ProfilePage.css';
@@ -15,26 +13,19 @@ import '../styles/ProfilePage/ProfilePage.css';
 export const ProfilePage = React.memo( () => {
 
     const { data: userFetchData, loading: loadingUserDataFetch } = useFetchFirestore( 'Users' );
-
     const { data: coursesData, loading } = useFetchFirestore( 'Courses' );
 
     const [userSession, setUserSession] = useState( false );
     const [userData, setUserData] = useState( [] );
 
-    const [isModalAddCommentVisible, setIsModalAddCommentVisible] = useState( false );
     const [isModalRegisterCourseVisible, setIsModalRegisterCourseVisible] = useState( false );
 
     const [arrayMessageAddTurn, setArrayMessageAddTurn] = useState( [] );
     const [arrayMessageRegisterCourse, setArrayMessageRegisterCourse] = useState( [] );
-    const [arrayMessageAddComment, setArrayMessageAddComment] = useState( [] );
+    const [arrayMessageUnsubscribeCourse, setArrayMessageUnsubscribeCourse] = useState( [] );
 
     const navigate = useNavigate();
     const location = useLocation();
-
-    const showModal = () => {
-        bodyOverflow( 'hidden' );
-        setIsModalAddCommentVisible( true );
-    };
 
     useEffect( () => {
 
@@ -55,25 +46,25 @@ export const ProfilePage = React.memo( () => {
 
     }, [userFetchData] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageAddTurn.length !== 0 ) {
-                arrayMessageAddTurn.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageAddTurn.length !== 0 ) {
+    //             arrayMessageAddTurn.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageAddTurn] );
+    // }, [arrayMessageAddTurn] );
 
-    useEffect( () => {
+    // useEffect( () => {
 
-        setTimeout( () => {
-            while ( arrayMessageRegisterCourse.length !== 0 ) {
-                arrayMessageRegisterCourse.pop();
-            }
-        }, 4000 );
+    //     setTimeout( () => {
+    //         while ( arrayMessageRegisterCourse.length !== 0 ) {
+    //             arrayMessageRegisterCourse.pop();
+    //         }
+    //     }, 4000 );
 
-    }, [arrayMessageRegisterCourse] );
+    // }, [arrayMessageRegisterCourse] );
 
 
     return (
@@ -88,13 +79,14 @@ export const ProfilePage = React.memo( () => {
                         />
                     </div>
                     <div className='profile-content__bottom'>
-                        <FieldUser
+                        <TurnsUser
                             userData={userData}
                             setArrayMessage={setArrayMessageAddTurn}
                         />
                         <CoursesUser
                             userData={userData}
                             setIsModalRegisterVisible={setIsModalRegisterCourseVisible}
+                            setArrayMessage={setArrayMessageUnsubscribeCourse}
                         />
                         <ModalRegisterCourse
                             isModalVisible={isModalRegisterCourseVisible}
@@ -108,19 +100,13 @@ export const ProfilePage = React.memo( () => {
 
                 </div>
                 {
-                    arrayMessageAddTurn.map( message => (
-                        message
-                    ) )
+                    arrayMessageAddTurn.map( message => ( message ) )
                 }
                 {
-                    arrayMessageRegisterCourse.map( message => (
-                        message
-                    ) )
+                    arrayMessageRegisterCourse.map( message => ( message ) )
                 }
                 {
-                    arrayMessageAddComment.map( message => (
-                        message
-                    ) )
+                    arrayMessageUnsubscribeCourse.map( message => ( message ) )
                 }
             </div>
             : <div className='bg-purple-mid h-screen'></div>

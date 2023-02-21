@@ -12,29 +12,14 @@ export const UsersTable = React.memo( ( { tableData, activeUsers, currentPage, s
     const [inactiveUsersArray, setInactiveUsersArray] = useState( [] );
     const [usersArray, setUsersArray] = useState( [] );
 
-    // const handleDeactivateUser = ( item ) => {
-    //     setUserData( item );
-    //     setIsModalVisible( true );
-    // };
-
-    // const handleActivateUser = async ( item ) => {
-    //     try {
-    //         await db.collection( 'Users' ).doc( item.id ).update( {
-    //             active: true
-    //         } )
-    //             .then( () => console.log( 'User activated' ) );
-    //     } catch ( error ) {
-    //         const errorCode = error.code;
-    //         const errorMesage = error.message;
-    //         console.log( 'errorCode: ', errorCode );
-    //         console.log( 'errorMesagge: ', errorMesage );
-    //     }
-
-    // };
-
     useEffect( () => {
 
-        console.log( 'table data: ', tableData );
+        tableData?.sort( ( a, b ) => {
+            if ( a.name?.toLowerCase() < b.name?.toLowerCase() ) return -1;
+            if ( a.name?.toLowerCase() > b.name?.toLowerCase() ) return 1;
+            return 0;
+
+        } );
 
         const { active, inactive } = splitData( tableData );
         setActiveUsersArray( active );

@@ -48,7 +48,7 @@ export const ModalDeleteTurn = ( { turn, isModalVisible, setIsModalVisible, setA
                 <p className='modal__deleteUser--text'>Está a punto de finalizar el agendamiento del siguiente turno:</p>
                 <div className='modal__deleteUser--userData'>
                     <div className='userData--row'>
-                        <p className='userData__title'>Nombre: </p>
+                        <p className='userData__title'>Morador: </p>
                         <p>{`${turn.name} ${turn.lastName}`}</p>
                     </div>
                     <div className='userData--row'>

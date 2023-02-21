@@ -28,22 +28,33 @@ export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsM
     const handleInputChange = ( e ) => {
         const { name, value } = e.target;
         setCommentData( { ...commentData, [name]: value } );
+        setFormErrors( { ...formErrors, [name]: '' } );
     };
 
     const handleSaveComment = async () => {
 
-        if ( !commentData.title ) setFormErrors( { title: 'Ingresa un título' } );
-        else if ( !commentData.description ) setFormErrors( { description: 'Ingresa una descripción' } );
-        else {
+        let errorsObj = validate( commentData );
+
+        if ( Object.keys( errorsObj ).length === 0 ) {
+
             const { title, description } = commentData;
+            const today = getDate();
+
             try {
                 await db.collection( "Comments" ).add( {
                     title: title,
                     description: description,
-                    date: `${commentDate.day} de ${months[commentDate.month]} de ${commentDate.year} - ${commentDate.hour}:${commentDate.minutes <= 9 ? `0${commentDate.minutes}` : commentDate.minutes}`,
                     userName: userData.name,
                     userLastName: userData.lastName,
                     userLand: userData.land,
+                    savedIn: {
+                        date: today.day,
+                        month: today.month,
+                        year: today.year,
+                        hour: today.hour,
+                        minutes: today.minutes,
+                        seconds: today.seconds
+                    }
                 } );
 
                 setCommentData( initialValues );
@@ -62,8 +73,25 @@ export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsM
                 console.log( 'errorCode: ', errorCode );
                 console.log( 'errorMesagge: ', errorMesage );
             }
+        } else setFormErrors( errorsObj );
 
-        }
+    };
+
+
+    const validate = ( values ) => {
+
+        const errors = {};
+
+        const regexTitle = /^(?=.{5,50}$)[\w\s.,:¡!¿?()'"ÁÉÍÓÚáéíóúÜüñ-]+$/m;
+        const regexDescription = /^(?=.{5,400}$)[\w\s.,:¡!¿?()'"ÁÉÍÓÚáéíóúÜüñ-]+$/m;
+
+        if ( !values.title ) errors.title = 'Ingrese un título';
+        else if ( !regexTitle.test( values.title ) ) errors.title = 'Ingrese texto entre 5 y 45 caracteres';
+
+        if ( !values.description ) errors.description = 'Ingese una descripción';
+        else if ( !regexDescription.test( values.description ) ) errors.description = 'Ingrese una descripción entre 5 y 200 caracteres';
+
+        return errors;
     };
 
     useEffect( () => {
@@ -86,7 +114,7 @@ export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsM
                             <label htmlFor="title">Título</label>
                             <input
                                 type="text"
-                                className={`input input__comment-notification ${commentData.title ? 'input__error' : ''}`}
+                                className={`input input__comment-notification ${formErrors.title ? 'input__error' : ''}`}
                                 name="title"
                                 value={commentData.title}
                                 placeholder="Esta aplicación va genial"
@@ -104,7 +132,7 @@ export const ModalSendComment = React.memo( ( { userData, isModalVisible, setIsM
                             <label htmlFor="description">Descripción</label>
                             <textarea
                                 name="description"
-                                className={`input input__comment-notification ${commentData.title ? 'input__error' : ''}`}
+                                className={`input input__comment-notification ${formErrors.description ? 'input__error' : ''}`}
                                 value={commentData.description}
                                 placeholder="Descripción"
                                 autoComplete="off"

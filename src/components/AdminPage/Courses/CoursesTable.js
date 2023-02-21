@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import { GreenButton } from '../../Buttons/GreenButton';
 import { RedButton } from '../../Buttons/RedButton';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleUp } from '@fortawesome/free-solid-svg-icons';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
-import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleUp, faAngleDown, faAngleRight, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 import { splitData } from '../../../helpers/splitData';
+import { months } from '../../../data/CalendarMonths';
 
 export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourseData, setIsModalEditVisible, setIsModalDeleteVisible, setDataSize } ) => {
 
@@ -81,6 +78,30 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
                                     <div className='body-row__data'>
                                         <p className='body-row__data--title'>{course.title}</p>
                                         <p>{course.description}</p>
+                                        <div className='dateStart'>
+                                            <p>Fecha inicio: </p>
+                                            <p>{course.dateStart?.day} de {months[course.dateStart?.month]} de {course.dateStart?.year}</p>
+                                        </div>
+                                        <div className='dateEnd'>
+                                            <p>Fecha finalización: </p>
+                                            <p>{course.dateEnd?.day} de {months[course.dateEnd?.month]} de {course.dateEnd?.year}</p>
+                                        </div>
+                                        <div className='schedule'>
+                                            <p>Horario: </p>
+                                            <p>
+                                                {`${course.timeStart?.hour.toString().length === 1 ? '0' + course.timeStart?.hour : course.timeStart?.hour}`}
+                                                :
+                                                {`${course.timeStart?.minute.toString().length === 1 ? '0' + course.timeStart?.minute : course.timeStart?.minute}`}
+                                                <></> - <></>
+                                                {`${course.timeEnd?.hour.toString().length === 1 ? '0' + course.timeEnd?.hour : course.timeEnd?.hour}`}
+                                                :
+                                                {`${course.timeEnd?.minute.toString().length === 1 ? '0' + course.timeEnd?.minute : course.timeEnd?.minute}`}
+                                            </p>
+                                        </div>
+                                        <div className='cost'>
+                                            <p>Costo: </p>
+                                            <p> <FontAwesomeIcon icon={faDollarSign} size='xs' />{course.price ?? 0}</p>
+                                        </div>
                                     </div>
                                     <div className='body-row__buttons'>
                                         <GreenButton
@@ -132,6 +153,31 @@ export const CoursesTable = ( { tableData, activeCourses, currentPage, setCourse
                                     <div className='body-row__data'>
                                         <p className='body-row__data--title'>{course.title}</p>
                                         <p>{course.description}</p>
+                                        <div className='dateStart'>
+                                            <p>Fecha inicio: </p>
+                                            <p>{course.dateStart?.day} de {months[course.dateStart?.month]} de {course.dateStart?.year}</p>
+                                        </div>
+                                        <div className='dateEnd'>
+                                            <p>Fecha finalización: </p>
+                                            <p>{course.dateEnd?.day} de {months[course.dateEnd?.month]} de {course.dateEnd?.year}</p>
+                                        </div>
+                                        <div className='schedule'>
+                                            <p>Horario: </p>
+                                            <p>
+                                                {`${course.timeStart?.hour.toString().length === 1 ? '0' + course.timeStart?.hour : course.timeStart?.hour}`}
+                                                :
+                                                {`${course.timeStart?.minute.toString().length === 1 ? '0' + course.timeStart?.minute : course.timeStart?.minute}`}
+                                                <></> - <></>
+                                                {`${course.timeEnd?.hour.toString().length === 1 ? '0' + course.timeEnd?.hour : course.timeEnd?.hour}`}
+                                                :
+                                                {`${course.timeEnd?.minute.toString().length === 1 ? '0' + course.timeEnd?.minute : course.timeEnd?.minute}`}
+                                            </p>
+
+                                        </div>
+                                        <div className='cost'>
+                                            <p>Costo: </p>
+                                            <p> <FontAwesomeIcon icon={faDollarSign} size='xs' />{course.price ?? 0}</p>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className='body-row__registered'>

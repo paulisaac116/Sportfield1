@@ -16,30 +16,6 @@ export const Calendar = React.memo( ( { setDateData, confirmField, fieldData } )
     return (
         <div className='calendar'>
             <CalendarBar />
-            {/*<table className='table__calendar'>
-                <thead>
-                    <tr>
-                        {
-                            days.map( ( item, key ) => (
-                                <th
-                                    key={key}
-                                    scope='col'
-                                    className={`${today.day === weekArray[key] ? 'purple-light' : 'hola'}`}
-                                >
-                                    {item.symbol}<br></br>{weekArray[key]}
-                                </th>
-
-                            ) )
-                        }
-                    </tr>
-                </thead>
-                <CalendarTable
-                    setWeekArray={setWeekArray}
-                    setDateData={setDateData}
-                    confirmField={confirmField}
-                    fieldData={fieldData}
-                />
-            </table> */}
             <div className='calendar__head'>
                 {
                     days.map( ( item, key ) => (

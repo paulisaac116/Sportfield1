@@ -11,19 +11,11 @@ import '../../styles/ProfilePage/ProfilePage.css';
 import { hours } from '../../data/CalendarHours';
 import { months } from '../../data/CalendarMonths';
 
-export const FieldUser = React.memo( ( { userData, setArrayMessage } ) => {
+export const TurnsUser = React.memo( ( { userData, setArrayMessage } ) => {
 
     const navigate = useNavigate();
     const { data: turnsData, loading } = useFetchFirestore( 'Turns' );
     const [turnsUser, setTurnsUser] = useState( [] );
-
-    const emptyTurns = () => (
-        <div className="empty-turn-bar">
-            <div className='empty-turn-bar--icon'><FontAwesomeIcon size="2x" icon={faBatteryQuarter} /></div>
-            <p>No tienes turnos agendados</p>
-            <p>¡Agenda Uno!</p>
-        </div>
-    );
 
     const navigateTo = () => {
         navigate( "/turns", { state: { id: userData.id } } );
@@ -31,21 +23,21 @@ export const FieldUser = React.memo( ( { userData, setArrayMessage } ) => {
 
     useEffect( () => {
 
-        const turnsArray = turnsData.filter( item => item.email === userData?.email );
+        const turnsArray = turnsData.filter( turn => turn.email === userData?.email && turn.active === true );
         setTurnsUser( turnsArray );
 
     }, [turnsData] );
 
     return (
-        <div className="field__frame">
-            <div className="field__title">RESERVA DE CANCHAS</div>
-            <div className="field__table">
+        <div className="bottom__frame turns__frame">
+            <div className="turn__title">RESERVA DE CANCHAS</div>
+            <div className="bottom__frame--table turns__table">
                 {
                     loading
                         ? <FontAwesomeIcon icon={faSpinner} className='animate-spin fa-2x text-white' />
                         : turnsUser.length !== 0
                             ? turnsUser.map( ( turn, key ) => (
-                                <div className='field__table--row' key={key}>
+                                <div className='turns__table--row table__row' key={key}>
                                     <div className='turnData--row'>
                                         <p className='turnData__field'>{turn.field?.fieldType} - {turn.field?.location}</p>
                                     </div>
@@ -84,7 +76,11 @@ export const FieldUser = React.memo( ( { userData, setArrayMessage } ) => {
                                     }
                                 </div>
                             ) )
-                            : ( emptyTurns() )
+                            : <div className="empty-turn-bar empty-turn-bar__turns">
+                                <div className='empty-turn-bar--icon'><FontAwesomeIcon size="2x" icon={faBatteryQuarter} /></div>
+                                <p>No tienes turnos agendados</p>
+                                <p>¡Agenda Uno!</p>
+                            </div>
                 }
             </div>
             <div className="field__button">

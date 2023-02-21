@@ -18,18 +18,21 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setA
             await db.collection( 'Users' ).doc( id ).update( {
                 active: false
             } )
-                .then( () => console.log( 'User desactivated' ) )
+                .then(
+                    setIsModalVisible( false )
+
+                ).then(
+                    setArrayMessage( ( prevState ) => (
+                        [
+                            ...prevState,
+                            <Message
+                                messageContent={'Morador desactivado'}
+                            />
+                        ]
+                    ) ) )
                 .catch( () => console.log( 'Error when deactivating user' ) );
 
-            setIsModalVisible( false );
-            setArrayMessage( ( prevState ) => (
-                [
-                    ...prevState,
-                    <Message
-                        messageContent={'Morador desactivado'}
-                    />
-                ]
-            ) );
+
         }
         catch ( error ) {
             const errorCode = error.code;
@@ -47,8 +50,8 @@ export const ModalDeleteUser = ( { user, isModalVisible, setIsModalVisible, setA
                 <p className='modal__deleteUser--text'>Está a punto de desactivar al siguiente morador:</p>
 
                 <div className='modal__deleteUser--userData'>
-                    <div className='userData--row'><p className='userData__title'>Nombre:    </p><p>{user.name}</p></div>
-                    <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{user.lastName}</p></div>
+                    <div className='userData--row'><p className='userData__title'>Morador:</p><p>{user.name} {user.lastName}</p></div>
+                    {/* <div className='userData--row'><p className='userData__title'>Apellido: </p><p>{user.lastName}</p></div> */}
                     <div className='userData--row'><p className='userData__title'>Email: </p><p>{user.email}</p></div>
                     <div className='userData--row'><p className='userData__title'>Lote: </p><p>{user.land}</p></div>
                 </div>

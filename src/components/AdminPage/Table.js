@@ -76,10 +76,6 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
         setActiveCourses( !state );
     };
 
-    // useEffect( () => {
-    //     console.log( 'data size: ', dataSize );
-    // }, [dataSize] );
-
     useEffect( () => {
 
         iconActive === 'Users'
@@ -96,17 +92,6 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
         setCurrentPage( 0 );
 
     }, [iconActive, tableData] );
-
-    // useEffect( () => {
-    //     console.log( 'filter: ', filterUsers );
-
-    //     let users = [...usersArray];
-    //     let newUsers = [];
-    //     newUsers = users.filter( user => filterUsers.toLocaleLowerCase() === user.name.toLowerCase().slice( 0, filterUsers.length ) || filterUsers.toLowerCase() === user.lastName.toLowerCase().slice( 0, filterUsers.length ) );
-
-    //     setUsersArray( newUsers );
-
-    // }, [filterUsers] );
 
     return (
         <>
@@ -171,7 +156,6 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
                                     course={courseData}
                                     isModalVisible={isModalDeleteCourseVisible}
                                     setIsModalVisible={setIsModalDeleteCourseVisible}
-                                    collection={iconActive}
                                     setArrayMessage={setArrayMessageDeleteCourse}
                                 />
                                 <ModalEditCourse
@@ -217,9 +201,14 @@ export const Table = React.memo( ( { iconActive, setArrayMessageDeleteUser, setA
                         />
                     </Stack>
                 </ThemeProvider>
-                <SearchBar
-                    setFilterUsers={setFilterUsers}
-                />
+                {
+                    iconActive === 'Users'
+                        ? <SearchBar
+                            setFilterUsers={setFilterUsers}
+                        />
+                        : <div></div>
+                }
+
                 {
                     iconActive === 'Users'
                         ? <div className='table__buttons'>

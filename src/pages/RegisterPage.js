@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { GreenButton } from '../components/Buttons/GreenButton';
 
 import sportfield_logo from '../images/sportfield_log.png';
@@ -9,9 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faExclamationCircle } from '@fortawesome/free-solid-svg-icons';
 import '../styles/Login-RegisterPagesStyles/Login-RegisterPages.css';
 import { useFetchFirestore } from '../hooks/useFetchFirestore';
+import { InputPassword } from '../components/InputPassword';
 // import { RegisterForm } from '../components/RegisterForm';
 
-const RegisterPage = () => {
+export const RegisterPage = () => {
 
   const { data, loading } = useFetchFirestore( 'Users' );
   const initialValues = { name: '', lastName: '', land: '', email: '', cellphone: '', password: '' };
@@ -52,7 +53,8 @@ const RegisterPage = () => {
             lastName,
             land,
             cellphone,
-            email
+            email,
+            courses: []
           }
         );
         navigate( '/profile', { state: { userId: user.uid } } );
@@ -67,16 +69,12 @@ const RegisterPage = () => {
 
   };
 
-  // const handleSubmit = () => {
-  //   setButtonPushed( !buttonPushed );
-  // };
-
   const validate = ( values ) => {
 
     const errors = {};
 
     const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    const regexText = /^[A-za-z]{3,10}$/m;
+    const regexText = /^[A-za-zÁÉÍÓÚáéíóúñ]{3,10}$/m;
     const regexLand = /^([1-9]|[1-9][0-9]|[1-3][0-5][0-9])$/m;
     const regexCellphone = /^(09\d{8})$/m;
 
@@ -104,12 +102,6 @@ const RegisterPage = () => {
     return errors;
 
   };
-
-  // useEffect( () => {
-
-  //   if ( status ) navigate( '/profile', { state: { userId: userId } } );
-
-  // }, [status, userId] );
 
   return (
     <div className="RegisterPage">
@@ -230,7 +222,7 @@ const RegisterPage = () => {
 
           <div className="register__form--row input__error--group">
             <label htmlFor="password">Contraseña</label>
-            <input
+            {/* <input
               type="password"
               className={`input ${formErrors.password ? 'input__error' : ''}`}
               id="password"
@@ -238,6 +230,11 @@ const RegisterPage = () => {
               value={formValues.password}
               onChange={handleInputChange}
               required
+            /> */}
+            <InputPassword
+              extraClass={`${formErrors.password ? 'input__error' : ''} w-full`}
+              inputValue={formValues.password}
+              onChangeInput={handleInputChange}
             />
             {formErrors.password
               ? <div className='form__errors'>
@@ -249,19 +246,13 @@ const RegisterPage = () => {
 
           </div>
         </form>
-        {/* <RegisterForm
-          setStatus={setStatus}
-          buttonPushed={buttonPushed}
-          setUserId={setUserId}
-        /> */}
         <GreenButton
           button_class='green-button'
-          button_name="Registrarse"
+          button_name='Registrarse'
           button_func={handleSubmit}
+          name='register-btn'
         />
       </div>
     </div>
   );
 };
-
-export default RegisterPage;
